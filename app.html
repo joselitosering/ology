@@ -863,6 +863,10 @@ function _updateFps(now){
 /* ─── CANVAS FIT ──────────────────────────────────────────────────────── */
 function fit(c,dprOverride){
   if(!c)return;const r=c.getBoundingClientRect();
+  /* Skip hidden canvases (display:none → 0×0). Resizing them to 2px
+     collapses the backing buffer and causes a 1-frame blank/line when
+     they become visible again. Leave the buffer intact instead. */
+  if(r.width<2||r.height<2)return;
   const dpr=dprOverride!=null?Math.min(dprOverride,Math.min(devicePixelRatio||1,2)):Math.min(devicePixelRatio||1,2);
   const w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));
   if(c.width!==w||c.height!==h){c.width=w;c.height=h;}
@@ -1851,10 +1855,16 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
   var _fsCreditDate=(function(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}})();
 
   window.openFsOutput = function(){
-    /* force PROGRAM view, then expand the viewer */
+    /* force PROGRAM view first so monPgm is visible (not display:none) */
     if(window.setViewer) window.setViewer('prog');
     document.body.classList.add('viewer-fs');
-    window.resizeAll && setTimeout(window.resizeAll, 40);
+    /* Resize across reflow frames: the program canvas may have been
+       collapsed (display:none) while in preview, so getBoundingClientRect
+       needs the layout to settle before fit() reads real dimensions. */
+    var _r=function(){ window.resizeAll && window.resizeAll(); };
+    requestAnimationFrame(function(){ _r(); requestAnimationFrame(_r); });
+    setTimeout(_r, 120);
+    setTimeout(_r, 300);
   };
   window.exitViewerFs = function(){
     if(!document.body.classList.contains('viewer-fs')) return;
