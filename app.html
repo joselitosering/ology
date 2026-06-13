@@ -327,114 +327,125 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* ══════════════════════════════════════════════════════════════
    TABLET  600px – 1023px
+   Mini dual-viewer (prog/preview switchable) on top-left,
+   control panel to the right. OBS output hidden.
    ══════════════════════════════════════════════════════════════ */
-@media(max-width:1023px){
+@media(min-width:600px) and (max-width:1023px){
 
-  /* Sidebar: icon-only, narrower */
-  .sidebar{
-    width:58px;
-    padding:8px 4px;
-  }
-  .nav-item{
-    font-size:0;     /* hide label text */
-    padding:12px 4px;
-  }
-  .nav-item .ico{width:22px;height:22px}
-  .nav-item .soon{font-size:0}
+  /* Hide desktop sidebar; bottom tab bar drives nav */
+  .sidebar{display:none}
 
-  /* Right panel: fixed bottom sheet */
-  .right-panel{
-    position:fixed;
-    left:58px; right:0;
-    bottom:0;
-    width:auto;
-    max-height:62vh;
-    border-left:none;
-    border-top:1px solid var(--stroke);
-    border-radius:16px 16px 0 0;
-    box-shadow:0 -8px 40px rgba(0,0,0,.55);
-    transform:translateY(0);
-    transition:transform .3s cubic-bezier(.32,0,.67,0);
-    z-index:300;
-  }
-  .right-panel.sheet-hidden{
-    transform:translateY(100%);
-  }
-
-  /* Drag handle on sheet */
-  .rp-header::before{
-    content:'';display:block;
-    width:36px;height:4px;border-radius:99px;
-    background:var(--stroke);
-    margin:0 auto 10px;
-  }
-
-  /* Center canvas fills remaining space above sheet */
+  /* stageView: row — viewer column + control column */
   #stageView{
-    padding-bottom:0;
-  }
-  .center{
-    margin-bottom:0;
+    height:calc(100vh - var(--topbar-h));
+    height:calc(100dvh - var(--topbar-h));
   }
 
-  /* Show sheet toggle button on canvas */
-  #sheetToggle{display:flex}
+  /* Center viewer column */
+  .center{flex:1.1;min-width:0}
+  .monitors{padding:10px;gap:8px;flex-direction:column}
+
+  /* Show only the active monitor (toggled via JS .viewer-active) */
+  .monitor{flex:1;min-height:0;display:none}
+  .monitor.viewer-active{display:flex}
+  .mon-screen{aspect-ratio:unset;height:100%;max-height:none}
+
+  /* Viewer toggle pills on tablet sit in the monitor header */
+  #viewerToggle{display:flex}
+
+  /* Right panel: static column, full height, scrolls */
+  .right-panel{
+    position:static;
+    width:300px;
+    max-height:none;
+    transform:none;
+    border-left:1px solid var(--stroke);
+    border-top:none;
+    border-radius:0;
+    box-shadow:none;
+    z-index:auto;
+  }
+  .right-panel.sheet-hidden{transform:none}
+  .rp-header::before{display:none}
+
+  /* Bottom tab bar visible on tablet too */
+  #bottomTabBar{display:none!important}
+
+  /* Hide the floating sheet toggle (not used in this model) */
 }
 
 /* ══════════════════════════════════════════════════════════════
    PHONE  ≤ 599px
+   Pinned mini-viewer on top, controls scroll below it.
+   Viewer switches prog/preview; tap to fullscreen.
    ══════════════════════════════════════════════════════════════ */
 @media(max-width:599px){
 
-  /* Topbar: compact, no version sub-label */
+  /* Compact topbar */
   .bs{display:none}
   .bn{font-size:14px!important;letter-spacing:.28em!important}
   .topbar{padding:0 10px;gap:8px}
   .play-btn{font-size:11px;padding:5px 10px}
 
-  /* Hide desktop sidebar entirely */
+  /* Hide desktop sidebar */
   .sidebar{display:none}
 
-  /* Stage fills full width */
+  /* stageView: vertical stack — viewer pinned, controls scroll */
   #stageView{
-    height:calc(100vh - var(--topbar-h) - var(--tabbar-h));
-    height:calc(100dvh - var(--topbar-h) - var(--tabbar-h));
+    flex-direction:column;
+    height:calc(100vh - var(--topbar-h));
+    height:calc(100dvh - var(--topbar-h));
+    overflow:hidden;
   }
 
-  /* Bottom sheet: full width, taller */
+  /* Viewer pinned at top, fixed height */
+  .center{
+    flex:0 0 auto;
+    height:38vh;
+    height:38dvh;
+    min-height:0;
+  }
+  .monitors{padding:8px;gap:0;flex-direction:column;height:100%}
+
+  /* Only the active monitor shows */
+  .monitor{flex:1;min-height:0;display:none}
+  .monitor.viewer-active{display:flex;flex-direction:column}
+  .mon-screen{aspect-ratio:unset;height:100%;max-height:none;cursor:pointer}
+
+  /* Viewer toggle pills */
+  #viewerToggle{display:flex}
+
+  /* Right panel: flows below viewer, scrolls, NOT a sheet */
   .right-panel{
-    left:0;
-    max-height:82vh;
-    border-radius:20px 20px 0 0;
-    /* sit above bottom tab bar */
-    bottom:var(--tabbar-h);
+    position:static;
+    left:auto;right:auto;bottom:auto;
+    width:auto;
+    flex:1 1 auto;
+    max-height:none;
+    transform:none!important;
+    border-left:none;
+    border-top:1px solid var(--stroke);
+    border-radius:0;
+    box-shadow:none;
+    z-index:auto;
+    min-height:0;
   }
-  .right-panel.sheet-hidden{
-    transform:translateY(calc(100% + var(--tabbar-h)));
-  }
+  .right-panel.sheet-hidden{transform:none!important}
+  .rp-header::before{display:none}
+  .rp-header{padding:10px 14px 8px}
 
   /* Bottom tab bar */
-  #bottomTabBar{display:flex}
+  #bottomTabBar{display:none!important}
 
-  /* Canvas: hide PREVIEW on phone, show PROGRAM only */
-  .monitors{padding:6px;gap:0;flex-direction:column}
-  .monitor:first-child{display:none}
-  .monitor:last-child{flex:1;display:flex;flex-direction:column;min-height:0}
-  .monitor:last-child .mon-screen{flex:1;aspect-ratio:unset;height:auto;max-height:none}
-
-  /* Switcher: compact */
-  .switcher{padding:8px 10px;gap:6px}
-  .fader-row{gap:6px}
-
-  /* Sections padding tighter */
+  /* Sections tighter */
   .rp-body{padding:12px}
   .section{margin-bottom:14px}
   .row{margin-bottom:12px}
   .seg button{font-size:11px;padding:9px 6px}
-
-  /* Chips wrap better */
   .chips{gap:6px}
   .chip{font-size:12px;padding:7px 12px}
+
+  /* Hide floating sheet toggle (replaced by inline-flow model) */
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -468,54 +479,61 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 .tab-btn.on svg{filter:drop-shadow(0 0 4px rgba(168,216,234,.6))}
 
 /* ══════════════════════════════════════════════════════════════
-   SHEET TOGGLE BUTTON  (tablet + phone, floats on canvas)
+   FULLSCREEN BUTTON  (all mobile — fixed overlay on canvas)
    ══════════════════════════════════════════════════════════════ */
-#sheetToggle{
-  display:none;         /* shown via @media 1023px above */
-  position:fixed;
-  right:16px;
-  bottom:calc(var(--tabbar-h) + 16px);
-  z-index:350;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(17,24,39,.85);
-  border:1px solid var(--iris);
+/* Fullscreen button — floats top-right of the viewer on mobile */
+#fsBtn{
+  display:none;
+  position:absolute;
+  top:14px;right:14px;
+  z-index:60;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(11,15,26,.7);
+  border:1px solid rgba(123,167,212,.4);
   color:var(--teal);
   align-items:center;justify-content:center;
   cursor:pointer;
-  box-shadow:0 4px 20px rgba(0,0,0,.45),0 0 0 1px rgba(123,167,212,.15);
-  transition:background .15s,box-shadow .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-#sheetToggle:hover{background:rgba(123,167,212,.18)}
-#sheetToggle svg{width:20px;height:20px;pointer-events:none}
-
-/* ══════════════════════════════════════════════════════════════
-   FULLSCREEN BUTTON  (all mobile — fixed overlay on canvas)
-   ══════════════════════════════════════════════════════════════ */
-#fsBtn{
-  display:none;
-  position:fixed;
-  left:16px;
-  bottom:calc(var(--tabbar-h) + 16px);
-  z-index:350;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(17,24,39,.85);
-  border:1px solid rgba(123,167,212,.35);
-  color:var(--dim);
-  align-items:center;justify-content:center;
-  cursor:pointer;
-  box-shadow:0 4px 20px rgba(0,0,0,.45);
+  box-shadow:0 2px 12px rgba(0,0,0,.5);
   transition:color .15s,border-color .15s,background .15s;
   -webkit-tap-highlight-color:transparent;
 }
-#fsBtn.active{
-  color:var(--teal);
-  border-color:var(--iris);
-  background:rgba(123,167,212,.12);
-}
-#fsBtn svg{width:20px;height:20px;pointer-events:none}
+#fsBtn:hover{background:rgba(123,167,212,.18)}
+#fsBtn svg{width:18px;height:18px;pointer-events:none}
 @media(max-width:1023px){
   #fsBtn{display:flex}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   VIEWER TOGGLE — PROG / PREVIEW pills (mobile + tablet)
+   ══════════════════════════════════════════════════════════════ */
+#viewerToggle{
+  display:none;
+  position:absolute;
+  top:14px;left:14px;
+  z-index:60;
+  background:rgba(11,15,26,.7);
+  border:1px solid var(--stroke);
+  border-radius:99px;
+  padding:3px;
+  gap:2px;
+  box-shadow:0 2px 12px rgba(0,0,0,.5);
+}
+#viewerToggle button{
+  border:none;background:none;
+  color:var(--dim);
+  font-size:10px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;
+  padding:6px 12px;border-radius:99px;
+  cursor:pointer;transition:.15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#viewerToggle button.on{
+  background:linear-gradient(135deg,var(--iris),#3A6FA8);
+  color:#fff;
+}
+/* Make the .center positioning context for the absolute buttons */
+@media(max-width:1023px){
+  .center{position:relative}
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -542,10 +560,9 @@ body.fs-fallback .sidebar,
 body.fs-fallback .right-panel,
 body.fs-fallback .topbar,
 body.fs-fallback #bottomTabBar,
-body.fs-fallback #sheetToggle,
-body.fs-fallback #fsBtn{
-  display:none!important;
-}
+/* In fullscreen the viewer fills the screen; center loses its fixed height */
+body.fs-fallback .center{height:100%!important;flex:1!important;position:relative}
+body.fs-fallback .monitors{height:100%!important}
 body.fs-fallback #fsBtnExit{
   display:flex!important;
 }
@@ -567,6 +584,69 @@ body.fs-fallback #fsBtnExit{
   -webkit-tap-highlight-color:transparent;
 }
 #fsBtnExit svg{width:18px;height:18px;pointer-events:none}
+
+/* ══════════════════════════════════════════════════════════════
+   MOBILE/TABLET TAB STRIP — sits directly under the viewer
+   ══════════════════════════════════════════════════════════════ */
+#mTabStrip{
+  display:none;             /* shown via breakpoints below */
+  flex-shrink:0;
+  background:var(--sb);
+  border-top:1px solid var(--stroke);
+  border-bottom:1px solid var(--stroke);
+  padding:0 4px;
+}
+#mTabStrip .mts-btn{
+  flex:1;
+  border:none;background:none;
+  color:var(--dim);
+  font-size:12px;font-weight:600;letter-spacing:.5px;
+  padding:13px 4px;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:color .15s,border-color .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#mTabStrip .mts-btn.on{
+  color:var(--teal);
+  border-bottom-color:var(--teal);
+}
+@media(max-width:1023px){
+  #mTabStrip{display:flex}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FULLSCREEN OUTPUT OVERLAY — program canvas only, tap to close
+   ══════════════════════════════════════════════════════════════ */
+#fsOutput{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99995;
+  background:#000;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+#fsOutput.open{display:flex}
+#fsOutput canvas{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
+#fsOutput .fs-hint{
+  position:absolute;
+  bottom:calc(env(safe-area-inset-bottom,0px) + 20px);
+  left:50%;transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;letter-spacing:1.5px;
+  color:rgba(232,240,248,.55);
+  text-transform:uppercase;
+  pointer-events:none;
+  animation:fsHintFade 3s ease forwards;
+}
+@keyframes fsHintFade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
@@ -584,34 +664,43 @@ body.fs-fallback #fsBtnExit{
     <div class="nav-item" id="aboutNavItem" onclick="openBrief(this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z"/><path d="M10 2v15M2 7l8 5 8-5"/></svg></span>About</div>
     <div class="nav-item" hidden style="display:none!important" onclick="selectTab('agent',this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2"/><ellipse cx="10" cy="10" rx="8" ry="3"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(60 10 10)"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(120 10 10)"/></svg></span>Agent<span class="soon">V2</span></div>
   </div>
-  <!-- ── Sheet toggle (tablet+phone) ── -->
-  <button id="sheetToggle" aria-label="Toggle controls" onclick="toggleSheet()">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h12M4 14h12"/></svg>
-  </button>
-
-  <!-- ── Fullscreen button (mobile) ── -->
-  <button id="fsBtn" aria-label="Enter fullscreen" onclick="toggleFullscreen()">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>
-  </button>
-
   <!-- ── Exit fullscreen overlay (iOS Safari fallback) ── -->
   <button id="fsBtnExit" aria-label="Exit fullscreen" onclick="exitFsFallback()">
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M17 7h-4V3M3 13h4v4M13 17v-4h4"/></svg>
   </button>
 
+  <!-- ── Fullscreen Output Overlay — program canvas only, tap to close ── -->
+  <div id="fsOutput" role="dialog" aria-modal="true" aria-label="Fullscreen output" onclick="closeFsOutput()">
+    <canvas id="fsOutputCanvas"></canvas>
+    <div class="fs-hint">Tap to exit</div>
+  </div>
+
   <div class="center">
+    <!-- Viewer toggle (mobile/tablet): switch PROGRAM / PREVIEW -->
+    <div id="viewerToggle" role="group" aria-label="Switch viewer">
+      <button class="on" id="vtPgm" onclick="setViewer('prog')">Program</button>
+      <button id="vtPrev" onclick="setViewer('prev')">Preview</button>
+    </div>
+
     <div class="monitors">
-      <div class="monitor">
+      <div class="monitor" id="monPrev">
         <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Psilocybin Dreams</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
-      <div class="monitor">
+      <div class="monitor viewer-active" id="monPgm">
         <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Intergalactic Beings</span></div>
         <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
 
   </div>
+  <!-- ── Mobile/Tablet tab strip — sits directly under the viewer ── -->
+  <nav id="mTabStrip" role="tablist" aria-label="Control tabs">
+    <button class="mts-btn on" role="tab" aria-selected="true" onclick="mobileTab('visuals',this)">Visuals</button>
+    <button class="mts-btn" role="tab" aria-selected="false" onclick="mobileTab('audio',this)">Audio</button>
+    <button class="mts-btn" role="tab" aria-selected="false" onclick="mobileTab('output',this)">Output</button>
+    <button class="mts-btn" role="tab" aria-selected="false" onclick="openHelp(this)">Help</button>
+  </nav>
   <div class="right-panel">
     <div class="rp-header"><span class="rp-title" id="rpTitle">Visuals</span></div>
     <div class="rp-body">
@@ -708,12 +797,13 @@ body.fs-fallback #fsBtnExit{
           <p class="note" style="margin-top:7px">Opens a chromeless window sized to the exact output resolution. In OBS use <strong>Window Capture → Client Area</strong> to capture it with no borders.</p>
         </div>
           </div></div><!-- /obs-only -->
-        <!-- Mobile: fullscreen display controls (hidden on desktop) -->
+        <!-- Mobile: fullscreen output controls (hidden on desktop) -->
         <div class="mobile-display section">
-          <h4>Fullscreen Display</h4>
-          <p class="note" style="margin-bottom:12px">Tap the fullscreen button on the canvas to enter immersive mode. Tap anywhere to exit.</p>
+          <h4>Fullscreen Output</h4>
+          <p class="note" style="margin-bottom:12px">View the live program canvas filling the whole screen. Tap anywhere on it to exit.</p>
+          <button id="goBtn" onclick="openFsOutput()" style="margin-bottom:12px">⛶ &nbsp;Go Fullscreen</button>
           <div class="row"><label>Orientation</label><div class="seg" id="orientSeg"><button class="on" onclick="setOrientation('landscape',this)">Landscape</button><button onclick="setOrientation('portrait',this)">Portrait</button></div></div>
-          <p class="note" style="margin-top:6px">OBS output is a desktop feature. On mobile, use screen recording or AirPlay to capture the fullscreen display.</p>
+          <p class="note" style="margin-top:6px">To record or stream the output, use your device's screen recording or AirPlay. OBS browser-source output is a desktop feature.</p>
         </div>
 
         <div class="section">
@@ -814,6 +904,8 @@ function fit(c,dprOverride){
 function resizeAll(){
   fit(document.getElementById('prevCanvas'));
   fit(document.getElementById('progCanvas'),dprCap);
+  var _foc=document.getElementById('fsOutputCanvas');
+  if(_foc&&document.getElementById('fsOutput')&&document.getElementById('fsOutput').classList.contains('open'))fit(_foc,dprCap);
 }
 window.addEventListener('resize',resizeAll);setTimeout(resizeAll,100);
 
@@ -976,6 +1068,12 @@ function loop(now){
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
     if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
+    /* Fullscreen output overlay — draw PROGRAM at full screen size */
+    var _fso=document.getElementById('fsOutput');
+    if(_fso&&_fso.classList.contains('open')){
+      var foc=document.getElementById('fsOutputCanvas');
+      if(foc){fit(foc,dprCap);window.OlogyShaders.draw(foc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);}
+    }
   }
   requestAnimationFrame(loop);
 }
@@ -1630,14 +1728,6 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 10h2M16 10h2M6 6v8M14 6v8M10 4v12"/></svg>
     Audio
   </button>
-  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('output',this)">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="14" height="7" rx="1.5"/><path d="M10 2v8M7 5l3-3 3 3"/></svg>
-    Display
-  </button>
-  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('presets',this)">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10a1 1 0 011 1v12l-6-3-6 3V4a1 1 0 011-1z"/></svg>
-    Presets
-  </button>
   <button class="tab-btn" role="tab" aria-selected="false" onclick="openHelp(this)">
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 14v-1"/><path d="M10 9.5c0-1.1.9-2 2-2a2 2 0 01.5 3.9C11.8 11.8 10 12.4 10 13.5"/></svg>
     Help
@@ -1743,26 +1833,54 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
    ══════════════════════════════════════════════════════════════ */
 (function(){
 
-  /* ── Sheet state ── */
-  var _sheetOpen = true;
-  window.toggleSheet = function(){
-    _sheetOpen = !_sheetOpen;
-    var rp = document.querySelector('.right-panel');
-    if(rp) rp.classList.toggle('sheet-hidden', !_sheetOpen);
-    var btn = document.getElementById('sheetToggle');
-    if(btn) btn.style.color = _sheetOpen ? 'var(--teal)' : 'var(--dim)';
+  /* ── Viewer toggle: PROGRAM / PREVIEW ── */
+  window.setViewer = function(which){
+    var pgm = document.getElementById('monPgm');
+    var prev = document.getElementById('monPrev');
+    var bPgm = document.getElementById('vtPgm');
+    var bPrev = document.getElementById('vtPrev');
+    var showPrev = (which === 'prev');
+    if(pgm)  pgm.classList.toggle('viewer-active', !showPrev);
+    if(prev) prev.classList.toggle('viewer-active', showPrev);
+    if(bPgm){ bPgm.classList.toggle('on', !showPrev); }
+    if(bPrev){ bPrev.classList.toggle('on', showPrev); }
+    /* the now-visible canvas needs a resize so it draws at correct size */
+    window.resizeAll && setTimeout(window.resizeAll, 30);
   };
 
-  /* ── Bottom tab bar ── */
+  /* ── Fullscreen OUTPUT overlay — program canvas only ── */
+  window.openFsOutput = function(){
+    var o=document.getElementById('fsOutput');
+    if(!o) return;
+    o.classList.add('open');
+    window.resizeAll && setTimeout(window.resizeAll, 30);
+    /* try native fullscreen on the overlay for true immersive on Android */
+    try{
+      var req=o.requestFullscreen||o.webkitRequestFullscreen;
+      if(req) req.call(o).catch(function(){});
+    }catch(e){}
+    _tryLockOrientation();
+  };
+  window.closeFsOutput = function(){
+    var o=document.getElementById('fsOutput');
+    if(!o) return;
+    o.classList.remove('open');
+    try{
+      var ex=document.exitFullscreen||document.webkitExitFullscreen;
+      if(ex&&(document.fullscreenElement||document.webkitFullscreenElement)) ex.call(document).catch(function(){});
+    }catch(e){}
+    _unlockOrientation();
+  };
+
+  /* ── Bottom tab bar — switch control pane (controls always in flow) ── */
   window.mobileTab = function(name, el){
-    /* Switch pane + title directly, avoids passing wrong el type to selectTab */
     document.querySelectorAll('[data-pane]').forEach(function(p){
       p.hidden = (p.dataset.pane !== name);
     });
     var titles={visuals:'Visuals',audio:'Audio',output:'Output',presets:'Presets',agent:'Agent — v2'};
     var rpt=document.getElementById('rpTitle');
     if(rpt) rpt.textContent=titles[name]||name;
-    /* mirror active state to desktop sidebar */
+    /* mirror to desktop sidebar */
     document.querySelectorAll('.nav-item').forEach(function(n){
       n.classList.toggle('on',n.getAttribute('onclick')&&n.getAttribute('onclick').indexOf("'"+name+"'")!==-1);
     });
@@ -1773,10 +1891,11 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     });
     el.classList.add('on');
     el.setAttribute('aria-selected','true');
-    /* open the sheet */
-    _sheetOpen=true;
+    /* scroll control panel to top so the selected pane is visible */
     var rp=document.querySelector('.right-panel');
-    if(rp) rp.classList.remove('sheet-hidden');
+    if(rp) rp.scrollTop = 0;
+    var rpb=document.querySelector('.rp-body');
+    if(rpb) rpb.scrollTop = 0;
   };
 
   /* ── Sync desktop sidebar → bottom tab bar ── */
@@ -1901,29 +2020,15 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     }catch(e){}
   }
 
-  /* ── Drag handle on sheet (touch swipe down to close) ── */
-  var _dragStart = null;
-  var _rp = null;
-  document.addEventListener('touchstart', function(e){
-    _rp = document.querySelector('.right-panel');
-    if(!_rp) return;
-    var hdr = _rp.querySelector('.rp-header');
-    if(hdr && hdr.contains(e.target)) _dragStart = e.touches[0].clientY;
-  }, {passive:true});
-  document.addEventListener('touchend', function(e){
-    if(_dragStart === null) return;
-    var dy = e.changedTouches[0].clientY - _dragStart;
-    if(dy > 60) { _sheetOpen=false; _rp && _rp.classList.add('sheet-hidden'); }
-    _dragStart = null;
-  }, {passive:true});
-
-  /* Init: start with sheet hidden on mobile so canvas is visible first */
+  /* ── Init: PROGRAM viewer active by default; resize on load ── */
   window.addEventListener('load',function(){
-    if(window.innerWidth<=1023){
-      _sheetOpen=false;
-      var rp=document.querySelector('.right-panel');
-      if(rp) rp.classList.add('sheet-hidden');
-    }
+    if(window.setViewer) window.setViewer('prog');
+    window.resizeAll && setTimeout(window.resizeAll, 120);
+  });
+
+  /* Re-fit canvases when crossing breakpoints (orientation/resize) */
+  window.addEventListener('resize', function(){
+    window.resizeAll && setTimeout(window.resizeAll, 60);
   });
 
 })();
