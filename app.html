@@ -416,10 +416,11 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   /* Bottom tab bar */
   #bottomTabBar{display:flex}
 
-  /* Canvas monitor: hide PREVIEW on phone, show PROGRAM only */
-  .monitors{padding:6px;gap:6px}
+  /* Canvas: hide PREVIEW on phone, show PROGRAM only */
+  .monitors{padding:6px;gap:0;flex-direction:column}
   .monitor:first-child{display:none}
-  .monitor:last-child{flex:1}
+  .monitor:last-child{flex:1;display:flex;flex-direction:column;min-height:0}
+  .monitor:last-child .mon-screen{flex:1;aspect-ratio:unset;height:auto;max-height:none}
 
   /* Switcher: compact */
   .switcher{padding:8px 10px;gap:6px}
@@ -1754,40 +1755,43 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
 
   /* ── Bottom tab bar ── */
   window.mobileTab = function(name, el){
-    /* sync with existing desktop selectTab */
-    if(window.selectTab){
-      /* find a placeholder nav-item to pass */
-      var ni = document.querySelector('.nav-item[onclick*="''+name+''"]');
-      window.selectTab(name, ni || el);
-    }
-    /* update bottom tab bar active state */
+    /* Switch pane + title directly, avoids passing wrong el type to selectTab */
+    document.querySelectorAll('[data-pane]').forEach(function(p){
+      p.hidden = (p.dataset.pane !== name);
+    });
+    var titles={visuals:'Visuals',audio:'Audio',output:'Output',presets:'Presets',agent:'Agent — v2'};
+    var rpt=document.getElementById('rpTitle');
+    if(rpt) rpt.textContent=titles[name]||name;
+    /* mirror active state to desktop sidebar */
+    document.querySelectorAll('.nav-item').forEach(function(n){
+      n.classList.toggle('on',n.getAttribute('onclick')&&n.getAttribute('onclick').indexOf("'"+name+"'")!==-1);
+    });
+    /* update bottom tab bar */
     document.querySelectorAll('.tab-btn').forEach(function(b){
       b.classList.remove('on');
       b.setAttribute('aria-selected','false');
     });
     el.classList.add('on');
     el.setAttribute('aria-selected','true');
-    /* open the sheet when a tab is tapped */
-    _sheetOpen = true;
-    var rp = document.querySelector('.right-panel');
+    /* open the sheet */
+    _sheetOpen=true;
+    var rp=document.querySelector('.right-panel');
     if(rp) rp.classList.remove('sheet-hidden');
   };
 
   /* ── Sync desktop sidebar → bottom tab bar ── */
-  var _origSelectTab = null;
-  document.addEventListener('DOMContentLoaded', function(){
-    if(window.selectTab){
-      _origSelectTab = window.selectTab;
-      window.selectTab = function(name, el){
-        _origSelectTab(name, el);
-        /* mirror to bottom tab bar */
-        document.querySelectorAll('.tab-btn').forEach(function(b){
-          var match = b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'"+name+"'") !== -1;
-          b.classList.toggle('on', match);
-          b.setAttribute('aria-selected', match ? 'true' : 'false');
-        });
-      };
-    }
+  /* Mirror desktop selectTab calls to bottom tab bar */
+  window.addEventListener('load',function(){
+    var _orig=window.selectTab;
+    if(!_orig) return;
+    window.selectTab=function(name,el){
+      _orig(name,el);
+      document.querySelectorAll('.tab-btn').forEach(function(b){
+        var match=b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+name+"'")!==-1;
+        b.classList.toggle('on',match);
+        b.setAttribute('aria-selected',match?'true':'false');
+      });
+    };
   });
 
   /* ── Fullscreen API + iOS Safari fallback ── */
@@ -1912,6 +1916,15 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     if(dy > 60) { _sheetOpen=false; _rp && _rp.classList.add('sheet-hidden'); }
     _dragStart = null;
   }, {passive:true});
+
+  /* Init: start with sheet hidden on mobile so canvas is visible first */
+  window.addEventListener('load',function(){
+    if(window.innerWidth<=1023){
+      _sheetOpen=false;
+      var rp=document.querySelector('.right-panel');
+      if(rp) rp.classList.add('sheet-hidden');
+    }
+  });
 
 })();
 </script>
