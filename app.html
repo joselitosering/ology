@@ -34,7 +34,7 @@
   <link rel="apple-touch-icon"         href="ology_favicon.svg">
 
   <!-- ── Fonts ── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Outfit',system-ui,-apple-system,sans-serif}
 :root{--bg:#0B0F1A;--sb:#111827;--panel:rgba(17,24,39,.88);--ps:#1A2233;--stroke:rgba(123,167,212,.18);--s2:rgba(123,167,212,.28);--txt:#E8F0F8;--dim:#8FA8C0;--faint:#4a6a84;--acc:#7BA7D4;--acc2:#A8D8EA;--red:#E8896A;--grn:#6abfa0;--iris:#7BA7D4;--teal:#A8D8EA;--amber:#E8896A;--rose:#C084B0;--grad:linear-gradient(90deg,#5B8FBF,#A8D8EA,#E8896A,#C084B0);}
@@ -51,7 +51,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 #goBtn{width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;text-align:center;border:1px solid var(--iris);background:rgba(123,167,212,.08);color:var(--teal);transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
 #goBtn:hover{background:rgba(123,167,212,.18);border-color:var(--teal);box-shadow:0 0 14px rgba(168,216,234,.28);color:#fff}
 #goBtn:active{background:linear-gradient(135deg,rgba(91,143,191,.55),rgba(168,216,234,.35));border-color:var(--acc2);box-shadow:0 0 22px rgba(168,216,234,.45);transform:scale(.97);color:#fff}
-#stageView{display:flex;height:calc(100vh - 44px);overflow:hidden}
+#stageView{display:flex;height:calc(100vh - 44px);height:calc(100dvh - 44px);overflow:hidden}
 #mobileView{display:none;height:calc(100vh - 44px)}
 .sidebar{width:86px;flex-shrink:0;background:var(--sb);border-right:1px solid var(--stroke);display:flex;flex-direction:column;padding:8px 6px;gap:2px;overflow-y:auto}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:10px;cursor:pointer;color:var(--dim);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;transition:.16s;border:1px solid transparent}
@@ -300,6 +300,272 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* Logo canvas drop-shadow brand color */
 .logo{filter:drop-shadow(0 0 7px rgba(123,167,212,.65))}
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE LAYOUT — Mobile-first breakpoints
+   Desktop  ≥1024px : current layout, unchanged
+   Tablet   600-1023px : icon-only sidebar, bottom-sheet panel
+   Phone    ≤599px  : bottom tab bar, full bottom sheet, fullscreen-first
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── CSS custom props for layout ── */
+:root{
+  --topbar-h:44px;
+  --tabbar-h:60px;
+  --sheet-peek:0px;
+}
+
+/* ── Touch-friendly range inputs on mobile ── */
+@media(max-width:1023px){
+  input[type=range]{height:36px;touch-action:pan-x}
+  input[type=range]::-webkit-slider-thumb{width:22px;height:22px}
+  .row label{font-size:14px}
+  .rval{font-size:14px}
+  .section h4{font-size:11px}
+  select{font-size:15px!important;padding:12px 36px 12px 14px!important}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TABLET  600px – 1023px
+   ══════════════════════════════════════════════════════════════ */
+@media(max-width:1023px){
+
+  /* Sidebar: icon-only, narrower */
+  .sidebar{
+    width:58px;
+    padding:8px 4px;
+  }
+  .nav-item{
+    font-size:0;     /* hide label text */
+    padding:12px 4px;
+  }
+  .nav-item .ico{width:22px;height:22px}
+  .nav-item .soon{font-size:0}
+
+  /* Right panel: fixed bottom sheet */
+  .right-panel{
+    position:fixed;
+    left:58px; right:0;
+    bottom:0;
+    width:auto;
+    max-height:62vh;
+    border-left:none;
+    border-top:1px solid var(--stroke);
+    border-radius:16px 16px 0 0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.55);
+    transform:translateY(0);
+    transition:transform .3s cubic-bezier(.32,0,.67,0);
+    z-index:300;
+  }
+  .right-panel.sheet-hidden{
+    transform:translateY(100%);
+  }
+
+  /* Drag handle on sheet */
+  .rp-header::before{
+    content:'';display:block;
+    width:36px;height:4px;border-radius:99px;
+    background:var(--stroke);
+    margin:0 auto 10px;
+  }
+
+  /* Center canvas fills remaining space above sheet */
+  #stageView{
+    padding-bottom:0;
+  }
+  .center{
+    margin-bottom:0;
+  }
+
+  /* Show sheet toggle button on canvas */
+  #sheetToggle{display:flex}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PHONE  ≤ 599px
+   ══════════════════════════════════════════════════════════════ */
+@media(max-width:599px){
+
+  /* Topbar: compact, no version sub-label */
+  .bs{display:none}
+  .bn{font-size:14px!important;letter-spacing:.28em!important}
+  .topbar{padding:0 10px;gap:8px}
+  .play-btn{font-size:11px;padding:5px 10px}
+
+  /* Hide desktop sidebar entirely */
+  .sidebar{display:none}
+
+  /* Stage fills full width */
+  #stageView{
+    height:calc(100vh - var(--topbar-h) - var(--tabbar-h));
+    height:calc(100dvh - var(--topbar-h) - var(--tabbar-h));
+  }
+
+  /* Bottom sheet: full width, taller */
+  .right-panel{
+    left:0;
+    max-height:82vh;
+    border-radius:20px 20px 0 0;
+    /* sit above bottom tab bar */
+    bottom:var(--tabbar-h);
+  }
+  .right-panel.sheet-hidden{
+    transform:translateY(calc(100% + var(--tabbar-h)));
+  }
+
+  /* Bottom tab bar */
+  #bottomTabBar{display:flex}
+
+  /* Canvas monitor: hide PREVIEW on phone, show PROGRAM only */
+  .monitors{padding:6px;gap:6px}
+  .monitor:first-child{display:none}
+  .monitor:last-child{flex:1}
+
+  /* Switcher: compact */
+  .switcher{padding:8px 10px;gap:6px}
+  .fader-row{gap:6px}
+
+  /* Sections padding tighter */
+  .rp-body{padding:12px}
+  .section{margin-bottom:14px}
+  .row{margin-bottom:12px}
+  .seg button{font-size:11px;padding:9px 6px}
+
+  /* Chips wrap better */
+  .chips{gap:6px}
+  .chip{font-size:12px;padding:7px 12px}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BOTTOM TAB BAR  (phone only, hidden on tablet/desktop)
+   ══════════════════════════════════════════════════════════════ */
+#bottomTabBar{
+  display:none;         /* shown via @media 599px above */
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:var(--tabbar-h);
+  background:var(--sb);
+  border-top:1px solid var(--stroke);
+  z-index:400;
+  align-items:stretch;
+  padding:0 4px;
+  padding-bottom:env(safe-area-inset-bottom);
+  gap:0;
+}
+.tab-btn{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:3px;border:none;background:none;
+  color:var(--dim);font-size:9px;letter-spacing:.6px;
+  text-transform:uppercase;cursor:pointer;
+  transition:color .16s;
+  -webkit-tap-highlight-color:transparent;
+  padding:0 2px;
+}
+.tab-btn svg{width:22px;height:22px;flex-shrink:0}
+.tab-btn.on{color:var(--teal)}
+.tab-btn.on svg{filter:drop-shadow(0 0 4px rgba(168,216,234,.6))}
+
+/* ══════════════════════════════════════════════════════════════
+   SHEET TOGGLE BUTTON  (tablet + phone, floats on canvas)
+   ══════════════════════════════════════════════════════════════ */
+#sheetToggle{
+  display:none;         /* shown via @media 1023px above */
+  position:fixed;
+  right:16px;
+  bottom:calc(var(--tabbar-h) + 16px);
+  z-index:350;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(17,24,39,.85);
+  border:1px solid var(--iris);
+  color:var(--teal);
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,.45),0 0 0 1px rgba(123,167,212,.15);
+  transition:background .15s,box-shadow .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#sheetToggle:hover{background:rgba(123,167,212,.18)}
+#sheetToggle svg{width:20px;height:20px;pointer-events:none}
+
+/* ══════════════════════════════════════════════════════════════
+   FULLSCREEN BUTTON  (all mobile — fixed overlay on canvas)
+   ══════════════════════════════════════════════════════════════ */
+#fsBtn{
+  display:none;
+  position:fixed;
+  left:16px;
+  bottom:calc(var(--tabbar-h) + 16px);
+  z-index:350;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(17,24,39,.85);
+  border:1px solid rgba(123,167,212,.35);
+  color:var(--dim);
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,.45);
+  transition:color .15s,border-color .15s,background .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+#fsBtn.active{
+  color:var(--teal);
+  border-color:var(--iris);
+  background:rgba(123,167,212,.12);
+}
+#fsBtn svg{width:20px;height:20px;pointer-events:none}
+@media(max-width:1023px){
+  #fsBtn{display:flex}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   OUTPUT TAB — hide OBS-specific controls on mobile
+   ══════════════════════════════════════════════════════════════ */
+@media(max-width:1023px){
+  .obs-only{display:none!important}
+  .mobile-display{display:block!important}
+}
+.mobile-display{display:none}
+
+/* ══════════════════════════════════════════════════════════════
+   FULLSCREEN CANVAS OVERLAY — iOS Safari fallback
+   (when native requestFullscreen is unavailable)
+   ══════════════════════════════════════════════════════════════ */
+body.fs-fallback #stageView{
+  position:fixed!important;
+  inset:0!important;
+  z-index:9990!important;
+  height:100vh!important;
+  height:100dvh!important;
+}
+body.fs-fallback .sidebar,
+body.fs-fallback .right-panel,
+body.fs-fallback .topbar,
+body.fs-fallback #bottomTabBar,
+body.fs-fallback #sheetToggle,
+body.fs-fallback #fsBtn{
+  display:none!important;
+}
+body.fs-fallback #fsBtnExit{
+  display:flex!important;
+}
+
+/* Exit fullscreen overlay button (iOS fallback) */
+#fsBtnExit{
+  display:none;
+  position:fixed;
+  top:env(safe-area-inset-top,16px);
+  right:16px;
+  z-index:9991;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(11,15,26,.75);
+  border:1px solid rgba(123,167,212,.4);
+  color:var(--teal);
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,0,0,.55);
+  -webkit-tap-highlight-color:transparent;
+}
+#fsBtnExit svg{width:18px;height:18px;pointer-events:none}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
@@ -317,6 +583,21 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
     <div class="nav-item" id="aboutNavItem" onclick="openBrief(this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z"/><path d="M10 2v15M2 7l8 5 8-5"/></svg></span>About</div>
     <div class="nav-item" hidden style="display:none!important" onclick="selectTab('agent',this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2"/><ellipse cx="10" cy="10" rx="8" ry="3"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(60 10 10)"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(120 10 10)"/></svg></span>Agent<span class="soon">V2</span></div>
   </div>
+  <!-- ── Sheet toggle (tablet+phone) ── -->
+  <button id="sheetToggle" aria-label="Toggle controls" onclick="toggleSheet()">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M4 10h12M4 14h12"/></svg>
+  </button>
+
+  <!-- ── Fullscreen button (mobile) ── -->
+  <button id="fsBtn" aria-label="Enter fullscreen" onclick="toggleFullscreen()">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>
+  </button>
+
+  <!-- ── Exit fullscreen overlay (iOS Safari fallback) ── -->
+  <button id="fsBtnExit" aria-label="Exit fullscreen" onclick="exitFsFallback()">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M17 7h-4V3M3 13h4v4M13 17v-4h4"/></svg>
+  </button>
+
   <div class="center">
     <div class="monitors">
       <div class="monitor">
@@ -412,7 +693,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
       </div>
       <div data-pane="output" hidden>
         <div class="section">
-          <h4>OBS Output View — Program Only</h4>
+          <div class="obs-only"><h4>OBS Output View — Program Only</h4>
           <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
           <div class="seg"><button data-res="720" onclick="setOut('res','720',this)">720p</button><button class="on" data-res="1080" onclick="setOut('res','1080',this)">1080p</button><button data-res="1440" onclick="setOut('res','1440',this)">1440p</button></div>
           <div class="seg"><button data-fps="24" onclick="setOut('fps','24',this)">24</button><button class="on" data-fps="30" onclick="setOut('fps','30',this)">30</button><button data-fps="60" onclick="setOut('fps','60',this)">60 fps</button></div>
@@ -425,6 +706,15 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
           <p class="note" style="margin-top:7px">Opens a chromeless window sized to the exact output resolution. In OBS use <strong>Window Capture → Client Area</strong> to capture it with no borders.</p>
         </div>
+          </div></div><!-- /obs-only -->
+        <!-- Mobile: fullscreen display controls (hidden on desktop) -->
+        <div class="mobile-display section">
+          <h4>Fullscreen Display</h4>
+          <p class="note" style="margin-bottom:12px">Tap the fullscreen button on the canvas to enter immersive mode. Tap anywhere to exit.</p>
+          <div class="row"><label>Orientation</label><div class="seg" id="orientSeg"><button class="on" onclick="setOrientation('landscape',this)">Landscape</button><button onclick="setOrientation('portrait',this)">Portrait</button></div></div>
+          <p class="note" style="margin-top:6px">OBS output is a desktop feature. On mobile, use screen recording or AirPlay to capture the fullscreen display.</p>
+        </div>
+
         <div class="section">
           <h4>Live Overlay</h4>
           <!-- M6: toggles ology_overlay localStorage key; output.html reacts via storage event -->
@@ -1329,6 +1619,30 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
 
 })();
 </script>
+<!-- ── Bottom Tab Bar (phone only) ── -->
+<nav id="bottomTabBar" role="tablist" aria-label="Main navigation">
+  <button class="tab-btn on" role="tab" aria-selected="true"  onclick="mobileTab('visuals',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="3"/><path d="M10 2C5.5 2 2 6 2 10s3.5 8 8 8 8-4 8-8-3.5-8-8-8z" opacity=".5"/><path d="M10 6v1M10 13v1M6 10H5M15 10h-1"/></svg>
+    Visuals
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('audio',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 10h2M16 10h2M6 6v8M14 6v8M10 4v12"/></svg>
+    Audio
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('output',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="14" height="7" rx="1.5"/><path d="M10 2v8M7 5l3-3 3 3"/></svg>
+    Display
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('presets',this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10a1 1 0 011 1v12l-6-3-6 3V4a1 1 0 011-1z"/></svg>
+    Presets
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" onclick="openHelp(this)">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 14v-1"/><path d="M10 9.5c0-1.1.9-2 2-2a2 2 0 01.5 3.9C11.8 11.8 10 12.4 10 13.5"/></svg>
+    Help
+  </button>
+</nav>
+
 <!-- ── Brief (About / Marketing) Overlay ── -->
 <div id="briefOverlay" role="dialog" aria-modal="true" aria-label="Ology — About & Marketing Brief">
   <div id="briefBackdrop"></div>
@@ -1418,6 +1732,187 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
   document.getElementById('helpBackdrop').addEventListener('mousedown',function(){
     closeHelp();
   });
+})();
+</script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   MOBILE UI — Session A
+   Sheet toggle · Bottom tab bar · Fullscreen API + iOS fallback
+   Orientation lock · No changes to M1/M2/M9/render loop
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+
+  /* ── Sheet state ── */
+  var _sheetOpen = true;
+  window.toggleSheet = function(){
+    _sheetOpen = !_sheetOpen;
+    var rp = document.querySelector('.right-panel');
+    if(rp) rp.classList.toggle('sheet-hidden', !_sheetOpen);
+    var btn = document.getElementById('sheetToggle');
+    if(btn) btn.style.color = _sheetOpen ? 'var(--teal)' : 'var(--dim)';
+  };
+
+  /* ── Bottom tab bar ── */
+  window.mobileTab = function(name, el){
+    /* sync with existing desktop selectTab */
+    if(window.selectTab){
+      /* find a placeholder nav-item to pass */
+      var ni = document.querySelector('.nav-item[onclick*="''+name+''"]');
+      window.selectTab(name, ni || el);
+    }
+    /* update bottom tab bar active state */
+    document.querySelectorAll('.tab-btn').forEach(function(b){
+      b.classList.remove('on');
+      b.setAttribute('aria-selected','false');
+    });
+    el.classList.add('on');
+    el.setAttribute('aria-selected','true');
+    /* open the sheet when a tab is tapped */
+    _sheetOpen = true;
+    var rp = document.querySelector('.right-panel');
+    if(rp) rp.classList.remove('sheet-hidden');
+  };
+
+  /* ── Sync desktop sidebar → bottom tab bar ── */
+  var _origSelectTab = null;
+  document.addEventListener('DOMContentLoaded', function(){
+    if(window.selectTab){
+      _origSelectTab = window.selectTab;
+      window.selectTab = function(name, el){
+        _origSelectTab(name, el);
+        /* mirror to bottom tab bar */
+        document.querySelectorAll('.tab-btn').forEach(function(b){
+          var match = b.getAttribute('onclick') && b.getAttribute('onclick').indexOf("'"+name+"'") !== -1;
+          b.classList.toggle('on', match);
+          b.setAttribute('aria-selected', match ? 'true' : 'false');
+        });
+      };
+    }
+  });
+
+  /* ── Fullscreen API + iOS Safari fallback ── */
+  var _fsActive = false;
+
+  function _canNativeFS(){
+    return !!(document.documentElement.requestFullscreen ||
+              document.documentElement.webkitRequestFullscreen);
+  }
+
+  function _enterNativeFS(){
+    var el = document.documentElement;
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if(req) req.call(el).catch(function(){_enterFsFallback();});
+    _tryLockOrientation();
+  }
+
+  function _exitNativeFS(){
+    var ex = document.exitFullscreen || document.webkitExitFullscreen;
+    if(ex) ex.call(document).catch(function(){});
+    _unlockOrientation();
+  }
+
+  function _enterFsFallback(){
+    document.body.classList.add('fs-fallback');
+    _fsActive = true;
+    window.resizeAll && window.resizeAll();
+  }
+
+  window.exitFsFallback = function(){
+    document.body.classList.remove('fs-fallback');
+    _fsActive = false;
+    var btn = document.getElementById('fsBtn');
+    if(btn) btn.classList.remove('active');
+    window.resizeAll && setTimeout(window.resizeAll, 80);
+  };
+
+  window.toggleFullscreen = function(){
+    if(_fsActive){
+      if(_canNativeFS()) _exitNativeFS();
+      else exitFsFallback();
+      _fsActive = false;
+      var btn = document.getElementById('fsBtn');
+      if(btn){
+        btn.classList.remove('active');
+        btn.setAttribute('aria-label','Enter fullscreen');
+        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>';
+      }
+    } else {
+      _fsActive = true;
+      if(_canNativeFS()) _enterNativeFS();
+      else _enterFsFallback();
+      var btn = document.getElementById('fsBtn');
+      if(btn){
+        btn.classList.add('active');
+        btn.setAttribute('aria-label','Exit fullscreen');
+        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M17 7h-4V3M3 13h4v4M13 17v-4h4"/></svg>';
+      }
+    }
+    window.resizeAll && setTimeout(window.resizeAll, 80);
+  };
+
+  /* Sync fsActive flag when user presses Escape or swipes out */
+  document.addEventListener('fullscreenchange', function(){
+    if(!document.fullscreenElement && !document.webkitFullscreenElement){
+      _fsActive = false;
+      document.body.classList.remove('fs-fallback');
+      var btn = document.getElementById('fsBtn');
+      if(btn){
+        btn.classList.remove('active');
+        btn.setAttribute('aria-label','Enter fullscreen');
+        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>';
+      }
+      _unlockOrientation();
+      window.resizeAll && setTimeout(window.resizeAll, 80);
+    }
+  });
+
+  /* Tap on canvas in fallback mode exits fullscreen */
+  document.addEventListener('click', function(e){
+    if(!document.body.classList.contains('fs-fallback')) return;
+    var cv = document.getElementById('progCanvas');
+    if(cv && cv.contains(e.target)) exitFsFallback();
+  });
+
+  /* ── Orientation lock ── */
+  var _orientPref = 'landscape';
+  window.setOrientation = function(o, el){
+    _orientPref = o;
+    if(el){
+      document.querySelectorAll('#orientSeg button').forEach(function(b){
+        b.classList.toggle('on', b === el);
+      });
+    }
+  };
+
+  function _tryLockOrientation(){
+    try{
+      if(screen.orientation && screen.orientation.lock)
+        screen.orientation.lock(_orientPref).catch(function(){});
+    }catch(e){}
+  }
+  function _unlockOrientation(){
+    try{
+      if(screen.orientation && screen.orientation.unlock)
+        screen.orientation.unlock();
+    }catch(e){}
+  }
+
+  /* ── Drag handle on sheet (touch swipe down to close) ── */
+  var _dragStart = null;
+  var _rp = null;
+  document.addEventListener('touchstart', function(e){
+    _rp = document.querySelector('.right-panel');
+    if(!_rp) return;
+    var hdr = _rp.querySelector('.rp-header');
+    if(hdr && hdr.contains(e.target)) _dragStart = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if(_dragStart === null) return;
+    var dy = e.changedTouches[0].clientY - _dragStart;
+    if(dy > 60) { _sheetOpen=false; _rp && _rp.classList.add('sheet-hidden'); }
+    _dragStart = null;
+  }, {passive:true});
+
 })();
 </script>
 <script>
