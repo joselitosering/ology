@@ -542,46 +542,6 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 .mobile-display{display:none}
 
 /* ══════════════════════════════════════════════════════════════
-   FULLSCREEN CANVAS OVERLAY — iOS Safari fallback
-   (when native requestFullscreen is unavailable)
-   ══════════════════════════════════════════════════════════════ */
-body.fs-fallback #stageView{
-  position:fixed!important;
-  inset:0!important;
-  z-index:9990!important;
-  height:100vh!important;
-  height:100dvh!important;
-}
-body.fs-fallback .sidebar,
-body.fs-fallback .right-panel,
-body.fs-fallback .topbar,
-body.fs-fallback #bottomTabBar,
-/* In fullscreen the viewer fills the screen; center loses its fixed height */
-body.fs-fallback .center{height:100%!important;flex:1!important;position:relative}
-body.fs-fallback .monitors{height:100%!important}
-body.fs-fallback #fsBtnExit{
-  display:flex!important;
-}
-
-/* Exit fullscreen overlay button (iOS fallback) */
-#fsBtnExit{
-  display:none;
-  position:fixed;
-  top:env(safe-area-inset-top,16px);
-  right:16px;
-  z-index:9991;
-  width:44px;height:44px;border-radius:50%;
-  background:rgba(11,15,26,.75);
-  border:1px solid rgba(123,167,212,.4);
-  color:var(--teal);
-  align-items:center;justify-content:center;
-  cursor:pointer;
-  box-shadow:0 4px 20px rgba(0,0,0,.55);
-  -webkit-tap-highlight-color:transparent;
-}
-#fsBtnExit svg{width:18px;height:18px;pointer-events:none}
-
-/* ══════════════════════════════════════════════════════════════
    MOBILE/TABLET TAB STRIP — sits directly under the viewer
    ══════════════════════════════════════════════════════════════ */
 #mTabStrip{
@@ -611,53 +571,50 @@ body.fs-fallback #fsBtnExit{
   #mTabStrip{display:flex}
 }
 
+
 /* ══════════════════════════════════════════════════════════════
-   FULLSCREEN OUTPUT OVERLAY — program canvas only, tap to close
+   SIMPLE FULLSCREEN VIEWER (mobile/tablet)
+   Expands the EXISTING program viewer to fill the screen via CSS.
+   No second canvas, no native API — the live render loop keeps
+   drawing the same #progCanvas. Tap the viewer to exit.
    ══════════════════════════════════════════════════════════════ */
-#fsOutput{
+body.viewer-fs #stageView{
+  position:fixed!important;
+  inset:0!important;
+  z-index:9990!important;
+  height:100vh!important;height:100dvh!important;
+  flex-direction:column!important;
+}
+body.viewer-fs .topbar,
+body.viewer-fs .sidebar,
+body.viewer-fs .right-panel,
+body.viewer-fs #mTabStrip,
+body.viewer-fs #bottomTabBar,
+body.viewer-fs #viewerBar{display:none!important}
+body.viewer-fs .center{
+  flex:1 1 auto!important;
+  height:100%!important;
+  width:100%!important;
+}
+body.viewer-fs .monitors{height:100%!important;padding:0!important}
+body.viewer-fs .mon-screen{border-radius:0!important;cursor:pointer}
+/* Tap-to-exit hint */
+#fsHint{
   display:none;
   position:fixed;
-  inset:0;
-  z-index:99995;
-  background:#000;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-}
-#fsOutput.open{display:flex}
-/* M6 param overlay on mobile fullscreen output — matches output.html format */
-#fsParamOverlay{
-  display:none;
-  position:absolute;
-  top:calc(env(safe-area-inset-top,0px) + 12px);
-  left:14px;
-  font-family:'Courier New',Courier,monospace;
-  font-size:11px;
-  line-height:1.55;
-  pointer-events:none;
-  text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.7);
-  white-space:nowrap;
-  z-index:99996;
-}
-#fsOutput.show-overlay #fsParamOverlay{display:block}
-#fsOutput canvas{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:contain;
-}
-#fsOutput .fs-hint{
-  position:absolute;
   bottom:calc(env(safe-area-inset-bottom,0px) + 20px);
   left:50%;transform:translateX(-50%);
+  z-index:9992;
   font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:1.5px;
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
   color:rgba(232,240,248,.55);
-  text-transform:uppercase;
   pointer-events:none;
   animation:fsHintFade 3s ease forwards;
 }
+body.viewer-fs #fsHint{display:block}
 @keyframes fsHintFade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
+/* Param overlay rides on the existing viewer when fullscreen */
+#fsHint.with-params{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 12px);left:14px;transform:none;text-align:left}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
@@ -675,17 +632,8 @@ body.fs-fallback #fsBtnExit{
     <div class="nav-item" id="aboutNavItem" onclick="openBrief(this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z"/><path d="M10 2v15M2 7l8 5 8-5"/></svg></span>About</div>
     <div class="nav-item" hidden style="display:none!important" onclick="selectTab('agent',this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2"/><ellipse cx="10" cy="10" rx="8" ry="3"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(60 10 10)"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(120 10 10)"/></svg></span>Agent<span class="soon">V2</span></div>
   </div>
-  <!-- ── Exit fullscreen overlay (iOS Safari fallback) ── -->
-  <button id="fsBtnExit" aria-label="Exit fullscreen" onclick="exitFsFallback()">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M17 7h-4V3M3 13h4v4M13 17v-4h4"/></svg>
-  </button>
-
-  <!-- ── Fullscreen Output Overlay — program canvas only, tap to close ── -->
-  <div id="fsOutput" role="dialog" aria-modal="true" aria-label="Fullscreen output" onclick="closeFsOutput()">
-    <canvas id="fsOutputCanvas"></canvas>
-    <div id="fsParamOverlay"></div>
-    <div class="fs-hint">Tap to exit</div>
-  </div>
+  <!-- ── Fullscreen tap-to-exit hint (mobile) ── -->
+  <div id="fsHint">Tap viewer to exit</div>
 
   <div class="center">
     <!-- Viewer bar (mobile/tablet): PREVIEW/PROGRAM toggle matches desktop label format -->
@@ -703,7 +651,7 @@ body.fs-fallback #fsBtnExit{
       </div>
       <div class="monitor viewer-active" id="monPgm">
         <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Intergalactic Beings</span></div>
-        <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
+        <div class="mon-screen prog-scr" onclick="exitViewerFs()"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
 
@@ -921,8 +869,6 @@ function fit(c,dprOverride){
 function resizeAll(){
   fit(document.getElementById('prevCanvas'));
   fit(document.getElementById('progCanvas'),dprCap);
-  var _foc=document.getElementById('fsOutputCanvas');
-  if(_foc&&document.getElementById('fsOutput')&&document.getElementById('fsOutput').classList.contains('open'))fit(_foc,dprCap);
 }
 window.addEventListener('resize',resizeAll);setTimeout(resizeAll,100);
 
@@ -1085,14 +1031,8 @@ function loop(now){
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
     if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
-    /* Fullscreen output overlay — draw PROGRAM at full screen size */
-    var _fso=document.getElementById('fsOutput');
-    if(_fso&&_fso.classList.contains('open')){
-      var foc=document.getElementById('fsOutputCanvas');
-      if(foc){fit(foc,dprCap);window.OlogyShaders.draw(foc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);}
-      /* M6 param overlay — mirror output.html when ology_overlay is on */
-      if(window._updateFsOverlay) window._updateFsOverlay();
-    }
+    /* M6 param overlay on the fullscreen viewer (mobile) */
+    if(window._updateFsHint) window._updateFsHint();
   }
   requestAnimationFrame(loop);
 }
@@ -1876,200 +1816,74 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     window.resizeAll && setTimeout(window.resizeAll, 30);
   };
 
-  /* ── Fullscreen OUTPUT overlay — program canvas only ── */
-  /* M6 param overlay text — mirrors output.html renderOverlay() format */
-  var _fsCreditDate=(function(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}})();
-  window._updateFsOverlay=function(){
-    var fso=document.getElementById('fsOutput');
-    var el=document.getElementById('fsParamOverlay');
-    if(!fso||!el) return;
-    var on=(localStorage.getItem('ology_overlay')==='1');
-    fso.classList.toggle('show-overlay', on);
-    if(!on) return;
-    var a=PROG.audio||{};
-    var th=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
-    var theme=THEMES[th];
-    /* per-theme light colour from lightest palette stop */
-    function relLum(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)].map(function(v){v/=255;return v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4);}).reduce(function(s,v,i){return s+[0.2126,0.7152,0.0722][i]*v;},0);}
-    function hexToHS(h){var r=parseInt(h.slice(1,3),16)/255,g=parseInt(h.slice(3,5),16)/255,b=parseInt(h.slice(5,7),16)/255;var max=Math.max(r,g,b),min=Math.min(r,g,b);var hh=0,s=0,l=(max+min)/2;if(max!==min){var d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);if(max===r)hh=((g-b)/d+(g<b?6:0))/6;else if(max===g)hh=((b-r)/d+2)/6;else hh=((r-g)/d+4)/6;}return [Math.round(hh*360),Math.round(s*100)];}
-    var lightest=theme.c.slice().sort(function(x,y){return relLum(y)-relLum(x);})[0];
-    var hs=hexToHS(lightest);
-    el.style.color='hsl('+hs[0]+','+hs[1]+'%,88%)';
-    var droneId=a.droneId||'theta-intuition';
-    var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
-    var carrier=(a.carrierHz!=null)?+a.carrierHz:spec.carrier;
-    var beat=(a.beatHz!=null)?+a.beatHz:spec.beat;
-    var bedId=a.ambientBed||'none';
-    var bedLabel='—'; for(var i=0;i<M_BEDS.length;i++){if(M_BEDS[i][0]===bedId){bedLabel=(bedId!=='none')?M_BEDS[i][1]:'—';break;}}
-    var tickle=(typeof a.brainTickleAmount==='number')?a.brainTickleAmount.toFixed(2):'0.00';
-    var slow=(typeof a.slowness==='number')?a.slowness.toFixed(2):'0.00';
-    var creditLine='Ology Beta v1.2 · Joselito Sering · AIMA Productions · '+_fsCreditDate;
-    var paramLine=theme.n+' — '+(spec.name||droneId)+' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz · '+(a.mode||spec.mode||'—')+' · '+bedLabel+' · t'+tickle+' m'+slow;
-    el.innerHTML='<div>'+creditLine+'</div><div>'+paramLine+'</div>';
-  };
-
-  window.openFsOutput = function(){
-    var o=document.getElementById('fsOutput');
-    if(!o) return;
-    o.classList.add('open');
-    window.resizeAll && setTimeout(window.resizeAll, 30);
-    /* try native fullscreen on the overlay for true immersive on Android */
-    try{
-      var req=o.requestFullscreen||o.webkitRequestFullscreen;
-      if(req) req.call(o).catch(function(){});
-    }catch(e){}
-    _tryLockOrientation();
-  };
-  window.closeFsOutput = function(){
-    var o=document.getElementById('fsOutput');
-    if(!o) return;
-    o.classList.remove('open');
-    try{
-      var ex=document.exitFullscreen||document.webkitExitFullscreen;
-      if(ex&&(document.fullscreenElement||document.webkitFullscreenElement)) ex.call(document).catch(function(){});
-    }catch(e){}
-    _unlockOrientation();
-  };
-
-  /* ── Bottom tab bar — switch control pane (controls always in flow) ── */
+  /* ── Tab strip / bottom bar — switch control pane ── */
   window.mobileTab = function(name, el){
     document.querySelectorAll('[data-pane]').forEach(function(p){
       p.hidden = (p.dataset.pane !== name);
     });
-    var titles={visuals:'Visuals',audio:'Audio',output:'Output',presets:'Presets',agent:'Agent — v2'};
+    var titles={visuals:'Visuals',audio:'Audio',output:'Output',presets:'Presets',agent:'Agent \u2014 v2'};
     var rpt=document.getElementById('rpTitle');
     if(rpt) rpt.textContent=titles[name]||name;
     /* mirror to desktop sidebar */
     document.querySelectorAll('.nav-item').forEach(function(n){
       n.classList.toggle('on',n.getAttribute('onclick')&&n.getAttribute('onclick').indexOf("'"+name+"'")!==-1);
     });
-    /* update bottom tab bar */
-    document.querySelectorAll('.tab-btn').forEach(function(b){
-      b.classList.remove('on');
-      b.setAttribute('aria-selected','false');
+    /* update tab strip + bottom bar active state */
+    document.querySelectorAll('.mts-btn,.tab-btn').forEach(function(b){
+      var match=b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+name+"'")!==-1;
+      b.classList.toggle('on',match);
+      b.setAttribute('aria-selected',match?'true':'false');
     });
-    el.classList.add('on');
-    el.setAttribute('aria-selected','true');
-    /* scroll control panel to top so the selected pane is visible */
-    var rp=document.querySelector('.right-panel');
-    if(rp) rp.scrollTop = 0;
-    var rpb=document.querySelector('.rp-body');
-    if(rpb) rpb.scrollTop = 0;
+    /* scroll control panel to top */
+    var rp=document.querySelector('.right-panel');if(rp) rp.scrollTop=0;
+    var rpb=document.querySelector('.rp-body');if(rpb) rpb.scrollTop=0;
   };
+     No second canvas, no native fullscreen API. The live render loop
+     keeps drawing #progCanvas the whole time, so nothing freezes.
+     ══════════════════════════════════════════════════════════════ */
+  var _fsCreditDate=(function(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}})();
 
-  /* ── Sync desktop sidebar → bottom tab bar ── */
-  /* Mirror desktop selectTab calls to bottom tab bar */
-  window.addEventListener('load',function(){
-    var _orig=window.selectTab;
-    if(!_orig) return;
-    window.selectTab=function(name,el){
-      _orig(name,el);
-      document.querySelectorAll('.tab-btn').forEach(function(b){
-        var match=b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+name+"'")!==-1;
-        b.classList.toggle('on',match);
-        b.setAttribute('aria-selected',match?'true':'false');
-      });
-    };
-  });
-
-  /* ── Fullscreen API + iOS Safari fallback ── */
-  var _fsActive = false;
-
-  function _canNativeFS(){
-    return !!(document.documentElement.requestFullscreen ||
-              document.documentElement.webkitRequestFullscreen);
-  }
-
-  function _enterNativeFS(){
-    var el = document.documentElement;
-    var req = el.requestFullscreen || el.webkitRequestFullscreen;
-    if(req) req.call(el).catch(function(){_enterFsFallback();});
-    _tryLockOrientation();
-  }
-
-  function _exitNativeFS(){
-    var ex = document.exitFullscreen || document.webkitExitFullscreen;
-    if(ex) ex.call(document).catch(function(){});
-    _unlockOrientation();
-  }
-
-  function _enterFsFallback(){
-    document.body.classList.add('fs-fallback');
-    _fsActive = true;
-    window.resizeAll && window.resizeAll();
-  }
-
-  window.exitFsFallback = function(){
-    document.body.classList.remove('fs-fallback');
-    _fsActive = false;
-    var btn = document.getElementById('fsBtn');
-    if(btn) btn.classList.remove('active');
-    window.resizeAll && setTimeout(window.resizeAll, 80);
+  window.openFsOutput = function(){
+    /* force PROGRAM view, then expand the viewer */
+    if(window.setViewer) window.setViewer('prog');
+    document.body.classList.add('viewer-fs');
+    window.resizeAll && setTimeout(window.resizeAll, 40);
   };
-
+  window.exitViewerFs = function(){
+    if(!document.body.classList.contains('viewer-fs')) return;
+    document.body.classList.remove('viewer-fs');
+    window.resizeAll && setTimeout(window.resizeAll, 40);
+  };
+  /* Back-compat alias (Output tab button calls openFsOutput) */
   window.toggleFullscreen = function(){
-    if(_fsActive){
-      if(_canNativeFS()) _exitNativeFS();
-      else exitFsFallback();
-      _fsActive = false;
-      var btn = document.getElementById('fsBtn');
-      if(btn){
-        btn.classList.remove('active');
-        btn.setAttribute('aria-label','Enter fullscreen');
-        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>';
-      }
-    } else {
-      _fsActive = true;
-      if(_canNativeFS()) _enterNativeFS();
-      else _enterFsFallback();
-      var btn = document.getElementById('fsBtn');
-      if(btn){
-        btn.classList.add('active');
-        btn.setAttribute('aria-label','Exit fullscreen');
-        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v4H3M17 7h-4V3M3 13h4v4M13 17v-4h4"/></svg>';
-      }
-    }
-    window.resizeAll && setTimeout(window.resizeAll, 80);
+    if(document.body.classList.contains('viewer-fs')) window.exitViewerFs();
+    else window.openFsOutput();
   };
 
-  /* Sync fsActive flag when user presses Escape or swipes out */
-  document.addEventListener('fullscreenchange', function(){
-    if(!document.fullscreenElement && !document.webkitFullscreenElement){
-      _fsActive = false;
-      document.body.classList.remove('fs-fallback');
-      var btn = document.getElementById('fsBtn');
-      if(btn){
-        btn.classList.remove('active');
-        btn.setAttribute('aria-label','Enter fullscreen');
-        btn.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg>';
-      }
-      _unlockOrientation();
-      window.resizeAll && setTimeout(window.resizeAll, 80);
-    }
-  });
-
-  /* Tap on canvas in fallback mode exits fullscreen */
-  document.addEventListener('click', function(e){
-    if(!document.body.classList.contains('fs-fallback')) return;
-    var cv = document.getElementById('progCanvas');
-    if(cv && cv.contains(e.target)) exitFsFallback();
-  });
-
-  /* ── Orientation lock (fullscreen output prefers landscape) ── */
-  var _orientPref = 'landscape';
-
-  function _tryLockOrientation(){
-    try{
-      if(screen.orientation && screen.orientation.lock)
-        screen.orientation.lock(_orientPref).catch(function(){});
-    }catch(e){}
-  }
-  function _unlockOrientation(){
-    try{
-      if(screen.orientation && screen.orientation.unlock)
-        screen.orientation.unlock();
-    }catch(e){}
-  }
+  /* M6 param overlay — show on the fsHint element while fullscreen + overlay on */
+  window._updateFsHint=function(){
+    var hint=document.getElementById('fsHint');
+    if(!hint) return;
+    var fs=document.body.classList.contains('viewer-fs');
+    if(!fs){ hint.classList.remove('with-params'); return; }
+    var on=(localStorage.getItem('ology_overlay')==='1');
+    if(!on){ hint.classList.remove('with-params'); return; }
+    /* build the param line (mirrors output.html format) */
+    var a=PROG.audio||{};
+    var th=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
+    var theme=THEMES[th];
+    var droneId=a.droneId||'theta-intuition';
+    var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
+    var carrier=(a.carrierHz!=null)?+a.carrierHz:spec.carrier;
+    var beat=(a.beatHz!=null)?+a.beatHz:spec.beat;
+    var bedId=a.ambientBed||'none',bedLabel='\u2014';
+    for(var i=0;i<M_BEDS.length;i++){if(M_BEDS[i][0]===bedId){bedLabel=(bedId!=='none')?M_BEDS[i][1]:'\u2014';break;}}
+    var tickle=(typeof a.brainTickleAmount==='number')?a.brainTickleAmount.toFixed(2):'0.00';
+    var slow=(typeof a.slowness==='number')?a.slowness.toFixed(2):'0.00';
+    var line=theme.n+' \u2014 '+(spec.name||droneId)+' \u00b7 '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz \u00b7 '+(a.mode||spec.mode||'\u2014')+' \u00b7 '+bedLabel;
+    hint.classList.add('with-params');
+    hint.innerHTML='<div style="opacity:.85">Ology Beta v1.2 \u00b7 AIMA Productions</div><div>'+line+'</div><div style="opacity:.5;margin-top:4px">Tap viewer to exit</div>';
+  };
 
   /* ── Init: PROGRAM viewer active by default; resize on load ── */
   window.addEventListener('load',function(){
