@@ -783,10 +783,14 @@ body.fs-fallback #fsBtnExit{
       </div>
       <div data-pane="output" hidden>
         <div class="section">
-          <div class="obs-only"><h4>OBS Output View — Program Only</h4>
+          <h4>Output Format</h4>
+          <div class="row" style="margin-bottom:6px"><label>Aspect ratio</label></div>
           <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
-          <div class="seg"><button data-res="720" onclick="setOut('res','720',this)">720p</button><button class="on" data-res="1080" onclick="setOut('res','1080',this)">1080p</button><button data-res="1440" onclick="setOut('res','1440',this)">1440p</button></div>
+          <div class="row" style="margin-bottom:6px;margin-top:10px"><label>Frame rate</label></div>
           <div class="seg"><button data-fps="24" onclick="setOut('fps','24',this)">24</button><button class="on" data-fps="30" onclick="setOut('fps','30',this)">30</button><button data-fps="60" onclick="setOut('fps','60',this)">60 fps</button></div>
+          <div class="obs-only">
+          <div class="row" style="margin-bottom:6px;margin-top:10px"><label>Resolution</label></div>
+          <div class="seg"><button data-res="720" onclick="setOut('res','720',this)">720p</button><button class="on" data-res="1080" onclick="setOut('res','1080',this)">1080p</button><button data-res="1440" onclick="setOut('res','1440',this)">1440p</button></div>
           <div class="row" style="margin-top:6px"><label>Output dimensions</label><span class="rval" id="outDims" style="color:var(--acc)">1920×1080</span></div>
           <p class="note" style="margin-bottom:8px">fps is metadata only — canvas renders at full rate; set the authoritative frame rate in OBS → Settings → Video.</p>
           <h4 style="margin-top:6px">Browser Source URL</h4>
@@ -795,8 +799,8 @@ body.fs-fallback #fsBtnExit{
           <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
           <p class="note" style="margin-top:7px">Opens a chromeless window sized to the exact output resolution. In OBS use <strong>Window Capture → Client Area</strong> to capture it with no borders.</p>
+          </div><!-- /obs-only -->
         </div>
-          </div></div><!-- /obs-only -->
         <!-- Mobile: fullscreen output controls (hidden on desktop) -->
         <div class="mobile-display section">
           <h4>Fullscreen Output</h4>
@@ -1711,9 +1715,9 @@ window.m9LoadPreset=function(presetId){
 renderPresets();
 
 /* ─── INIT ────────────────────────────────────────────────────────────── */
-document.getElementById('prevName').textContent=THEMES[PREV.th].n;
-document.getElementById('ph-prev-name').textContent=THEMES[PREV.th].n;
-document.getElementById('progName').textContent=THEMES[PROG.th].n;
+(function(){var e=document.getElementById('prevName');if(e)e.textContent=THEMES[PREV.th].n;})();
+(function(){var e=document.getElementById('ph-prev-name');if(e)e.textContent=THEMES[PREV.th].n;})();
+(function(){var e=document.getElementById('progName');if(e)e.textContent=THEMES[PROG.th].n;})();
 document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='visuals');
 
 })();
