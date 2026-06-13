@@ -1024,16 +1024,23 @@ function loop(now){
   if(playing){PREV.t+=dt;PROG.t+=dt;}
   _updateFps(now);
   const pc=document.getElementById('prevCanvas'),gc=document.getElementById('progCanvas');
-  fit(pc);fit(gc,dprCap);
+  /* In fullscreen, keep the canvas backing size modest and let CSS scale it up.
+     Resizing the backing buffer to full device pixels can lose the WebGL
+     context on mobile GPUs (freeze). Cap DPR low while fullscreen. */
+  var _fsActive=document.body.classList.contains('viewer-fs');
+  fit(pc);
+  fit(gc, _fsActive ? Math.min(dprCap,1) : dprCap);
   if(window.OlogyShaders&&window.OlogyShaders.isReady()){
     const progState=PROG;
     const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():NULL_ANALYSIS;
     /* Save frame to localStorage for output.html cross-tab sync */
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
-    if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
-    if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
+    try{
+      if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
+      if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
+    }catch(e){}
     /* M6 param overlay on the fullscreen viewer (mobile) */
-    if(window._updateFsHint) window._updateFsHint();
+    try{ if(window._updateFsHint) window._updateFsHint(); }catch(e){}
   }
   requestAnimationFrame(loop);
 }
