@@ -352,8 +352,6 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
   /* Hide redundant monitor header on tablet — toggle replaces it */
   .mon-hdr{display:none}
-  /* Viewer toggle pills */
-  #viewerToggle{display:flex;z-index:70}
 
   /* Right panel: static column, full height, scrolls */
   .right-panel{
@@ -417,7 +415,6 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   /* Hide redundant monitor header on phone — toggle replaces it */
   .mon-hdr{display:none}
   /* Viewer toggle pills — clearly on top of the canvas */
-  #viewerToggle{display:flex;z-index:70}
   .mon-screen{border-radius:0}
 
   /* Right panel: flows below viewer, scrolls, NOT a sheet */
@@ -509,26 +506,31 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 }
 
 /* ══════════════════════════════════════════════════════════════
-   VIEWER TOGGLE — PROG / PREVIEW pills (mobile + tablet)
+   VIEWER BAR — PROG/PREVIEW toggle + live status (mobile + tablet)
+   Sits ABOVE the canvas in normal flow.
    ══════════════════════════════════════════════════════════════ */
+#viewerBar{
+  display:none;            /* shown via breakpoints */
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:0 2px 8px;
+  flex-shrink:0;
+}
 #viewerToggle{
-  display:none;
-  position:absolute;
-  top:14px;left:14px;
-  z-index:60;
-  background:rgba(11,15,26,.7);
+  display:flex;
+  background:rgba(11,15,26,.6);
   border:1px solid var(--stroke);
   border-radius:99px;
   padding:3px;
   gap:2px;
-  box-shadow:0 2px 12px rgba(0,0,0,.5);
 }
 #viewerToggle button{
   border:none;background:none;
   color:var(--dim);
-  font-size:10px;font-weight:700;letter-spacing:.8px;
+  font-size:11px;font-weight:700;letter-spacing:.6px;
   text-transform:uppercase;
-  padding:6px 12px;border-radius:99px;
+  padding:7px 16px;border-radius:99px;
   cursor:pointer;transition:.15s;
   -webkit-tap-highlight-color:transparent;
 }
@@ -536,9 +538,27 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   background:linear-gradient(135deg,var(--iris),#3A6FA8);
   color:#fff;
 }
-/* Make the .center positioning context for the absolute buttons */
+#viewerStatus{
+  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:1px;font-weight:600;
+  color:var(--dim);text-transform:uppercase;
+  padding-right:4px;
+}
+#viewerStatus .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#ff6b6b;
+  box-shadow:0 0 6px rgba(255,107,107,.8);
+  animation:livePulse 1.6s ease-in-out infinite;
+}
+#viewerStatus.is-prev .dot{
+  background:#7aa2ff;
+  box-shadow:0 0 6px rgba(122,162,255,.8);
+  animation:none;
+}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.35}}
 @media(max-width:1023px){
-  .center{position:relative}
+  #viewerBar{display:flex}
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -681,10 +701,13 @@ body.fs-fallback #fsBtnExit{
   </div>
 
   <div class="center">
-    <!-- Viewer toggle (mobile/tablet): switch PROGRAM / PREVIEW -->
-    <div id="viewerToggle" role="group" aria-label="Switch viewer">
-      <button class="on" id="vtPgm" onclick="setViewer('prog')">Program</button>
-      <button id="vtPrev" onclick="setViewer('prev')">Preview</button>
+    <!-- Viewer bar (mobile/tablet): PROGRAM/PREVIEW toggle + live status -->
+    <div id="viewerBar">
+      <div id="viewerToggle" role="group" aria-label="Switch viewer">
+        <button class="on" id="vtPgm" onclick="setViewer('prog')">Program</button>
+        <button id="vtPrev" onclick="setViewer('prev')">Preview</button>
+      </div>
+      <div id="viewerStatus"><span class="dot"></span><span id="viewerStatusTxt">LIVE · Program</span></div>
     </div>
 
     <div class="monitors">
@@ -697,6 +720,7 @@ body.fs-fallback #fsBtnExit{
         <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
+
 
   </div>
   <!-- ── Mobile/Tablet tab strip — sits directly under the viewer ── -->
@@ -1853,6 +1877,11 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     if(prev) prev.classList.toggle('viewer-active', showPrev);
     if(bPgm){ bPgm.classList.toggle('on', !showPrev); }
     if(bPrev){ bPrev.classList.toggle('on', showPrev); }
+    /* update the live status label */
+    var st=document.getElementById('viewerStatus');
+    var stx=document.getElementById('viewerStatusTxt');
+    if(st) st.classList.toggle('is-prev', showPrev);
+    if(stx) stx.textContent = showPrev ? 'PREVIEW' : 'LIVE \u00b7 Program';
     /* the now-visible canvas needs a resize so it draws at correct size */
     window.resizeAll && setTimeout(window.resizeAll, 30);
   };
