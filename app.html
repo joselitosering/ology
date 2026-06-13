@@ -350,8 +350,10 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   .monitor.viewer-active{display:flex}
   .mon-screen{aspect-ratio:unset;height:100%;max-height:none}
 
-  /* Viewer toggle pills on tablet sit in the monitor header */
-  #viewerToggle{display:flex}
+  /* Hide redundant monitor header on tablet — toggle replaces it */
+  .mon-hdr{display:none}
+  /* Viewer toggle pills */
+  #viewerToggle{display:flex;z-index:70}
 
   /* Right panel: static column, full height, scrolls */
   .right-panel{
@@ -412,8 +414,11 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   .monitor.viewer-active{display:flex;flex-direction:column}
   .mon-screen{aspect-ratio:unset;height:100%;max-height:none;cursor:pointer}
 
-  /* Viewer toggle pills */
-  #viewerToggle{display:flex}
+  /* Hide redundant monitor header on phone — toggle replaces it */
+  .mon-hdr{display:none}
+  /* Viewer toggle pills — clearly on top of the canvas */
+  #viewerToggle{display:flex;z-index:70}
+  .mon-screen{border-radius:0}
 
   /* Right panel: flows below viewer, scrolls, NOT a sheet */
   .right-panel{
