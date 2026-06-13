@@ -1,7 +1,7 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Ology · Beta v1.2 — Free Version</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Outfit',system-ui,-apple-system,sans-serif}
-:root{--bg:#0B0F1A;--sb:#111827;--panel:rgba(17,24,39,.88);--ps:#1A2233;--stroke:rgba(123,167,212,.18);--s2:rgba(123,167,212,.28);--txt:#E8F0F8;--dim:#8FA8C0;--faint:#4a6a84;--acc:#7BA7D4;--acc2:#A8D8EA;--red:#E8896A;--grn:#6abfa0;--iris:#7BA7D4;--teal:#A8D8EA;--amber:#E8896A;--rose:#C084B0;--grad:linear-gradient(90deg,#5B8FBF,#A8D8EA,#E8896A,#C084B0);}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'SF Pro Display',system-ui,-apple-system,sans-serif}
+:root{--bg:#06070d;--sb:#0b0d15;--panel:rgba(14,16,26,.82);--ps:#0e1022;--stroke:rgba(255,255,255,.09);--s2:rgba(255,255,255,.16);--txt:#e8eaf2;--dim:#8a90a8;--faint:#4a5068;--acc:#a875ff;--acc2:#35dfd6;--red:#ff4e6a;--grn:#3ecc85;}
 html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .topbar{height:44px;display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--sb);border-bottom:1px solid var(--stroke);flex-shrink:0}
 .logo{width:28px;height:28px;flex-shrink:0;filter:drop-shadow(0 0 6px rgba(168,117,255,.7))}
@@ -9,7 +9,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .grow{flex:1}
 .modetog{display:flex;background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:99px;padding:3px}
 .modetog button{background:none;border:none;color:var(--dim);padding:6px 15px;border-radius:99px;cursor:pointer;font-size:11.5px;font-weight:600;transition:.18s}
-.modetog button.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;box-shadow:0 3px 12px rgba(108,63,255,.45)}
+.modetog button.on{background:linear-gradient(135deg,var(--acc),#6c3fff);color:#fff;box-shadow:0 3px 12px rgba(108,63,255,.45)}
 .play-btn{background:none;border:1px solid var(--s2);border-radius:8px;color:var(--txt);padding:6px 12px;cursor:pointer;font-size:12px}
 .play-btn.paused{color:var(--grn);border-color:rgba(62,204,133,.4)}
 #stageView{display:flex;height:calc(100vh - 44px);overflow:hidden}
@@ -46,7 +46,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .trans-row{display:flex;align-items:center;gap:10px}
 .tbtn{background:rgba(255,255,255,.05);border:1px solid var(--s2);color:var(--dim);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:.8px;transition:.16s}
 .tbtn:hover{background:rgba(255,255,255,.09);color:var(--txt)}
-.tbtn.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(108,63,255,.4)}
+.tbtn.on{background:linear-gradient(135deg,var(--acc),#6c3fff);color:#fff;border-color:transparent;box-shadow:0 3px 10px rgba(108,63,255,.4)}
 .dial-group{display:flex;flex-direction:column;align-items:center;gap:3px;margin-left:6px}
 .dial-svg{cursor:ns-resize;touch-action:none}
 .dial-label{font-size:8px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);text-align:center}
@@ -68,7 +68,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font-size:10.5px;padding:5px 10px;border-radius:99px;border:1px solid var(--s2);background:rgba(255,255,255,.03);color:var(--dim);cursor:pointer;transition:.15s}
 .chip:hover{border-color:var(--acc)}
-.chip.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;border-color:transparent}
+.chip.on{background:linear-gradient(135deg,var(--acc),#6c3fff);color:#fff;border-color:transparent}
 .seg{display:flex;background:rgba(255,255,255,.04);border:1px solid var(--stroke);border-radius:8px;overflow:hidden;margin-bottom:8px}
 .seg button{flex:1;background:none;border:none;color:var(--dim);padding:7px 4px;font-size:10.5px;cursor:pointer;transition:.15s}
 .seg button.on{background:rgba(168,117,255,.22);color:#fff}
@@ -76,7 +76,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 .tog.on{background:var(--grn)}
 .tog b{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s}
 .tog.on b{left:18px}
-.btn-p{background:linear-gradient(135deg,var(--acc),#3A6FA8);border:none;color:#fff;padding:9px 14px;border-radius:9px;font-size:11.5px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
+.btn-p{background:linear-gradient(135deg,var(--acc),#6c3fff);border:none;color:#fff;padding:9px 14px;border-radius:9px;font-size:11.5px;font-weight:600;cursor:pointer;width:100%;margin-bottom:6px}
 .btn-g{background:rgba(255,255,255,.06);border:1px solid var(--s2);color:var(--dim);box-shadow:none;border-radius:9px;padding:9px 14px;font-size:11.5px;cursor:pointer;width:100%;margin-bottom:6px}
 .note{font-size:10px;color:var(--faint);line-height:1.5}
 textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:9px;color:var(--txt);padding:9px;font-size:12px;resize:vertical;min-height:64px}
@@ -155,7 +155,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
 .tp-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.05);border:1px solid var(--s2);color:var(--txt);padding:10px 4px;border-radius:10px;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;transition:.15s}
 .tp-btn .e{font-size:16px;line-height:1}
 .tp-btn:hover{background:rgba(255,255,255,.09)}
-.tp-btn.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;border-color:transparent}
+.tp-btn.on{background:linear-gradient(135deg,var(--acc),#6c3fff);color:#fff;border-color:transparent}
 .tp-btn.stop.on{background:rgba(255,255,255,.12);color:var(--txt)}
 .track{background:rgba(255,255,255,.03);border:1px solid var(--stroke);border-radius:11px;padding:10px 11px;margin-bottom:9px;transition:.15s}
 .track.muted{opacity:.5}
@@ -181,7 +181,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
 .m7-ta{width:100%;background:rgba(0,0,0,.45);border:1px solid var(--stroke);border-radius:9px;color:var(--dim);padding:8px 9px;font-size:10px;font-family:monospace;resize:vertical;min-height:56px;max-height:120px;line-height:1.4}
 .m7-ta:focus{outline:none;border-color:var(--acc);color:var(--txt)}
 .m7-ta.step{display:none}.m7-ta.step.show{display:block}
-.m7-btn{background:linear-gradient(135deg,var(--acc),#3A6FA8);border:none;color:#fff;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;width:100%;margin-bottom:6px;letter-spacing:.4px;transition:.15s}
+.m7-btn{background:linear-gradient(135deg,var(--acc),#6c3fff);border:none;color:#fff;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;width:100%;margin-bottom:6px;letter-spacing:.4px;transition:.15s}
 .m7-btn:hover{opacity:.88}
 .m7-btn.secondary{background:rgba(255,255,255,.06);border:1px solid var(--s2);color:var(--dim)}
 .m7-btn.secondary:hover{color:var(--txt)}
@@ -202,10 +202,14 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
 #helpCloseBtn svg{width:12px;height:12px;pointer-events:none}
 </style>
 <div class="topbar">
-  <svg class="logo" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8D8EA"/><stop offset="50%" stop-color="#7BA7D4"/><stop offset="100%" stop-color="#C084B0"/></radialGradient></defs><circle cx="14" cy="14" r="2.8" fill="url(#lg1)"/><g opacity=".85"><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#7BA7D4" stroke-width="1.1"/><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#A8D8EA" stroke-width="1.1" transform="rotate(60 14 14)"/><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#C084B0" stroke-width="1.1" transform="rotate(120 14 14)"/></g><circle cx="25" cy="14" r="1.6" fill="#A8D8EA" opacity=".9"/><circle cx="25" cy="14" r="1.6" fill="#E8896A" opacity=".9" transform="rotate(60 14 14)"/><circle cx="25" cy="14" r="1.6" fill="#C084B0" opacity=".9" transform="rotate(120 14 14)"/></svg>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.2 · Free Version</div></div>
+  <svg class="logo" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="2.4" fill="var(--acc)"/><ellipse cx="14" cy="14" rx="12" ry="4" fill="none" stroke="var(--acc)" stroke-width="1.2" opacity=".9"/><circle cx="26" cy="14" r="1.5" fill="var(--acc2)"/><ellipse cx="14" cy="14" rx="12" ry="4" fill="none" stroke="var(--acc)" stroke-width="1.2" opacity=".9" transform="rotate(60 14 14)"/><circle cx="26" cy="14" r="1.5" fill="var(--acc2)" transform="rotate(60 14 14)"/><ellipse cx="14" cy="14" rx="12" ry="4" fill="none" stroke="var(--acc)" stroke-width="1.2" opacity=".9" transform="rotate(120 14 14)"/><circle cx="26" cy="14" r="1.5" fill="var(--acc2)" transform="rotate(120 14 14)"/></svg>
+  <div><div class="bn">Ology</div><div class="bs">Audio Visual Engine · Beta v1.1</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
+  <div class="modetog">
+    <button class="on" id="mStage" onclick="setMode('stage')">Stage · Desktop</button>
+    <button id="mMobile" onclick="setMode('mobile')">Controller · Mobile</button>
+  </div>
 </div>
 <div id="stageView">
   <div class="sidebar">
@@ -366,7 +370,118 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
     </div>
   </div>
 </div>
+<div id="mobileView">
+  <div class="m-app" id="mApp">
+    <div class="m-canvas-col" id="mCanvasCol">
+      <!-- M7: controller connection bar (replaces static status line) -->
+      <div class="m-conn m-conn-m7" id="m7MobileConn">
+        <div class="m7-conn-row">
+          <span class="dot" id="m7MobileDot"></span>
+          <span id="m7MobileStatus">Local control — same device</span>
+          <span style="margin-left:auto;color:var(--faint)" id="m7MobileRtt">M7 pairing pending</span>
+          <button class="mini-btn" id="m7JoinTogBtn" onclick="OlogyLink.toggleJoinPanel()" style="margin-left:6px;font-size:9px;padding:3px 8px">Join</button>
+        </div>
+        <div class="m7-join-body" id="m7JoinBody">
+          <div class="m7-status" id="m7CtrlStatus">Paste the stage's offer SDP below, then tap Generate Answer.</div>
+          <div class="m7-qr" id="m7CtrlQr"></div>
+          <!-- Step 1: paste stage offer -->
+          <textarea class="m7-ta step show" id="m7OfferIn" placeholder="Paste stage offer SDP here…" rows="3" style="margin-bottom:6px"></textarea>
+          <!-- Step 2: answer blob to send back to stage -->
+          <textarea class="m7-ta step" id="m7AnswerOut" readonly placeholder="Your answer SDP will appear here — copy and send back to stage…" rows="3" style="margin-bottom:6px"></textarea>
+          <button class="m7-btn" id="m7GenAnswerBtn" onclick="OlogyLink.joinSession()" style="margin-bottom:6px">🔗 Generate Answer</button>
+          <button class="m7-btn danger" id="m7CtrlDiscoBtn" onclick="OlogyLink.disconnect()" style="display:none;margin-bottom:6px">✕ Disconnect</button>
+        </div>
+      </div>
+      <div class="m-vtog">
+        <button class="m-vbtn on-pgm" id="pvPgm" onclick="setMobileView('pgm')">⬤ PGM · LIVE</button>
+        <button class="m-vbtn" id="pvPrev" onclick="setMobileView('prev')">◎ PREVIEW</button>
+      </div>
+      <div class="m-canvas-wrap">
+        <canvas id="mobileCanvas"></canvas>
+        <div class="m-badge pgm" id="mBadge">PGM LIVE</div>
+        <div class="m-theme-bar">
+          <button class="m-tarrow" onclick="cyclePrev(-1)">‹</button>
+          <div style="flex:1;text-align:center">
+            <div class="m-theme-sub">PREVIEW CUE</div>
+            <div class="m-theme-name" id="ph-prev-name">Psilocybin Dreams</div>
+          </div>
+          <button class="m-tarrow" onclick="cyclePrev(1)">›</button>
+        </div>
+      </div>
+    </div>
+    <div class="m-ctrl-col" id="mCtrlCol">
+      <div class="m-tabs">
+        <button class="m-tab on" id="mTabVis" onclick="mTab('vis',this)">VISUAL</button>
+        <button class="m-tab" id="mTabAud" onclick="mTab('aud',this)">AUDIO</button>
+      </div>
+      <div class="m-scroll">
+        <div class="m-pane on" id="mp-vis">
+          <div class="m-section">
+            <h5>Motion</h5>
+            <div class="m-row"><label>Intensity</label><input type="range" min="0" max="100" value="50" oninput="SP('intensity',this.value)"><span class="rv" id="rv_intensity_m">0.50</span></div>
+            <div class="m-row"><label>Speed</label><input type="range" min="0" max="100" value="50" oninput="SP('speed',this.value)"><span class="rv" id="rv_speed_m">1.0x</span></div>
+            <div class="m-row"><label>Chaos</label><input type="range" min="0" max="100" value="55" oninput="SP('chaos',this.value)"><span class="rv" id="rv_chaos_m">0.55</span></div>
+            <div class="m-row"><label>Rotation</label><input type="range" min="0" max="100" value="50" oninput="SP('rot',this.value)"><span class="rv" id="rv_rot_m">0.50</span></div>
+            <div class="m-row"><label>Zoom</label><input type="range" min="0" max="100" value="30" oninput="SP('zoom',this.value)"><span class="rv" id="rv_zoom_m">far</span></div>
+            <div class="m-row"><label>Segments</label><input type="range" min="2" max="24" value="8" oninput="SP('seg',this.value)"><span class="rv" id="rv_seg_m">8</span></div>
+            <div class="m-row"><label>Bloom</label><input type="range" min="0" max="100" value="25" oninput="SP('bloom',this.value)"><span class="rv" id="rv_bloom_m">0.25</span></div>
+            <div class="m-row"><label>Smooth</label><input type="range" min="0" max="100" value="82" oninput="SP('smooth',this.value)"><span class="rv" id="rv_smooth_m">0.82</span></div>
+          </div>
+          <div class="m-section">
+            <h5>Symmetry</h5>
+            <div class="m-seg"><button data-sym="0" onclick="setSym(0)">Radial</button><button data-sym="1" onclick="setSym(1)">Mirror</button><button data-sym="2" class="on" onclick="setSym(2)">Kaleidoscope</button></div>
+          </div>
+          <div class="m-section">
+            <button class="m-go" onclick="executeTransition()">GO</button>
+          </div>
+        </div>
+        <div class="m-pane" id="mp-aud">
+          <div class="m-section">
+            <h5>Transport</h5>
+            <div class="transport">
+              <button class="tp-btn stop on" data-tp="stop" onclick="setTransport('stop')"><span class="e">■</span>Stop</button>
+              <button class="tp-btn" data-tp="play" onclick="setTransport('play')"><span class="e">▶</span><span class="tp-play-lbl">Play</span></button>
+            </div>
+          </div>
+          <div class="m-section">
+            <h5>Drone Generator</h5>
+            <select class="m-select" id="mDrone" onchange="mAudio.drone(this.value)"></select>
+          </div>
+          <div class="m-section">
+            <h5>Tuning</h5>
+            <div class="m-row"><label>Carrier</label><input type="range" id="mCarrier" min="40" max="1000" step="0.1" value="136.1" oninput="mAudio.carrier(this.value)"><span class="rv" id="m_carrierRO">136</span></div>
+            <div class="m-row"><label>Beat</label><input type="range" id="mBeat" min="0" max="40" step="0.1" value="6" oninput="mAudio.beat(this.value)"><span class="rv" id="m_beatRO">6.0</span></div>
+          </div>
+          <div class="m-section">
+            <h5>Entrainment Mode</h5>
+            <div class="m-seg" id="mModeSeg">
+              <button class="on" data-mode="binaural" onclick="mAudio.mode('binaural',this)">Binaural</button>
+              <button data-mode="isochronic" onclick="mAudio.mode('isochronic',this)">Isochronic</button>
+              <button data-mode="monaural" onclick="mAudio.mode('monaural',this)">Monaural</button>
+            </div>
+          </div>
+          <div class="m-section">
+            <h5>Texture</h5>
+            <div class="m-row"><label>Brain-tickle</label><input type="range" id="mTickle" min="0" max="100" value="20" oninput="mAudio.tickle(this.value)"><span class="rv" id="m_tickleRO">0.20</span></div>
+            <div class="m-row"><label>Movement</label><input type="range" id="mSlow" min="0" max="100" value="60" oninput="mAudio.slow(this.value)"><span class="rv" id="m_slowRO">0.60</span></div>
+          </div>
+          <div class="m-section">
+            <h5>Ambient Bed</h5>
+            <select class="m-select" id="mBed" onchange="mAudio.bed(this.value)"></select>
+            <div class="m-row" style="margin-top:10px"><label>Blend</label><input type="range" id="mBlend" min="0" max="100" value="30" oninput="mAudio.blend(this.value)"><span class="rv" id="m_blendRO">0.30</span></div>
+          </div>
+          <div class="m-section">
+            <h5>Master</h5>
+            <div class="m-row"><label>Master</label><input type="range" id="mMaster" min="0" max="100" value="80" oninput="mAudio.master(this.value)"><span class="rv" id="m_masterRO">0.80</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- M7: QR code generation (display-only; paste-blob is primary signaling path) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="m1_shaders.js"></script>
 <script src="m2_audio.js"></script>
 <script>
@@ -392,7 +507,7 @@ const PREV={th:3,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25
 const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 /* M2 — contract-shaped AudioState (M0 v0.2.1 defaultAudioState); M2 mutates this by reference. */
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
-let playing=true;
+let playing=true,mobileShowPrev=false;
 let strobeGate=1;
 const dialRefs={};
 
@@ -422,6 +537,7 @@ function fit(c,dprOverride){
 function resizeAll(){
   fit(document.getElementById('prevCanvas'));
   fit(document.getElementById('progCanvas'),dprCap);
+  fit(document.getElementById('mobileCanvas'),dprCap);
 }
 window.addEventListener('resize',resizeAll);setTimeout(resizeAll,100);
 
@@ -575,15 +691,17 @@ function loop(now){
   if(window.OlogyAudio&&window.OlogyAudio.isReady()){window.OlogyAudio.updateAnalysis();}
   if(playing){PREV.t+=dt;PROG.t+=dt;}
   _updateFps(now);
-  const pc=document.getElementById('prevCanvas'),gc=document.getElementById('progCanvas');
-  fit(pc);fit(gc,dprCap);
+  const pc=document.getElementById('prevCanvas'),gc=document.getElementById('progCanvas'),mc=document.getElementById('mobileCanvas');
+  fit(pc);fit(gc,dprCap);fit(mc,dprCap);
   if(window.OlogyShaders&&window.OlogyShaders.isReady()){
     const progState=PROG;
+    const mobileState=mobileShowPrev?PREV:progState;
     const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():NULL_ANALYSIS;
     /* Save frame to localStorage for output.html cross-tab sync */
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
     if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
+    if(mc)window.OlogyShaders.draw(mc,toM1State(mobileState,PROG.audio),frame,mobileState.t,strobeGate);
   }
   requestAnimationFrame(loop);
 }
@@ -755,11 +873,26 @@ window.executeTransition=function(){
 /* dials removed — intensity is now a slider with inline oninput */
 
 /* ─── MOBILE / MODE / NAV ─────────────────────────────────────────────── */
+window.setMobileView=function(v){
+  mobileShowPrev=(v==='prev');
+  const pgmBtn=document.getElementById('pvPgm'),prevBtn=document.getElementById('pvPrev'),badge=document.getElementById('mBadge');
+  if(pgmBtn)pgmBtn.className='m-vbtn'+(v==='pgm'?' on-pgm':'');
+  if(prevBtn)prevBtn.className='m-vbtn'+(v==='prev'?' on-prev':'');
+  if(badge){badge.textContent=v==='prev'?'PREVIEW':'PGM LIVE';badge.className='m-badge '+(v==='prev'?'prv':'pgm');}
+};
+window.mTab=function(name,el){document.querySelectorAll('.m-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');document.querySelectorAll('.m-pane').forEach(p=>p.classList.toggle('on',p.id==='mp-'+name));};
 window.selectTab=function(name,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('on'));el.classList.add('on');
   document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!==name);
   const t={visuals:'Visuals',audio:'Audio',voice:'Voice',output:'Output',presets:'Presets',agent:'Agent — v2'};
   const e=document.getElementById('rpTitle');if(e)e.textContent=t[name]||name;
+};
+window.setMode=function(m){
+  document.getElementById('stageView').style.display=m==='stage'?'flex':'none';
+  document.getElementById('mobileView').style.display=m==='mobile'?'block':'none';
+  document.getElementById('mStage').classList.toggle('on',m==='stage');
+  document.getElementById('mMobile').classList.toggle('on',m==='mobile');
+  setTimeout(resizeAll,80);
 };
 window.togglePlay=function(){playing=!playing;const b=document.getElementById('playBtn');if(b){b.textContent=playing?'❚❚ Running':'▶ Paused';b.classList.toggle('paused',!playing);}};
 window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;document.getElementById('ph-prev-name').textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
@@ -833,6 +966,701 @@ window.toggleOverlay=function(on){
 refreshOut();
 
 
+/* ─── M7 · OlogyLink — Serverless WebRTC DataChannel Pairing ───────────────
+   Architecture: Path C (no server, no WebSocket, no npm)
+   Signaling: Manual QR/paste exchange of SDP blobs (non-trickle ICE)
+   Role: stage (host) or controller (joiner) — independent of setMode() layout
+   Wire format: M0 contracts.ts v0.2.2 ControlMessage union (§9)
+   Single-engine rule: controller suppresses OlogyAudio calls when paired.
+   Stage owns the only AudioContext + renderer.
+
+   DECISIONS (§3 of build prompt):
+   1. PREV semantics: controller drives stage PREV; GO sends {type:'program',state}
+      carrying committed PROG snapshot. Stage applies Object.assign(PROG, msg.state).
+   2. executeTransition over wire: {type:'program', state} — full committed ProgramState.
+      Stage does Object.assign(PROG,…) + name + saveProg(). No PREV sync needed.
+   3. Echo prevention: DataChannel is not triggered by saveProg()/localStorage.
+      Stage does not re-broadcast received messages. No loop possible.
+   4. Role: "Host Session" → stage. "Generate Answer" → controller.
+   5. Signaling: paste-blob primary. QR displayed for human convenience only.
+──────────────────────────────────────────────────────────────────────────── */
+window.OlogyLink=(function(){
+  'use strict';
+
+  /* ── Internal state ──────────────────────────────────────────────────── */
+  var _pc=null;          /* RTCPeerConnection */
+  var _dc=null;          /* RTCDataChannel */
+  var _role=null;        /* 'stage' | 'controller' | null */
+  var _connected=false;
+  var _pingTimer=null;
+  var _pingInterval=4000; /* ms between pings */
+  var _rtt=null;
+
+  var STUN_SERVERS={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]};
+
+  /* ── DOM helpers ─────────────────────────────────────────────────────── */
+  function $id(id){return document.getElementById(id);}
+  function setStatus(elId,html,cls){
+    var el=$id(elId);if(!el)return;
+    el.innerHTML=html;
+    el.className='m7-status'+(cls?' '+cls:'');
+  }
+  function showEl(id,show){var el=$id(id);if(el)el.style.display=show?'':'none';}
+
+  /* ── QR rendering (optional display convenience) ─────────────────────── */
+  function renderQR(containerId, text){
+    var el=$id(containerId);
+    if(!el)return;
+    el.innerHTML=''; /* clear previous */
+    el.classList.add('show');
+    try{
+      if(window.QRCode){
+        new window.QRCode(el,{text:text,width:160,height:160,colorDark:'#e8eaf2',colorLight:'#06070d',correctLevel:window.QRCode.CorrectLevel.M});
+      }
+    }catch(e){/* QRCode not loaded yet — silently skip */}
+  }
+  function clearQR(containerId){
+    var el=$id(containerId);
+    if(!el)return;
+    el.innerHTML='';
+    el.classList.remove('show');
+  }
+
+  /* ── ICE gathering — non-trickle: wait for complete then return SDP blob ─ */
+  function waitForIce(pc){
+    return new Promise(function(resolve){
+      if(pc.iceGatheringState==='complete'){resolve(pc.localDescription.sdp);return;}
+      function check(){
+        if(pc.iceGatheringState==='complete'){
+          pc.removeEventListener('icegatheringstatechange',check);
+          resolve(pc.localDescription.sdp);
+        }
+      }
+      pc.addEventListener('icegatheringstatechange',check);
+      /* Fallback: also listen for null candidate (sentinel per spec) */
+      pc.addEventListener('icecandidate',function(ev){
+        if(ev.candidate===null){
+          pc.removeEventListener('icegatheringstatechange',check);
+          pc.removeEventListener('icecandidate',arguments.callee);
+          resolve(pc.localDescription.sdp);
+        }
+      });
+    });
+  }
+
+  /* ── Build & pack SDP blob ────────────────────────────────────────────── */
+  function packSDP(sdp){
+    /* Base64-encode for safe paste/QR across platforms */
+    try{return btoa(unescape(encodeURIComponent(sdp)));}catch(e){return btoa(sdp);}
+  }
+  function unpackSDP(blob){
+    blob=blob.trim();
+    try{return decodeURIComponent(escape(atob(blob)));}catch(e){
+      try{return atob(blob);}catch(e2){return blob;} /* last resort: raw */
+    }
+  }
+
+  /* ── DataChannel wire protocol (M0 §9 ControlMessage) ───────────────── */
+  function sendMsg(msg){
+    if(!_dc||_dc.readyState!=='open')return false;
+    try{_dc.send(JSON.stringify(msg));return true;}catch(e){return false;}
+  }
+
+  /* ── Stage: apply received ControlMessage ────────────────────────────── */
+  function applyOnStage(msg){
+    /* All handlers already exist as globals; call them directly.
+       saveProg() inside each handler writes ology_prog (output.html path) — no loop risk. */
+    try{
+      switch(msg.type){
+        case 'hello':
+          sendMsg({type:'welcome',room:msg.room||'ology'});
+          break;
+        case 'set-theme':
+          /* msg.themeId is the string id; find index */
+          var ti=-1;
+          for(var i=0;i<window._THEMES_LEN;i++){
+            if(window._THEME_ID_AT(i)===msg.themeId){ti=i;break;}
+          }
+          if(ti>=0){
+            window.PREV_GLOBAL.th=ti;
+            var nm=window._THEME_NAME_AT(ti);
+            var pn=$id('prevName'),ppn=$id('ph-prev-name');
+            if(pn)pn.textContent=nm;
+            if(ppn)ppn.textContent=nm;
+            /* sync desktop theme chip */
+            var cw=$id('themeChips');if(cw)cw.value=ti;
+          }
+          break;
+        case 'set-visual':
+          if(msg.patch&&typeof msg.patch==='object'){
+            Object.keys(msg.patch).forEach(function(k){
+              window.SP(k, typeof msg.patch[k]==='number'?msg.patch[k]*100:msg.patch[k]);
+            });
+          }
+          break;
+        case 'set-audio':
+          if(msg.patch&&window.OlogyAudio){
+            var p=msg.patch;
+            if(p.carrierHz!=null)window.OlogyAudio.setCarrier(p.carrierHz);
+            if(p.beatHz!=null)window.OlogyAudio.setBeat(p.beatHz);
+            if(p.mode!=null)window.OlogyAudio.setMode(p.mode);
+            if(p.brainTickleAmount!=null)window.OlogyAudio.setTickle(p.brainTickleAmount);
+            if(p.slowness!=null)window.OlogyAudio.setSlowness(p.slowness);
+            if(p.ambientBed!=null)window.OlogyAudio.setBed(p.ambientBed);
+            if(p.ambientBlend!=null)window.OlogyAudio.setBedBlend(p.ambientBlend);
+            if(p.masterLevel!=null){
+              window.PROG_GLOBAL.audio.masterLevel=p.masterLevel;
+              window.OlogyAudio.setMaster(p.masterLevel);
+            }
+          }
+          break;
+        case 'set-drone':
+          if(msg.droneId&&window.uiDrone)window.uiDrone(msg.droneId);
+          break;
+        case 'transport':
+          if(typeof msg.play==='boolean')window.setTransport(msg.play?'play':'stop');
+          break;
+        case 'program':
+          /* GO commit: apply PREV-committed state to PROG */
+          if(msg.state&&typeof msg.state==='object'){
+            /* Preserve PROG.t (animation clock) and PROG.audio */
+            var keepT=window.PROG_GLOBAL.t;
+            var keepAudio=window.PROG_GLOBAL.audio;
+            Object.assign(window.PROG_GLOBAL, msg.state);
+            window.PROG_GLOBAL.t=keepT;
+            window.PROG_GLOBAL.audio=keepAudio;
+            /* Update name readout */
+            var pnn=$id('progName');
+            if(pnn&&window._THEME_NAME_AT)pnn.textContent=window._THEME_NAME_AT(window.PROG_GLOBAL.th);
+            if(window.saveProg_global)window.saveProg_global();
+          }
+          break;
+        case 'ping':
+          sendMsg({type:'pong',t:msg.t});
+          break;
+        case 'load-preset':
+          /* M9: resolve presetId and apply via full PROGRAM commit path */
+          if(msg.presetId&&window.m9LoadPreset){
+            window.m9LoadPreset(msg.presetId);
+          }else{
+            console.warn('[M7] load-preset: m9LoadPreset not ready or missing presetId',msg.presetId);
+          }
+          break;
+        default:
+          console.warn('[M7] Unknown ControlMessage type:',msg.type);
+      }
+    }catch(e){console.error('[M7] applyOnStage error:',e,msg);}
+  }
+
+  /* ── Controller: handle pong (RTT) ────────────────────────────────────── */
+  function handlePong(msg){
+    _rtt=Math.round(performance.now()-msg.t);
+    var el=$id('m7MobileRtt');
+    if(el)el.textContent='Connected · '+_rtt+'ms';
+  }
+
+  /* ── Channel open / message / close handlers ─────────────────────────── */
+  function onChannelOpen(){
+    _connected=true;
+    if(_role==='controller'){
+      sendMsg({type:'hello',room:'ology',role:'controller'});
+      _updateMobileConnUI(true);
+      _startPing();
+    }else{
+      /* stage: channel open — wait for hello */
+      setStatus('m7StageStatus','<span class="ok">✓ Peer connected — waiting for hello…</span>');
+    }
+  }
+
+  function onChannelMessage(ev){
+    var msg;
+    try{msg=JSON.parse(ev.data);}catch(e){console.warn('[M7] bad JSON',ev.data);return;}
+    if(_role==='stage'){
+      if(msg.type==='pong'){handlePong(msg);return;}
+      applyOnStage(msg);
+      /* Update stage UI on welcome/hello */
+      if(msg.type==='hello'||msg.type==='welcome'){
+        setStatus('m7StageStatus','<span class="ok">✓ Controller connected</span>');
+        showEl('m7StageDiscoBtn',true);
+        showEl('m7HostBtn',false);
+        showEl('m7AcceptBtn',false);
+      }
+    }else if(_role==='controller'){
+      if(msg.type==='pong'){handlePong(msg);return;}
+      if(msg.type==='welcome'){
+        setStatus('m7CtrlStatus','<span class="ok">✓ Connected to stage</span>');
+        _updateMobileConnUI(true);
+      }
+    }
+  }
+
+  function onChannelClose(){
+    _connected=false;
+    _stopPing();
+    _rtt=null;
+    if(_role==='controller'){
+      _updateMobileConnUI(false);
+      setStatus('m7CtrlStatus','<span class="err">Disconnected — paste a new offer to reconnect.</span>');
+      showEl('m7GenAnswerBtn',true);
+      showEl('m7CtrlDiscoBtn',false);
+    }else if(_role==='stage'){
+      setStatus('m7StageStatus','<span class="err">Controller disconnected. Click Host Session to re-pair.</span>');
+      showEl('m7HostBtn',true);
+      showEl('m7AcceptBtn',false);
+      showEl('m7StageDiscoBtn',false);
+    }
+    _role=null;
+    _pc=null;_dc=null;
+  }
+
+  /* ── RTT ping/pong ────────────────────────────────────────────────────── */
+  function _startPing(){
+    _stopPing();
+    _pingTimer=setInterval(function(){
+      if(_dc&&_dc.readyState==='open'){
+        sendMsg({type:'ping',t:performance.now()});
+      }
+    },_pingInterval);
+  }
+  function _stopPing(){
+    if(_pingTimer){clearInterval(_pingTimer);_pingTimer=null;}
+  }
+
+  /* ── Connection state change ──────────────────────────────────────────── */
+  function _onConnStateChange(){
+    if(!_pc)return;
+    var s=_pc.connectionState||_pc.iceConnectionState;
+    if(s==='failed'||s==='disconnected'||s==='closed'){
+      console.log('[M7] Connection',s,'— cleaning up');
+      onChannelClose();
+    }
+  }
+
+  /* ── Teardown ─────────────────────────────────────────────────────────── */
+  function _teardown(){
+    _stopPing();
+    if(_dc){try{_dc.close();}catch(e){}}
+    if(_pc){try{_pc.close();}catch(e){}}
+    _dc=null;_pc=null;_connected=false;
+  }
+
+  /* ── Mobile conn UI update ────────────────────────────────────────────── */
+  function _updateMobileConnUI(connected){
+    var dot=$id('m7MobileDot');
+    var status=$id('m7MobileStatus');
+    var rtt=$id('m7MobileRtt');
+    var joinBtn=$id('m7JoinTogBtn');
+    var joinBody=$id('m7JoinBody');
+    var discoBtn=$id('m7CtrlDiscoBtn');
+    var genBtn=$id('m7GenAnswerBtn');
+    if(dot){dot.style.background=connected?'var(--grn)':'var(--acc)';dot.style.boxShadow=connected?'0 0 8px var(--grn)':'0 0 8px var(--acc)';}
+    if(status)status.textContent=connected?'Connected · Controller':'Local control — same device';
+    if(rtt&&!connected)rtt.textContent='M7 pairing pending';
+    if(joinBtn)joinBtn.textContent=connected?'Disco':'Join';
+    if(connected){
+      if(joinBody)joinBody.classList.remove('open');
+      if(discoBtn)discoBtn.style.display='';
+      if(genBtn)genBtn.style.display='none';
+    }else{
+      if(discoBtn)discoBtn.style.display='none';
+      if(genBtn)genBtn.style.display='';
+    }
+  }
+
+  /* ────────────────────────────────────────────────────────────────────────
+     PUBLIC API
+  ──────────────────────────────────────────────────────────────────────── */
+
+  /* Stage: create offer, display as blob + QR */
+  function hostSession(){
+    if(!window.RTCPeerConnection){
+      setStatus('m7StageStatus','<span class="err">WebRTC not supported in this browser.</span>');
+      return;
+    }
+    _teardown();
+    _role='stage';
+    setStatus('m7StageStatus','<span class="pend">⌛ Creating offer — gathering ICE…</span>');
+    clearQR('m7StageQr');
+
+    try{
+      _pc=new RTCPeerConnection({iceServers:STUN_SERVERS.iceServers,iceCandidatePoolSize:4});
+      _dc=_pc.createDataChannel('ology-ctrl',{ordered:true});
+      _dc.onopen=onChannelOpen;
+      _dc.onmessage=onChannelMessage;
+      _dc.onclose=onChannelClose;
+      _pc.onconnectionstatechange=_onConnStateChange;
+      _pc.oniceconnectionstatechange=_onConnStateChange;
+
+      _pc.createOffer().then(function(offer){
+        return _pc.setLocalDescription(offer);
+      }).then(function(){
+        return waitForIce(_pc);
+      }).then(function(sdp){
+        var blob=packSDP(sdp);
+        var offerOut=$id('m7OfferOut');
+        if(offerOut){offerOut.value=blob;offerOut.parentNode.querySelector('.step.show')||offerOut.classList.add('show');}
+        var answerIn=$id('m7AnswerIn');
+        if(answerIn)answerIn.classList.add('show');
+        renderQR('m7StageQr',blob);
+        setStatus('m7StageStatus','<span class="pend">Share the offer above. Paste controller\'s answer below, then click Accept Answer.</span>');
+        showEl('m7AcceptBtn',true);
+        showEl('m7HostBtn',false);
+      }).catch(function(err){
+        setStatus('m7StageStatus','<span class="err">Offer failed: '+err.message+'</span>');
+        console.error('[M7] hostSession error:',err);
+        _teardown(); _role=null;
+      });
+    }catch(err){
+      setStatus('m7StageStatus','<span class="err">Failed: '+err.message+'</span>');
+      _teardown(); _role=null;
+    }
+  }
+
+  /* Stage: read pasted answer, complete connection */
+  function acceptAnswer(){
+    var answerIn=$id('m7AnswerIn');
+    if(!answerIn||!answerIn.value.trim()){
+      setStatus('m7StageStatus','<span class="err">Paste the controller\'s answer SDP first.</span>');
+      return;
+    }
+    if(!_pc){
+      setStatus('m7StageStatus','<span class="err">No active offer. Click Host Session first.</span>');
+      return;
+    }
+    var sdp=unpackSDP(answerIn.value);
+    setStatus('m7StageStatus','<span class="pend">⌛ Accepting answer…</span>');
+    _pc.setRemoteDescription({type:'answer',sdp:sdp}).then(function(){
+      setStatus('m7StageStatus','<span class="pend">⌛ Connecting…</span>');
+      showEl('m7AcceptBtn',false);
+    }).catch(function(err){
+      setStatus('m7StageStatus','<span class="err">Answer failed: '+err.message+'</span>');
+      console.error('[M7] acceptAnswer error:',err);
+    });
+  }
+
+  /* Controller: read pasted offer, generate answer, display for paste back */
+  function joinSession(){
+    if(!window.RTCPeerConnection){
+      setStatus('m7CtrlStatus','<span class="err">WebRTC not supported.</span>');
+      return;
+    }
+    var offerIn=$id('m7OfferIn');
+    if(!offerIn||!offerIn.value.trim()){
+      setStatus('m7CtrlStatus','<span class="err">Paste the stage offer SDP first.</span>');
+      return;
+    }
+    _teardown();
+    _role='controller';
+    clearQR('m7CtrlQr');
+    setStatus('m7CtrlStatus','<span class="pend">⌛ Generating answer — gathering ICE…</span>');
+
+    var sdp=unpackSDP(offerIn.value);
+    try{
+      _pc=new RTCPeerConnection({iceServers:STUN_SERVERS.iceServers,iceCandidatePoolSize:4});
+      /* IMPORTANT: set ondatachannel BEFORE setRemoteDescription (iOS Safari quirk) */
+      _pc.ondatachannel=function(ev){
+        _dc=ev.channel;
+        _dc.onopen=onChannelOpen;
+        _dc.onmessage=onChannelMessage;
+        _dc.onclose=onChannelClose;
+      };
+      _pc.onconnectionstatechange=_onConnStateChange;
+      _pc.oniceconnectionstatechange=_onConnStateChange;
+
+      _pc.setRemoteDescription({type:'offer',sdp:sdp}).then(function(){
+        return _pc.createAnswer();
+      }).then(function(answer){
+        return _pc.setLocalDescription(answer);
+      }).then(function(){
+        return waitForIce(_pc);
+      }).then(function(sdp){
+        var blob=packSDP(sdp);
+        var answerOut=$id('m7AnswerOut');
+        if(answerOut){answerOut.value=blob;answerOut.classList.add('show');}
+        renderQR('m7CtrlQr',blob);
+        setStatus('m7CtrlStatus','<span class="pend">Copy the answer above and paste it into the stage. Waiting for connection…</span>');
+        showEl('m7GenAnswerBtn',false);
+      }).catch(function(err){
+        setStatus('m7CtrlStatus','<span class="err">Answer generation failed: '+err.message+'</span>');
+        console.error('[M7] joinSession error:',err);
+        _teardown(); _role=null;
+      });
+    }catch(err){
+      setStatus('m7CtrlStatus','<span class="err">Failed: '+err.message+'</span>');
+      _teardown(); _role=null;
+    }
+  }
+
+  /* Toggle controller join panel visibility */
+  function toggleJoinPanel(){
+    if(_connected){disconnect();return;}
+    var body=$id('m7JoinBody');
+    if(body)body.classList.toggle('open');
+  }
+
+  /* Graceful disconnect */
+  function disconnect(){
+    _teardown();
+    _role=null;
+    _rtt=null;
+    _updateMobileConnUI(false);
+    setStatus('m7StageStatus','Not hosting. Click below to generate a pairing offer.');
+    setStatus('m7CtrlStatus','Paste the stage\'s offer SDP below, then tap Generate Answer.');
+    showEl('m7HostBtn',true);
+    showEl('m7AcceptBtn',false);
+    showEl('m7StageDiscoBtn',false);
+    /* Clear blobs */
+    var oo=$id('m7OfferOut'),ai=$id('m7AnswerIn'),aout=$id('m7AnswerOut'),oi=$id('m7OfferIn');
+    if(oo){oo.value='';oo.classList.remove('show');}
+    if(ai){ai.value='';ai.classList.remove('show');}
+    if(aout){aout.value='';aout.classList.remove('show');}
+    /* leave offer-in as-is for convenience */
+    clearQR('m7StageQr');clearQR('m7CtrlQr');
+  }
+
+  /* ── Wrapped public event senders (called by existing mobile UI handlers) ─
+     Each wrapper: if paired as controller → send ControlMessage instead of (or
+     in addition to) local engine call. When unpaired → pure local (noop wrapper).
+     CRITICAL single-engine rule: audio engine calls are SUPPRESSED on controller.
+  ──────────────────────────────────────────────────────────────────────── */
+
+  /* Intercept: cyclePrev — resolve PREV.th index to ThemeId string */
+  function interceptCyclePrev(d){
+    if(_connected && _role==='controller'){
+      /* Local UI already mutated PREV.th in the original cyclePrev() call before this runs.
+         We send the resulting themeId after the fact. */
+      var thIdx=window.PREV_GLOBAL?window.PREV_GLOBAL.th:0;
+      var thId=window._THEME_ID_AT?window._THEME_ID_AT(thIdx):'';
+      sendMsg({type:'set-theme',themeId:thId});
+    }
+  }
+
+  /* Intercept: SP — send set-visual patch */
+  function interceptSP(k,rawVal){
+    if(_connected && _role==='controller'){
+      var patch={};
+      var v=+rawVal;
+      /* Convert slider 0-100 back to 0-1 float for patch (matches how stage stores them) */
+      var norm=v/100;
+      if(k==='seg')norm=Math.round(v); /* seg is integer, not 0-1 */
+      patch[k]=norm;
+      sendMsg({type:'set-visual',patch:patch});
+    }
+  }
+
+  /* Intercept: setSym */
+  function interceptSetSym(mode){
+    if(_connected && _role==='controller'){
+      sendMsg({type:'set-visual',patch:{sym:mode}});
+    }
+  }
+
+  /* Intercept: executeTransition (GO) — send committed PROG state */
+  function interceptGO(){
+    if(_connected && _role==='controller'){
+      /* PREV→PROG was just committed by executeTransition() locally.
+         Snapshot PROG (sans audio, since stage owns audio) for the wire. */
+      var pg=window.PROG_GLOBAL;
+      var snap={th:pg.th,speed:pg.speed,chaos:pg.chaos,zoom:pg.zoom,
+                seg:pg.seg,int:pg.int,intensity:pg.intensity,bloom:pg.bloom,
+                smooth:pg.smooth,rot:pg.rot,sym:pg.sym};
+      sendMsg({type:'program',state:snap});
+    }
+  }
+
+  /* Intercept: setTransport */
+  function interceptTransport(s){
+    if(_connected && _role==='controller'){
+      sendMsg({type:'transport',play:s==='play'});
+    }
+  }
+
+  /* Intercept: mAudio.drone */
+  function interceptDrone(id){
+    if(_connected && _role==='controller'){
+      sendMsg({type:'set-drone',droneId:id});
+    }
+  }
+
+  /* Intercept: mAudio.* audio params → set-audio patch */
+  function interceptAudio(patch){
+    if(_connected && _role==='controller'){
+      sendMsg({type:'set-audio',patch:patch});
+    }
+  }
+
+  /* ── Public interface ────────────────────────────────────────────────── */
+  return {
+    hostSession:hostSession,
+    acceptAnswer:acceptAnswer,
+    joinSession:joinSession,
+    toggleJoinPanel:toggleJoinPanel,
+    disconnect:disconnect,
+    /* Interceptors — called by patched globals below */
+    interceptCyclePrev:interceptCyclePrev,
+    interceptSP:interceptSP,
+    interceptSetSym:interceptSetSym,
+    interceptGO:interceptGO,
+    interceptTransport:interceptTransport,
+    interceptDrone:interceptDrone,
+    interceptAudio:interceptAudio,
+    isConnected:function(){return _connected;},
+    getRole:function(){return _role;}
+  };
+})();
+
+/* ── M7 globals bridge: expose PREV/PROG + helpers for OlogyLink.applyOnStage ─
+   These are inside the main IIFE; we surface them at window scope so OlogyLink
+   (a separate IIFE) can access them. saveProg is also surfaced for program commit. */
+window.PREV_GLOBAL=PREV;
+window.PROG_GLOBAL=PROG;
+window._THEMES_LEN=THEMES.length;
+window._THEME_ID_AT=function(i){return THEMES[i]?THEMES[i].id:null;};
+window._THEME_NAME_AT=function(i){return THEMES[i]?THEMES[i].n:'';};
+window.saveProg_global=function(){saveProg();};
+
+/* ── M7 control patches: wrap existing globals to call interceptors ──────────
+   Each wrapper calls the original function first (local semantics unchanged),
+   then notifies OlogyLink. Audio calls are suppressed on the controller side
+   inside OlogyLink itself by NOT calling the local OlogyAudio from the wrapped
+   mobile handlers — instead the local mAudio.* are patched to skip OlogyAudio
+   when role==='controller' && connected.
+   NOTE: Desktop handlers (uiDrone, uiCarrier, etc.) are NOT patched — the
+   controller phone's mobile pane uses mAudio.*, which are patched below. */
+(function(){
+  /* Patch cyclePrev */
+  var _origCyclePrev=window.cyclePrev;
+  window.cyclePrev=function(d){
+    _origCyclePrev(d);
+    window.OlogyLink.interceptCyclePrev(d);
+  };
+
+  /* Patch SP */
+  var _origSP=window.SP;
+  window.SP=function(k,v){
+    _origSP(k,v);
+    window.OlogyLink.interceptSP(k,v);
+  };
+
+  /* Patch setSym */
+  var _origSetSym=window.setSym;
+  window.setSym=function(mode){
+    _origSetSym(mode);
+    window.OlogyLink.interceptSetSym(mode);
+  };
+
+  /* Patch executeTransition (GO) */
+  var _origGO=window.executeTransition;
+  window.executeTransition=function(){
+    _origGO();
+    window.OlogyLink.interceptGO();
+  };
+
+  /* Patch setTransport */
+  var _origSetTransport=window.setTransport;
+  window.setTransport=function(s){
+    /* On controller: suppress local OlogyAudio but update UI */
+    if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+      /* Only send over wire; skip local audio start/stop to honour single-engine rule */
+      window.OlogyLink.interceptTransport(s);
+      /* Still update transport button UI for feedback */
+      var pl=(s==='play');
+      document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.toggle('on',pl);});
+      document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.toggle('on',!pl);});
+      return;
+    }
+    _origSetTransport(s);
+    window.OlogyLink.interceptTransport(s);
+  };
+
+  /* Patch mAudio — suppress OlogyAudio calls on controller, send over wire */
+  var _origMAudio=window.mAudio;
+  window.mAudio={
+    drone:function(id){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        /* UI-only update: readouts, mode seg — no OlogyAudio call */
+        var sp=window.mSpecOf&&window.mSpecOf[id];
+        if(sp){
+          var c=document.getElementById('mCarrier'),b=document.getElementById('mBeat');
+          if(c)c.value=sp.carrier; if(b)b.value=sp.beat;
+          var cRO=document.getElementById('m_carrierRO'),bRO=document.getElementById('m_beatRO');
+          if(cRO)cRO.textContent=Math.round(sp.carrier); if(bRO)bRO.textContent=sp.beat.toFixed(1);
+          /* mode seg update */
+          var seg=document.getElementById('mModeSeg');
+          if(seg)[].forEach.call(seg.children,function(b){b.classList.toggle('on',b.getAttribute('data-mode')===sp.mode);});
+        }
+        window.OlogyLink.interceptDrone(id);
+        return;
+      }
+      _origMAudio.drone.call(_origMAudio,id);
+      window.OlogyLink.interceptDrone(id);
+    },
+    carrier:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_carrierRO');if(e)e.textContent=Math.round(v);
+        window.OlogyLink.interceptAudio({carrierHz:parseFloat(v)});return;
+      }
+      _origMAudio.carrier.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({carrierHz:parseFloat(v)});
+    },
+    beat:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_beatRO');if(e)e.textContent=parseFloat(v).toFixed(1);
+        window.OlogyLink.interceptAudio({beatHz:parseFloat(v)});return;
+      }
+      _origMAudio.beat.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({beatHz:parseFloat(v)});
+    },
+    mode:function(m,el){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var seg=document.getElementById('mModeSeg');
+        if(seg)[].forEach.call(seg.children,function(b){b.classList.toggle('on',b.getAttribute('data-mode')===m);});
+        window.OlogyLink.interceptAudio({mode:m});return;
+      }
+      _origMAudio.mode.call(_origMAudio,m,el);
+      window.OlogyLink.interceptAudio({mode:m});
+    },
+    tickle:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_tickleRO');if(e)e.textContent=(v/100).toFixed(2);
+        window.OlogyLink.interceptAudio({brainTickleAmount:v/100});return;
+      }
+      _origMAudio.tickle.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({brainTickleAmount:v/100});
+    },
+    slow:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_slowRO');if(e)e.textContent=(v/100).toFixed(2);
+        window.OlogyLink.interceptAudio({slowness:v/100});return;
+      }
+      _origMAudio.slow.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({slowness:v/100});
+    },
+    bed:function(id){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        window.OlogyLink.interceptAudio({ambientBed:id});return;
+      }
+      _origMAudio.bed.call(_origMAudio,id);
+      window.OlogyLink.interceptAudio({ambientBed:id});
+    },
+    blend:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_blendRO');if(e)e.textContent=(v/100).toFixed(2);
+        window.OlogyLink.interceptAudio({ambientBlend:v/100});return;
+      }
+      _origMAudio.blend.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({ambientBlend:v/100});
+    },
+    master:function(v){
+      if(window.OlogyLink.isConnected()&&window.OlogyLink.getRole()==='controller'){
+        var e=document.getElementById('m_masterRO');if(e)e.textContent=(v/100).toFixed(2);
+        window.OlogyLink.interceptAudio({masterLevel:v/100});return;
+      }
+      _origMAudio.master.call(_origMAudio,v);
+      window.OlogyLink.interceptAudio({masterLevel:v/100});
+    }
+  };
+})();
 
 /* ─── M9: PRESETS ─────────────────────────────────────────────────────────
    CANONICAL SHAPE: M0 §7 SessionPreset v0.2.2
