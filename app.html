@@ -520,6 +520,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 #viewerBar .mon-badge{
   cursor:pointer;
   opacity:.4;
+  font-family:inherit;
   transition:opacity .15s,filter .15s;
   -webkit-tap-highlight-color:transparent;
 }
@@ -1838,9 +1839,8 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     var rp=document.querySelector('.right-panel');if(rp) rp.scrollTop=0;
     var rpb=document.querySelector('.rp-body');if(rpb) rpb.scrollTop=0;
   };
-     No second canvas, no native fullscreen API. The live render loop
-     keeps drawing #progCanvas the whole time, so nothing freezes.
-     ══════════════════════════════════════════════════════════════ */
+
+  /* Simple fullscreen — expand existing viewer via CSS class, no 2nd canvas */
   var _fsCreditDate=(function(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}})();
 
   window.openFsOutput = function(){
