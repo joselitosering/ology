@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ology · Help Guide · Beta v1.0</title>
 <style>
@@ -9,31 +11,35 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* App-native palette */
-  --bg:        #06070d;
-  --surface:   #0b0d15;
-  --panel:     #0e1022;
-  --stroke:    rgba(255,255,255,.08);
-  --s2:        rgba(255,255,255,.14);
-  --txt:       #e8eaf2;
-  --dim:       #8a90a8;
-  --faint:     #4a5068;
-  --acc:       #a875ff;
-  --acc-dark:  #6c3fff;
-  --teal:      #35dfd6;
-  --teal-dim:  rgba(53,223,214,.12);
-  --red:       #ff4e6a;
-  --grn:       #3ecc85;
-  --warn-bg:   rgba(255,78,106,.08);
-  --warn-border: rgba(255,78,106,.28);
-  --tip-bg:    rgba(53,223,214,.07);
-  --tip-border: rgba(53,223,214,.25);
-  --note-bg:   rgba(168,117,255,.07);
-  --note-border: rgba(168,117,255,.28);
+  /* Brand palette */
+  --bg:        #0B0F1A;
+  --surface:   #111827;
+  --panel:     #1A2233;
+  --stroke:    rgba(123,167,212,.18);
+  --s2:        rgba(123,167,212,.28);
+  --txt:       #E8F0F8;
+  --dim:       #8FA8C0;
+  --faint:     #4a6a84;
+  --acc:       #7BA7D4;
+  --acc-dark:  #3A6FA8;
+  --teal:      #A8D8EA;
+  --teal-dim:  rgba(168,216,234,.12);
+  --red:       #E8896A;
+  --grn:       #6abfa0;
+  --warn-bg:   rgba(232,137,106,.08);
+  --warn-border: rgba(232,137,106,.28);
+  --tip-bg:    rgba(168,216,234,.07);
+  --tip-border: rgba(168,216,234,.25);
+  --note-bg:   rgba(123,167,212,.07);
+  --note-border: rgba(123,167,212,.28);
+  --iris:      #7BA7D4;
+  --amber:     #E8896A;
+  --rose:      #C084B0;
+  --grad:      linear-gradient(90deg,#5B8FBF,#A8D8EA,#E8896A,#C084B0);
 
-  /* Type scale */
-  --font-ui:   'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  /* Type scale — brand fonts */
+  --font-ui:   'Outfit', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 
   /* Sizes */
   --nav-w: 220px;
@@ -45,16 +51,16 @@ html { scroll-behavior: smooth; }
 /* ── Global scrollbar — matches app dark theme ───────────────────────── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(168,117,255,.35) transparent;
+  scrollbar-color: #7BA7D4 transparent;
 }
 *::-webkit-scrollbar { width: 4px; height: 4px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb {
-  background: rgba(168,117,255,.3);
+  background: #7BA7D4;
   border-radius: 99px;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: rgba(168,117,255,.55);
+  background: #A8D8EA;
 }
 
 body {
@@ -143,7 +149,7 @@ nav a:hover {
 nav a.active {
   color: var(--acc);
   border-left-color: var(--acc);
-  background: rgba(168,117,255,.08);
+  background: rgba(123,167,212,.08);
 }
 
 nav a .nav-icon {
@@ -233,8 +239,8 @@ nav a.active .nav-icon { opacity: 1; }
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--acc);
-  background: rgba(168,117,255,.12);
-  border: 1px solid rgba(168,117,255,.25);
+  background: rgba(123,167,212,.12);
+  border: 1px solid rgba(123,167,212,.25);
   border-radius: 4px;
   padding: 2px 7px;
   letter-spacing: .5px;
@@ -244,7 +250,7 @@ nav a.active .nav-icon { opacity: 1; }
 
 .section-rule {
   height: 1px;
-  background: linear-gradient(90deg, rgba(168,117,255,.4), transparent);
+  background: linear-gradient(90deg, rgba(123,167,212,.4), transparent);
   margin-bottom: 24px;
 }
 
@@ -381,8 +387,8 @@ nav a.active .nav-icon { opacity: 1; }
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(168,117,255,.15);
-  border: 1px solid rgba(168,117,255,.35);
+  background: rgba(123,167,212,.15);
+  border: 1px solid rgba(123,167,212,.35);
   color: var(--acc);
   font-size: 11px;
   font-weight: 700;
@@ -437,7 +443,7 @@ nav a.active .nav-icon { opacity: 1; }
   transition: border-color .15s;
 }
 
-.ctrl-card:hover { border-color: rgba(168,117,255,.3); }
+.ctrl-card:hover { border-color: rgba(123,167,212,.3); }
 
 .ctrl-card-name {
   font-family: var(--font-mono);
@@ -453,11 +459,11 @@ nav a.active .nav-icon { opacity: 1; }
 .ctrl-card-range {
   font-size: 10px;
   color: var(--acc);
-  background: rgba(168,117,255,.1);
+  background: rgba(123,167,212,.1);
   border-radius: 4px;
   padding: 1px 6px;
   font-weight: 600;
-  border: 1px solid rgba(168,117,255,.2);
+  border: 1px solid rgba(123,167,212,.2);
 }
 
 .ctrl-card p {
@@ -476,7 +482,7 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .data-table th {
-  background: rgba(168,117,255,.1);
+  background: rgba(123,167,212,.1);
   color: var(--acc);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -485,7 +491,7 @@ nav a.active .nav-icon { opacity: 1; }
   font-weight: 700;
   padding: 9px 12px;
   text-align: left;
-  border-bottom: 1px solid rgba(168,117,255,.2);
+  border-bottom: 1px solid rgba(123,167,212,.2);
 }
 
 .data-table td {
@@ -519,8 +525,8 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .band-delta  { background: rgba(63,134,255,.15);  color: #7aabff; border: 1px solid rgba(63,134,255,.3); }
-.band-theta  { background: rgba(168,117,255,.15); color: #c9a0ff; border: 1px solid rgba(168,117,255,.3); }
-.band-alpha  { background: rgba(53,223,214,.13);  color: #6af0eb; border: 1px solid rgba(53,223,214,.3); }
+.band-theta  { background: rgba(123,167,212,.15); color: #A8D8EA; border: 1px solid rgba(123,167,212,.3); }
+.band-alpha  { background: rgba(168,216,234,.13);  color: #C4E8F4; border: 1px solid rgba(168,216,234,.3); }
 .band-beta   { background: rgba(245,158,11,.13);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
 .band-gamma  { background: rgba(255,78,106,.13);  color: #ff8f9e; border: 1px solid rgba(255,78,106,.3); }
 .band-schumann { background: rgba(134,239,172,.12); color: #86efac; border: 1px solid rgba(134,239,172,.3); }
@@ -600,8 +606,8 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .imap-nav-icon.active {
-  background: rgba(168,117,255,.15);
-  border: 1px solid rgba(168,117,255,.3);
+  background: rgba(123,167,212,.15);
+  border: 1px solid rgba(123,167,212,.3);
 }
 
 .imap-nav-icon.active .ilabel { color: var(--acc); }
@@ -645,7 +651,7 @@ nav a.active .nav-icon { opacity: 1; }
   font-size: 9px;
   color: var(--faint);
   letter-spacing: .8px;
-  background: radial-gradient(ellipse at center, rgba(168,117,255,.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(123,167,212,.08) 0%, transparent 70%);
 }
 
 .imap-panel {
@@ -753,7 +759,7 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .go-btn-demo {
-  background: linear-gradient(135deg, #3ecc85, #2aaa6a);
+  background: linear-gradient(135deg, #6abfa0, #3a9a7a);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
@@ -809,8 +815,8 @@ nav a.active .nav-icon { opacity: 1; }
   margin-bottom: 8px;
 }
 
-.tag-headphones { background: rgba(168,117,255,.15); color: var(--acc); border: 1px solid rgba(168,117,255,.3); }
-.tag-speakers   { background: rgba(53,223,214,.12);  color: var(--teal); border: 1px solid rgba(53,223,214,.3); }
+.tag-headphones { background: rgba(123,167,212,.15); color: var(--acc); border: 1px solid rgba(123,167,212,.3); }
+.tag-speakers   { background: rgba(168,216,234,.12);  color: var(--teal); border: 1px solid rgba(168,216,234,.3); }
 
 .mode-card p {
   font-size: 12px;
@@ -839,7 +845,7 @@ nav a.active .nav-icon { opacity: 1; }
   transition: border-color .15s;
 }
 
-.session-card:hover { border-color: rgba(168,117,255,.3); }
+.session-card:hover { border-color: rgba(123,167,212,.3); }
 
 .session-card-title {
   font-size: 14px;
@@ -1156,8 +1162,8 @@ nav a.active .nav-icon { opacity: 1; }
       <div class="annot-row">
         <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> PREVIEW — staging area for changes</div>
         <div class="annot"><span class="annot-dot" style="background:#ff7a8a"></span> PROGRAM — what's live on screen and in OBS</div>
-        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> Control panel — updates PREVIEW only</div>
-        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO — commits PREVIEW → PROGRAM</div>
+        <div class="annot"><span class="annot-dot" style="background:#7BA7D4"></span> Control panel — updates PREVIEW only</div>
+        <div class="annot"><span class="annot-dot" style="background:#6abfa0"></span> GO — commits PREVIEW → PROGRAM</div>
       </div>
     </div>
 
