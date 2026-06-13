@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ology · Help Guide · Beta v1.0</title>
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* App-native palette */
+  --bg:        #06070d;
+  --surface:   #0b0d15;
+  --panel:     #0e1022;
+  --stroke:    rgba(255,255,255,.08);
+  --s2:        rgba(255,255,255,.14);
+  --txt:       #e8eaf2;
+  --dim:       #8a90a8;
+  --faint:     #4a5068;
+  --acc:       #a875ff;
+  --acc-dark:  #6c3fff;
+  --teal:      #35dfd6;
+  --teal-dim:  rgba(53,223,214,.12);
+  --red:       #ff4e6a;
+  --grn:       #3ecc85;
+  --warn-bg:   rgba(255,78,106,.08);
+  --warn-border: rgba(255,78,106,.28);
+  --tip-bg:    rgba(53,223,214,.07);
+  --tip-border: rgba(53,223,214,.25);
+  --note-bg:   rgba(168,117,255,.07);
+  --note-border: rgba(168,117,255,.28);
+
+  /* Type scale */
+  --font-ui:   'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+  /* Sizes */
+  --nav-w: 220px;
+  --content-max: 860px;
+}
+
+html { scroll-behavior: smooth; }
+
+/* ── Global scrollbar — matches app dark theme ───────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168,117,255,.35) transparent;
+}
+*::-webkit-scrollbar { width: 4px; height: 4px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(168,117,255,.3);
+  border-radius: 99px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(168,117,255,.55);
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.65;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Left Nav ─────────────────────────────────────────────────────────────── */
+#nav {
+  width: var(--nav-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--stroke);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--s2) transparent;
+}
+
+#nav::-webkit-scrollbar { width: 3px; }
+#nav::-webkit-scrollbar-thumb { background: var(--s2); border-radius: 99px; }
+
+.nav-brand {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--stroke);
+  flex-shrink: 0;
+}
+
+.nav-brand .wordmark {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  background: linear-gradient(120deg, var(--acc), var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-brand .sub {
+  font-size: 9.5px;
+  color: var(--faint);
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.nav-section-label {
+  font-size: 8.5px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 700;
+  padding: 16px 18px 6px;
+}
+
+.nav-section-label:first-of-type { padding-top: 14px; }
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 18px;
+  text-decoration: none;
+  color: var(--dim);
+  font-size: 12.5px;
+  font-weight: 500;
+  border-left: 2px solid transparent;
+  transition: color .14s, border-color .14s, background .14s;
+  line-height: 1.3;
+}
+
+nav a:hover {
+  color: var(--txt);
+  background: rgba(255,255,255,.03);
+}
+
+nav a.active {
+  color: var(--acc);
+  border-left-color: var(--acc);
+  background: rgba(168,117,255,.08);
+}
+
+nav a .nav-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: .6;
+}
+
+nav a.active .nav-icon { opacity: 1; }
+
+.nav-footer {
+  margin-top: auto;
+  padding: 14px 18px;
+  border-top: 1px solid var(--stroke);
+  font-size: 10px;
+  color: var(--faint);
+}
+
+/* ── Main Content ────────────────────────────────────────────────────────── */
+#content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.content-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 48px 48px 96px;
+}
+
+/* ── Page Header ────────────────────────────────────────────────────────── */
+.page-hero {
+  margin-bottom: 52px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.page-hero .eyebrow {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+}
+
+.page-hero h1 {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  line-height: 1.1;
+  background: linear-gradient(120deg, #ffffff 30%, var(--acc) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 14px;
+}
+
+.page-hero .lead {
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+/* ── Section ────────────────────────────────────────────────────────────── */
+.doc-section {
+  margin-bottom: 64px;
+  scroll-margin-top: 32px;
+}
+
+.doc-section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.2px;
+  color: var(--txt);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.doc-section h2 .section-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--acc);
+  background: rgba(168,117,255,.12);
+  border: 1px solid rgba(168,117,255,.25);
+  border-radius: 4px;
+  padding: 2px 7px;
+  letter-spacing: .5px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.section-rule {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(168,117,255,.4), transparent);
+  margin-bottom: 24px;
+}
+
+.doc-section h3 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 32px 0 12px;
+  font-family: var(--font-mono);
+}
+
+.doc-section p {
+  color: var(--dim);
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
+.doc-section p:last-child { margin-bottom: 0; }
+
+/* ── Inline UI labels ────────────────────────────────────────────────────── */
+/* Signature element: control names render as app-native chips */
+.ctrl {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--acc), var(--acc-dark));
+  color: #fff;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.8;
+}
+
+.tab-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--s2);
+  color: var(--txt);
+  letter-spacing: .3px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.key {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--panel);
+  border: 1px solid var(--s2);
+  color: var(--teal);
+  vertical-align: middle;
+}
+
+/* ── Callout boxes ───────────────────────────────────────────────────────── */
+.callout {
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 20px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.callout-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.callout-body { flex: 1; }
+.callout-body strong { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: .4px; }
+
+.callout.warn {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: #ffa0ae;
+}
+.callout.warn .callout-body strong { color: var(--red); }
+
+.callout.tip {
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  color: #9aeae6;
+}
+.callout.tip .callout-body strong { color: var(--teal); }
+
+.callout.note {
+  background: var(--note-bg);
+  border: 1px solid var(--note-border);
+  color: #c9aff8;
+}
+.callout.note .callout-body strong { color: var(--acc); }
+
+/* ── Step list ───────────────────────────────────────────────────────────── */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  margin: 16px 0;
+}
+
+.steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  font-size: 13.5px;
+  color: var(--dim);
+  line-height: 1.65;
+}
+
+.steps li::before {
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(168,117,255,.15);
+  border: 1px solid rgba(168,117,255,.35);
+  color: var(--acc);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Bullet list ─────────────────────────────────────────────────────────── */
+.doc-section ul {
+  list-style: none;
+  margin: 12px 0 16px;
+}
+
+.doc-section ul li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 13.5px;
+  color: var(--dim);
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+.doc-section ul li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+/* ── Two-column control grid ─────────────────────────────────────────────── */
+.ctrl-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+@media (max-width: 680px) {
+  .ctrl-grid { grid-template-columns: 1fr; }
+}
+
+.ctrl-card {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  padding: 14px 16px;
+  transition: border-color .15s;
+}
+
+.ctrl-card:hover { border-color: rgba(168,117,255,.3); }
+
+.ctrl-card-name {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--txt);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl-card-range {
+  font-size: 10px;
+  color: var(--acc);
+  background: rgba(168,117,255,.1);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-weight: 600;
+  border: 1px solid rgba(168,117,255,.2);
+}
+
+.ctrl-card p {
+  font-size: 12.5px;
+  color: var(--dim);
+  line-height: 1.55;
+  margin: 0 !important;
+}
+
+/* ── Data tables ─────────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 12.5px;
+}
+
+.data-table th {
+  background: rgba(168,117,255,.1);
+  color: var(--acc);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(168,117,255,.2);
+}
+
+.data-table td {
+  padding: 9px 12px;
+  color: var(--dim);
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+.data-table tr:hover td { background: rgba(255,255,255,.02); }
+
+.data-table td:first-child {
+  color: var(--txt);
+  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.band-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  letter-spacing: .4px;
+}
+
+.band-delta  { background: rgba(63,134,255,.15);  color: #7aabff; border: 1px solid rgba(63,134,255,.3); }
+.band-theta  { background: rgba(168,117,255,.15); color: #c9a0ff; border: 1px solid rgba(168,117,255,.3); }
+.band-alpha  { background: rgba(53,223,214,.13);  color: #6af0eb; border: 1px solid rgba(53,223,214,.3); }
+.band-beta   { background: rgba(245,158,11,.13);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
+.band-gamma  { background: rgba(255,78,106,.13);  color: #ff8f9e; border: 1px solid rgba(255,78,106,.3); }
+.band-schumann { background: rgba(134,239,172,.12); color: #86efac; border: 1px solid rgba(134,239,172,.3); }
+.band-solfeggio { background: rgba(251,191,36,.1); color: #fcd34d; border: 1px solid rgba(251,191,36,.25); }
+
+/* ── Two column text layout ──────────────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 20px 0;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .two-col { grid-template-columns: 1fr; gap: 20px; }
+}
+
+.two-col-full { grid-column: 1 / -1; }
+
+/* ── Interface diagram ───────────────────────────────────────────────────── */
+.interface-map {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.interface-map-header {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--stroke);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.imap-body {
+  display: grid;
+  grid-template-columns: 56px 1fr 220px;
+  grid-template-rows: auto auto;
+  height: 220px;
+}
+
+.imap-sidebar {
+  background: rgba(11,13,21,.8);
+  border-right: 1px solid var(--stroke);
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  gap: 20px;
+}
+
+.imap-nav-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: default;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.imap-nav-icon .ilabel {
+  font-size: 7px;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.imap-nav-icon.active {
+  background: rgba(168,117,255,.15);
+  border: 1px solid rgba(168,117,255,.3);
+}
+
+.imap-nav-icon.active .ilabel { color: var(--acc); }
+
+.imap-center {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 12px;
+  grid-row: 1 / 3;
+  align-items: center;
+}
+
+.imap-monitor {
+  background: rgba(0,0,0,.5);
+  border-radius: 8px;
+  border: 1px solid var(--stroke);
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+}
+
+.imap-monitor-hdr {
+  padding: 4px 8px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.imap-monitor-hdr.prev { color: #7aa2ff; }
+.imap-monitor-hdr.prog { color: #ff7a8a; }
+
+.imap-monitor-screen {
+  flex: 1;
+  border-radius: 0 0 7px 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--faint);
+  letter-spacing: .8px;
+  background: radial-gradient(ellipse at center, rgba(168,117,255,.08) 0%, transparent 70%);
+}
+
+.imap-panel {
+  background: rgba(14,16,34,.9);
+  border-left: 1px solid var(--stroke);
+  grid-row: 1 / 3;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.imap-panel-title {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.imap-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.imap-slider-label {
+  font-size: 10px;
+  color: var(--dim);
+  width: 68px;
+  flex-shrink: 0;
+}
+
+.imap-slider-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,.1);
+  border-radius: 99px;
+  position: relative;
+}
+
+.imap-slider-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--acc), var(--teal));
+}
+
+.imap-slider-val {
+  font-size: 9px;
+  color: var(--teal);
+  font-family: var(--font-mono);
+  width: 28px;
+  text-align: right;
+}
+
+.imap-go {
+  margin-top: auto;
+  background: linear-gradient(135deg, var(--grn), #2aaa6a);
+  border: none;
+  color: #fff;
+  border-radius: 7px;
+  padding: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* ── Annotation labels on interface map ─────────────────────────────────── */
+.annot-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--stroke);
+}
+
+.annot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--dim);
+}
+
+.annot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Go button block ─────────────────────────────────────────────────────── */
+.go-explainer {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid rgba(62,204,133,.2);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 20px 0;
+}
+
+.go-btn-demo {
+  background: linear-gradient(135deg, #3ecc85, #2aaa6a);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.go-explainer p {
+  margin: 0 !important;
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+/* ── Entrainment mode cards ──────────────────────────────────────────────── */
+.mode-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+}
+
+@media (max-width: 640px) {
+  .mode-cards { grid-template-columns: 1fr; }
+}
+
+.mode-card {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.mode-card-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--txt);
+  margin-bottom: 6px;
+}
+
+.mode-card-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: .5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.tag-headphones { background: rgba(168,117,255,.15); color: var(--acc); border: 1px solid rgba(168,117,255,.3); }
+.tag-speakers   { background: rgba(53,223,214,.12);  color: var(--teal); border: 1px solid rgba(53,223,214,.3); }
+
+.mode-card p {
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.55;
+  margin: 0 !important;
+}
+
+/* ── Session recipe cards ────────────────────────────────────────────────── */
+.session-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+@media (max-width: 640px) {
+  .session-cards { grid-template-columns: 1fr; }
+}
+
+.session-card {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: 18px;
+  transition: border-color .15s;
+}
+
+.session-card:hover { border-color: rgba(168,117,255,.3); }
+
+.session-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--txt);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.session-card-title .emoji { font-size: 18px; }
+
+.session-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--stroke);
+  font-size: 12px;
+}
+
+.session-row:last-child { border-bottom: none; }
+
+.session-row .s-key {
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.session-row .s-val { color: var(--txt); font-size: 12px; }
+
+/* ── OBS setup steps ─────────────────────────────────────────────────────── */
+.obs-code {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--teal);
+  margin: 8px 0;
+  letter-spacing: .2px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* ── Safety section ──────────────────────────────────────────────────────── */
+.safety-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+@media (max-width: 640px) {
+  .safety-grid { grid-template-columns: 1fr; }
+}
+
+.safety-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  font-size: 12.5px;
+  color: var(--dim);
+  line-height: 1.55;
+}
+
+.safety-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--stroke);
+  margin: 40px 0;
+}
+
+/* ── Scroll progress ─────────────────────────────────────────────────────── */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: var(--nav-w);
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--acc), var(--teal));
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 100;
+  transition: transform .1s linear;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 800px) {
+  :root { --nav-w: 0px; }
+  #nav { display: none; }
+  #progress-bar { left: 0; }
+  .content-inner { padding: 32px 20px 80px; }
+  .page-hero h1 { font-size: 26px; }
+}
+
+@media print {
+  #nav { display: none; }
+  #progress-bar { display: none; }
+  body { display: block; }
+  #content { overflow: visible; }
+  .ctrl-grid, .two-col, .mode-cards, .session-cards, .safety-grid {
+    grid-template-columns: 1fr 1fr;
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ── Left Navigation ─────────────────────────────────────────────────── -->
+<aside id="nav">
+  <div class="nav-brand">
+    <div class="wordmark">Ology</div>
+    <div class="sub">Help Guide · Beta v1.0</div>
+  </div>
+
+  <div class="nav-section-label">Getting Started</div>
+  <nav>
+    <a href="#overview" class="active">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+      Overview
+    </a>
+    <a href="#interface">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>
+      Interface
+    </a>
+    <a href="#preview-program">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+      Preview & Program
+    </a>
+  </nav>
+
+  <div class="nav-section-label">Controls</div>
+  <nav>
+    <a href="#visuals-tab">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>
+      Visuals Tab
+    </a>
+    <a href="#audio-tab">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>
+      Audio Tab
+    </a>
+    <a href="#output-tab">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
+      Output Tab
+    </a>
+    <a href="#presets-tab">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>
+      Presets Tab
+    </a>
+  </nav>
+
+  <div class="nav-section-label">Reference</div>
+  <nav>
+    <a href="#themes">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/></svg>
+      Themes
+    </a>
+    <a href="#drone-library">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"/></svg>
+      Drone Library
+    </a>
+    <a href="#frequency-guide">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+      Frequency Guide
+    </a>
+    <a href="#sessions">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+      Session Recipes
+    </a>
+    <a href="#obs-setup">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>
+      OBS Setup
+    </a>
+    <a href="#safety">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      Safety & Accuracy
+    </a>
+  </nav>
+
+  <div class="nav-footer">Ology Beta v1.0 · AIMA Productions</div>
+</aside>
+
+<!-- ── Main Content ────────────────────────────────────────────────────── -->
+<main id="content">
+<div class="content-inner">
+
+  <!-- Hero -->
+  <header class="page-hero">
+    <div class="eyebrow">Ology · Help Guide · Beta v1.0</div>
+    <h1>Everything you need<br>to run a session.</h1>
+    <p class="lead">Ology is a browser-based audio-reactive kaleidoscope for meditation, neuroplasticity, and live performance. This guide covers every control, the full drone library, OBS setup, and ready-to-use session recipes.</p>
+  </header>
+
+
+  <!-- ── Section: Overview ──────────────────────────────────────────────── -->
+  <section class="doc-section" id="overview">
+    <h2><span class="section-num">01</span> What Ology is</h2>
+    <div class="section-rule"></div>
+
+    <p>Ology renders an infinite, never-repeating fractal visual driven in real time by an internally synthesized audio engine. No sample files, no installation, no cloud services. Open the URL and the experience begins.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>Three contexts</h3>
+        <ul>
+          <li><strong style="color:var(--txt)">Therapeutic sessions.</strong> Grief processing, anxiety relief, focus recovery, and inner journeying. Visuals and entrainment drones are paired by emotional and neurological intent.</li>
+          <li><strong style="color:var(--txt)">Neuroplasticity work.</strong> Structured sessions using binaural, isochronic, and monaural entrainment targeting specific EEG frequency bands correlated with learning, memory, and peak cognition.</li>
+          <li><strong style="color:var(--txt)">Live performance.</strong> DJ visuals, podcast backdrops, and OBS broadcast content. The two-page architecture keeps audio and video cleanly separated for the OBS bus.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Design principle</h3>
+        <p>Calm by default. Intense on demand.</p>
+        <p>Therapeutic presets bias toward slow, smooth, low-contrast motion. Performance presets unlock chaos, high-speed transitions, and visual density — always within the built-in strobe limiter that is on by default.</p>
+        <div class="callout tip" style="margin-top:14px">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">
+            <strong>No auto-play</strong>
+            Audio never starts on its own. Press <span class="ctrl">Play</span> in the Audio tab to begin.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: Interface ─────────────────────────────────────────────── -->
+  <section class="doc-section" id="interface">
+    <h2><span class="section-num">02</span> The Interface</h2>
+    <div class="section-rule"></div>
+
+    <p>The Stage layout has four areas that work together. Understanding how they relate is the fastest way to become fluent with Ology.</p>
+
+    <!-- Interface diagram -->
+    <div class="interface-map">
+      <div class="interface-map-header">Stage · Desktop — annotated layout</div>
+      <div class="imap-body">
+
+        <!-- Left sidebar -->
+        <div class="imap-sidebar">
+          <div class="imap-nav-icon active">
+            <span>👁</span>
+            <span class="ilabel">Visuals</span>
+          </div>
+          <div class="imap-nav-icon">
+            <span>🔊</span>
+            <span class="ilabel">Audio</span>
+          </div>
+          <div class="imap-nav-icon">
+            <span>📤</span>
+            <span class="ilabel">Output</span>
+          </div>
+          <div class="imap-nav-icon">
+            <span>💾</span>
+            <span class="ilabel">Presets</span>
+          </div>
+        </div>
+
+        <!-- Center monitors -->
+        <div class="imap-center">
+          <div class="imap-monitor">
+            <div class="imap-monitor-hdr prev">● PREVIEW</div>
+            <div class="imap-monitor-screen">staging area</div>
+          </div>
+          <div class="imap-monitor">
+            <div class="imap-monitor-hdr prog">● PROGRAM · LIVE</div>
+            <div class="imap-monitor-screen">what's live</div>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="imap-panel">
+          <div class="imap-panel-title">Visuals</div>
+          <div class="imap-slider-row">
+            <span class="imap-slider-label">Intensity</span>
+            <div class="imap-slider-track"><div class="imap-slider-fill" style="width:50%"></div></div>
+            <span class="imap-slider-val">0.50</span>
+          </div>
+          <div class="imap-slider-row">
+            <span class="imap-slider-label">Speed</span>
+            <div class="imap-slider-track"><div class="imap-slider-fill" style="width:80%"></div></div>
+            <span class="imap-slider-val">0.8x</span>
+          </div>
+          <div class="imap-slider-row">
+            <span class="imap-slider-label">Chaos</span>
+            <div class="imap-slider-track"><div class="imap-slider-fill" style="width:50%"></div></div>
+            <span class="imap-slider-val">0.50</span>
+          </div>
+          <div class="imap-slider-row">
+            <span class="imap-slider-label">Segments</span>
+            <div class="imap-slider-track"><div class="imap-slider-fill" style="width:14%"></div></div>
+            <span class="imap-slider-val">4</span>
+          </div>
+          <div class="imap-go">GO</div>
+        </div>
+      </div>
+
+      <!-- Annotations -->
+      <div class="annot-row">
+        <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> PREVIEW — staging area for changes</div>
+        <div class="annot"><span class="annot-dot" style="background:#ff7a8a"></span> PROGRAM — what's live on screen and in OBS</div>
+        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> Control panel — updates PREVIEW only</div>
+        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO — commits PREVIEW → PROGRAM</div>
+      </div>
+    </div>
+
+    <h3>The four navigation tabs</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">👁 Visuals</div>
+        <p>Theme, speed, chaos, zoom, rotation, segments, bloom, smooth. All changes update PREVIEW only — press GO to make them live.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">🔊 Audio</div>
+        <p>Transport, drone preset, carrier/beat Hz, entrainment mode, ambient bed, reactivity routing, and master volume.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">📤 Output</div>
+        <p>OBS configuration, param overlay toggle, and the mobile phone pairing panel for wireless control.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">💾 Presets</div>
+        <p>Save, load, favorite, delete, export, and import complete session snapshots as JSON.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: Preview & Program ────────────────────────────────────── -->
+  <section class="doc-section" id="preview-program">
+    <h2><span class="section-num">03</span> Preview &amp; Program</h2>
+    <div class="section-rule"></div>
+
+    <p>Ology uses a two-bus model borrowed from broadcast switching: every change is staged in PREVIEW before it goes live in PROGRAM. Nothing happens to the live output until you deliberately commit it.</p>
+
+    <div class="go-explainer">
+      <div class="go-btn-demo">GO</div>
+      <p>Pressing GO copies all current PREVIEW settings — theme, speed, chaos, zoom, segments, bloom, smooth — into PROGRAM and makes them live instantly. Audio changes are live immediately without GO.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>PREVIEW (blue)</h3>
+        <ul>
+          <li>Safe staging area — nothing visible to your audience or OBS yet.</li>
+          <li>All slider and theme changes go here first.</li>
+          <li>Loading a preset always loads into PREVIEW, never directly into PROGRAM.</li>
+          <li>You can audition a visual change without interrupting a live session.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>PROGRAM (red · LIVE)</h3>
+        <ul>
+          <li>The live output — what appears on the OBS canvas and any connected output.</li>
+          <li>Committed by pressing GO.</li>
+          <li>Audio parameters (drone, mode, bed, volume) take effect immediately and bypass the GO step.</li>
+          <li>The param overlay on output.html always reflects PROGRAM state.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Audio vs Visual — two different commit rules</strong>
+        Visual parameters stage into PREVIEW and require GO. Audio parameters (drone selection, entrainment mode, carrier Hz, beat Hz, ambient bed, blend, volume) take effect immediately when you change them — there is no PREVIEW step for audio.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: Visuals Tab ───────────────────────────────────────────── -->
+  <section class="doc-section" id="visuals-tab">
+    <h2><span class="section-num">04</span> Visuals Tab</h2>
+    <div class="section-rule"></div>
+
+    <p>All visual parameters update PREVIEW only. Press <span class="ctrl">GO</span> to make any change live.</p>
+
+    <h3>Theme selector</h3>
+    <p>The <span class="ctrl">Preview Theme</span> dropdown selects which of the seven visual themes to load into PREVIEW. Each theme has a distinct shader, colour palette, and geometry character. See <a href="#themes" style="color:var(--teal)">Themes</a> for the full list and their default drones.</p>
+
+    <h3>Motion controls</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Intensity <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Fractal depth. Higher values produce more detailed, recursive geometry. Lower values produce softer, more dissolving forms. Default 0.50.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Speed <span class="ctrl-card-range">0.1× – 3×</span></div>
+        <p>Animation rate. Therapeutic presets default to 0.6×–0.8×. Performance presets may run at 1.5× or higher. Default 0.80.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Chaos <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Noise modulation amplitude. High chaos = organic, lava-lamp fluidity. Low chaos = crystalline, geometric precision. Default 0.50.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Rotation <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Slow rotational drift of the entire canvas. At 0, the image holds still. Default 0.50.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Zoom <span class="ctrl-card-range">near – far</span></div>
+        <p>Camera distance. <span class="key">far</span> opens a wide-field view of the fractal surface. Closer values push into the interior geometry.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Segments <span class="ctrl-card-range">2 – 24</span></div>
+        <p>Kaleidoscope symmetry count. 2 = mirror. 4 = four-fold. 8 = octagonal. Even numbers produce radial symmetry; odd numbers produce spiral offset.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Bloom <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Luminance blooming around bright areas. Increases the ethereal quality of the visual. Default 1.00.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Smooth <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Edge sharpness. At 1.0, edges are soft and diffuse. At 0, edges are crisp and defined. Default 0.82.</p>
+      </div>
+    </div>
+
+    <h3>Symmetry type</h3>
+    <p>The three <span class="tab-chip">Symmetry</span> buttons select the fold type applied before the segment count:</p>
+    <ul>
+      <li><strong style="color:var(--txt)">Radial</strong> — rotational symmetry around the centre. Clean and mandala-like.</li>
+      <li><strong style="color:var(--txt)">Mirror</strong> — bilateral reflection. Creates left/right symmetry.</li>
+      <li><strong style="color:var(--txt)">Kaleidoscope</strong> — the full domain-folding kaleidoscope. The most visually complex mode. Default.</li>
+    </ul>
+  </section>
+
+
+  <!-- ── Section: Audio Tab ─────────────────────────────────────────────── -->
+  <section class="doc-section" id="audio-tab">
+    <h2><span class="section-num">05</span> Audio Tab</h2>
+    <div class="section-rule"></div>
+
+    <p>All audio in Ology is generated algorithmically — no sample files, no recordings. The audio engine synthesizes carrier tones, entrainment beats, and six ambient texture beds entirely in the browser.</p>
+
+    <h3>Transport</h3>
+    <p><span class="ctrl">Stop</span> clears and rebuilds the audio engine, resetting all oscillators cleanly. <span class="ctrl">Play</span> starts the drone and ambient bed. Audio never auto-starts on page load.</p>
+
+    <h3>Drone generator</h3>
+    <p>The <span class="ctrl">Drone preset</span> dropdown selects one of 13 presets. The display shows the name, carrier frequency, beat frequency, and band — for example: <span class="key">Theta · Intuition · 136.1 Hz / 6 Hz</span>. See the <a href="#drone-library" style="color:var(--teal)">Drone Library</a> for all 13 presets.</p>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Carrier Hz</div>
+        <p>The audible base tone — what you actually hear. Adjusting the carrier changes the pitch of the drone without changing the entrainment target.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Beat Hz</div>
+        <p>The entrainment target frequency. This is the difference between the left and right channels (binaural), the pulse rate (isochronic), or the modulation rate (monaural). The band label updates live as you move this slider.</p>
+      </div>
+    </div>
+
+    <h3>Entrainment mode</h3>
+    <div class="mode-cards">
+      <div class="mode-card">
+        <div class="mode-card-name">Binaural</div>
+        <div class="mode-card-tag tag-headphones">Headphones required</div>
+        <p>A different frequency reaches each ear. The brain perceives a third tone equal to the difference. Requires true stereo separation — headphones only. Most documented in EEG research.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-card-name">Isochronic</div>
+        <div class="mode-card-tag tag-speakers">Speakers OK</div>
+        <p>A single tone pulsed on and off at the entrainment rate. Sharp onset and offset. No headphones required. Preferred mode for stage speakers, OBS, and livestreams.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-card-name">Monaural</div>
+        <div class="mode-card-tag tag-speakers">Speakers OK</div>
+        <p>Two tones mixed in a single channel, creating physical amplitude modulation. A real acoustic beat — no headphones required. Strong entrainment stimulus.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Headphone advisory</strong>
+        Binaural mode requires stereo headphones for the intended psychoacoustic effect. On speakers or in OBS, the two tones blend and the binaural effect is not accurately delivered. Use <span class="ctrl">Isochronic</span> or <span class="ctrl">Monaural</span> for speaker or broadcast use.
+      </div>
+    </div>
+
+    <h3>Texture</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Brain-tickle <span class="ctrl-card-range">0 – 1</span></div>
+        <p>Subtle harmonic overtone pulses layered over the drone. Adds texture and aliveness to the carrier tone. Default 0.20.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Slowness <span class="ctrl-card-range">0 – 1</span></div>
+        <p>An LFO that introduces a very slow undulation to the drone's timbre — a breathing quality. Higher values = slower, deeper breath cycle. Default 0.60.</p>
+      </div>
+    </div>
+
+    <h3>Ambient bed</h3>
+    <p>Six generative ambient textures synthesized entirely from oscillators and filters — no recordings used. Select one from the <span class="ctrl">Ambient Bed</span> dropdown.</p>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Womb</div><p>Low, warm, resonant rumble. Enveloping and primal.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Waterfall</div><p>Broadband white noise shaped into flowing water.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Jungle</div><p>Dense mid-frequency texture with subtle organic modulation.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Forest</div><p>Open, airy. Sparse texture with high-frequency shimmer.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Whales</div><p>Deep low-frequency long-cycle tones. Slow and vast.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Ocean</div><p>Wave-like low-frequency swells with broadband surface texture.</p></div>
+    </div>
+
+    <p>The <span class="ctrl">Drone ↔ Bed</span> blend dial controls the equal-power crossfade. All the way left = pure drone. Centre = equal mix. All the way right = pure ambient bed.</p>
+
+    <h3>Loop &amp; Master</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Crossfade</div><p>Seamless looping. The drone cycles without audible restart.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Evolving</div><p>Slowly mutates the drone's timbre over time. No two moments identical.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">One-shot</div><p>Plays the drone through once and stops.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Master</div><p>Post-crossfade output volume. Default 0.80.</p></div>
+    </div>
+
+    <h3>Reactivity — Band → Visual</h3>
+    <p>This matrix routes live audio frequency analysis into the visual engine in real time. The drone audio is analysed into four bands every frame; this panel maps each band's energy to a visual parameter.</p>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Sub → Bloom</div><p>Sub-bass energy (below ~80 Hz) drives bloom intensity. Heavy bass = more glow.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Low → Zoom</div><p>Low-mid energy (~80–400 Hz) drives camera distance. Bass pulses pull and push the view.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Mid → Chaos</div><p>Mid-frequency energy (~400 Hz–2 kHz) drives the chaos noise modulation.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">High → Color</div><p>High-frequency energy (2 kHz+) drives colour palette shift.</p></div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Reactivity only works while audio is playing</strong>
+        All four routes are gated on audio playback. If the transport is stopped, the visual falls back to its static parameter values and audio reactivity is suspended.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: Output Tab ───────────────────────────────────────────── -->
+  <section class="doc-section" id="output-tab">
+    <h2><span class="section-num">06</span> Output Tab</h2>
+    <div class="section-rule"></div>
+
+    <p>The Output tab controls everything related to the OBS canvas, the param overlay, and wireless phone pairing.</p>
+
+    <h3>Why two separate pages?</h3>
+    <p>Ology uses two pages. <span class="key">index.html</span> is the control surface — it generates all audio and runs the operator's UI. <span class="key">output.html</span> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
+
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Why audio and video are separate OBS sources</strong>
+        If output.html also generated audio, OBS would receive two identical drone signals causing phasing artifacts and destroying binaural left/right channel separation. Keeping audio exclusively in index.html preserves clean, phase-correct stereo on the OBS recording bus.
+      </div>
+    </div>
+
+    <h3>Param overlay</h3>
+    <p>Toggle the <span class="ctrl">Overlay</span> button to show a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Useful for session documentation and recording metadata. Colour is theme-derived and updates each frame.</p>
+  </section>
+
+
+  <!-- ── Section: Presets Tab ──────────────────────────────────────────── -->
+  <section class="doc-section" id="presets-tab">
+    <h2><span class="section-num">07</span> Presets Tab</h2>
+    <div class="section-rule"></div>
+
+    <p>A preset captures a complete session snapshot: all visual parameters, all audio parameters, theme, drone, mode, bed blend, reactivity routing, and loop mode together in one named file.</p>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Save</div><p>Saves the current PROGRAM state as a named preset to local storage.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Load</div><p>Loads a preset into PREVIEW — not directly into PROGRAM. Press GO to commit it live.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Favorite ★</div><p>Pins the preset to the top of the list for quick access.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Delete</div><p>Removes the preset from local storage permanently.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Export JSON</div><p>Downloads the entire preset library as a .json file for backup or sharing.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Import JSON</div><p>Loads a .json preset file into the local library without overwriting existing presets.</p></div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Always loads into PREVIEW</strong>
+        Loading a preset never disrupts the live PROGRAM output. Audition the loaded preset on the PREVIEW monitor first, then press GO when you're ready.
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Section: Themes ───────────────────────────────────────────────── -->
+  <section class="doc-section" id="themes">
+    <h2><span class="section-num">08</span> Themes</h2>
+    <div class="section-rule"></div>
+
+    <p>Seven default visual themes, each pairing a distinct GLSL shader character with a default drone matched to the theme's intended state.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Theme</th>
+          <th>Visual character</th>
+          <th>Palette</th>
+          <th>Default drone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Intergalactic Beings</td>
+          <td>Slow morphing entities, nebular wisps</td>
+          <td>Violet / teal / gold</td>
+          <td><span class="band-pill band-theta">Theta</span> Intuition · 6 Hz</td>
+        </tr>
+        <tr>
+          <td>Supernovas</td>
+          <td>Radial bursts, expanding shells</td>
+          <td>White-hot → amber → crimson</td>
+          <td><span class="band-pill band-gamma">Gamma</span> Insight · 40 Hz</td>
+        </tr>
+        <tr>
+          <td>Birth Tunnels of Stars</td>
+          <td>Forward tunnel flight, layered rings</td>
+          <td>Indigo → cyan → silver</td>
+          <td><span class="band-pill band-schumann">Schumann</span> Earth Pulse · 7.83 Hz</td>
+        </tr>
+        <tr>
+          <td>Psilocybin Dreams</td>
+          <td>Organic breathing fractals, melt</td>
+          <td>Magenta / lime / orange</td>
+          <td><span class="band-pill band-theta">Theta</span> Vision Quest · 4.5 Hz</td>
+        </tr>
+        <tr>
+          <td>Microcosmos</td>
+          <td>Cellular / mandelbulb close-ups</td>
+          <td>Emerald / cobalt / pearl</td>
+          <td><span class="band-pill band-alpha">Alpha</span> Serenity · 10 Hz</td>
+        </tr>
+        <tr>
+          <td>Quantum Fields</td>
+          <td>Interference grids, probability shimmer</td>
+          <td>Electric blue / pink / black</td>
+          <td><span class="band-pill band-beta">Beta</span> Focus · 16 Hz</td>
+        </tr>
+        <tr>
+          <td>Torus Universes</td>
+          <td>Toroidal flow, recursive donuts</td>
+          <td>Copper / violet / starlight</td>
+          <td><span class="band-pill band-delta">Delta</span> Deep Healing · 2 Hz</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- ── Section: Drone Library ─────────────────────────────────────────── -->
+  <section class="doc-section" id="drone-library">
+    <h2><span class="section-num">09</span> Drone Library</h2>
+    <div class="section-rule"></div>
+
+    <p>All 13 drone presets. The carrier is the audible tone; the beat is the entrainment target. A binaural beat is the perceived difference between two pure tones — one in each ear.</p>
+
+    <h3>Brainwave entrainment drones</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Drone</th><th>Carrier</th><th>Beat</th><th>Band</th><th>Commonly attributed effect</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Delta — Deep Healing</td><td>~100 Hz</td><td>2 Hz</td><td><span class="band-pill band-delta">Delta</span></td><td>Deep dreamless sleep, physical recovery</td></tr>
+        <tr><td>Delta — Regeneration</td><td>~100 Hz</td><td>3 Hz</td><td><span class="band-pill band-delta">Delta</span></td><td>Restorative rest</td></tr>
+        <tr><td>Theta — Dreamgate</td><td>~120 Hz</td><td>4 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Deep meditation, REM-like imagery</td></tr>
+        <tr><td>Theta — Vision Quest</td><td>~120 Hz</td><td>4.5 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Shamanic / visualization states</td></tr>
+        <tr><td>Theta — Intuition</td><td>~136.1 Hz</td><td>6 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Intuition, inner journeying</td></tr>
+        <tr><td>Schumann — Earth Pulse</td><td>~136.1 Hz</td><td>7.83 Hz</td><td><span class="band-pill band-schumann">Theta/Alpha</span></td><td>Grounding, calm, sense of oneness</td></tr>
+        <tr><td>Alpha — Calm Mind</td><td>~210 Hz</td><td>8.4 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td><td>Pre-sleep, stress release</td></tr>
+        <tr><td>Alpha — Serenity</td><td>~200 Hz</td><td>10 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td><td>Relaxed focus, flow</td></tr>
+        <tr><td>Beta — Focus</td><td>~250 Hz</td><td>16 Hz</td><td><span class="band-pill band-beta">Beta</span></td><td>Alertness, concentration</td></tr>
+        <tr><td>Gamma — Insight</td><td>~300 Hz</td><td>40 Hz</td><td><span class="band-pill band-gamma">Gamma</span></td><td>Peak cognition, heightened perception</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Solfeggio / Spiritual carrier drones</h3>
+    <p>Frequencies from the Solfeggio meditation tradition. Effects are traditional and community claims — not clinically established. Presented as experiential carriers for spiritual practice.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Drone</th><th>Carrier</th><th>Optional beat</th><th>Traditional attribution</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Solfeggio — Transformation</td><td>528 Hz</td><td>+7.83 Hz</td><td><span class="band-pill band-solfeggio">Solfeggio</span> "Love / repair" frequency</td></tr>
+        <tr><td>Solfeggio — Awaken Intuition</td><td>852 Hz</td><td>+6 Hz Theta</td><td><span class="band-pill band-solfeggio">Solfeggio</span> Inner sight, spiritual awakening</td></tr>
+        <tr><td>Solfeggio — Crown / Pineal</td><td>963 Hz</td><td>+7.83 Hz</td><td><span class="band-pill band-solfeggio">Solfeggio</span> Higher-consciousness connection</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- ── Section: Frequency Guide ──────────────────────────────────────── -->
+  <section class="doc-section" id="frequency-guide">
+    <h2><span class="section-num">10</span> Frequency Guide</h2>
+    <div class="section-rule"></div>
+
+    <p>EEG frequency bands and their corresponding meditation states. Use this table to select the right drone for an intended session outcome.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>State</th><th>Target</th><th>Band</th><th>Protocol notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Anxiety relief</td><td>8–10 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td><td>Slow breathing. Green / cyan visual palette.</td></tr>
+        <tr><td>Grief / loss</td><td>5–7 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Violet visualizations. Extended session.</td></tr>
+        <tr><td>Love / compassion</td><td>8 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td><td>Heart-centered, loving-kindness intention.</td></tr>
+        <tr><td>Focus / productivity</td><td>16–20 Hz</td><td><span class="band-pill band-beta">Beta</span></td><td>Geometric gold visuals. Structured environment.</td></tr>
+        <tr><td>Creativity</td><td>7 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Fractal / galaxy visuals. Free association.</td></tr>
+        <tr><td>Lucid dreaming</td><td>4–6 Hz</td><td><span class="band-pill band-theta">Theta</span></td><td>Pre-sleep. Deep relaxation protocol.</td></tr>
+        <tr><td>Sleep onset</td><td>1–3 Hz</td><td><span class="band-pill band-delta">Delta</span></td><td>Deep blue visuals. Dark room.</td></tr>
+        <tr><td>Peak performance</td><td>40 Hz</td><td><span class="band-pill band-gamma">Gamma</span></td><td>Neural network / plasma visuals. Short bursts.</td></tr>
+        <tr><td>Mindfulness</td><td>10 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td><td>Breathing mandalas. Slow movement.</td></tr>
+        <tr><td>Energy / vigor</td><td>18–22 Hz</td><td><span class="band-pill band-beta">Beta</span></td><td>High-tempo, geometric visuals.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Mixed evidence — use with appropriate expectations</strong>
+        A 2023 systematic review of 14 EEG studies found inconsistent results: 5 supported the entrainment hypothesis, 8 reported contradictory results. Ology presents entrainment tones as aids to meditative intent — not guaranteed neurological interventions.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: Session Recipes ──────────────────────────────────────── -->
+  <section class="doc-section" id="sessions">
+    <h2><span class="section-num">11</span> Session Recipes</h2>
+    <div class="section-rule"></div>
+
+    <p>Five ready-to-use sessions. Save each as a preset after configuring. All use Binaural mode unless noted — switch to Isochronic for speakers.</p>
+
+    <div class="session-cards">
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">🌊</span> Anxiety Relief</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Microcosmos</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Alpha — Serenity (10 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Binaural (headphones)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Ocean · Blend 0.35</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">20–40 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Smooth 0.9 · Speed 0.6x</span></div>
+      </div>
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">🌿</span> Creative Flow</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Psilocybin Dreams</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Theta — Vision Quest (4.5 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Isochronic (speakers OK)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Forest · Blend 0.40</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">30–60 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Freewrite or sketch during session</span></div>
+      </div>
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">🌑</span> Deep Sleep</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Torus Universes</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Delta — Deep Healing (2 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Monaural (speakers OK)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Womb · Blend 0.50</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">45–90 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Dark room · Speed 0.4x · Low intensity</span></div>
+      </div>
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">⚡</span> Deep Focus</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Quantum Fields</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Beta — Focus (16 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Isochronic (speakers OK)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">None · Blend 0.0</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">25–50 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Pomodoro blocks · High intensity</span></div>
+      </div>
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">💜</span> Grief Processing</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Intergalactic Beings</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Theta — Intuition (6 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Binaural (headphones)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Waterfall · Blend 0.30</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">30–60 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Violet palette · Journal after</span></div>
+      </div>
+      <div class="session-card">
+        <div class="session-card-title"><span class="emoji">🌐</span> Lucid Dreaming</div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Birth Tunnels of Stars</span></div>
+        <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Theta — Dreamgate (4 Hz)</span></div>
+        <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Binaural (headphones)</span></div>
+        <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Whales · Blend 0.45</span></div>
+        <div class="session-row"><span class="s-key">Duration</span><span class="s-val">Pre-sleep · 20–30 min</span></div>
+        <div class="session-row"><span class="s-key">Notes</span><span class="s-val">Eyes closed after first 5 min</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Section: OBS Setup ─────────────────────────────────────────────── -->
+  <section class="doc-section" id="obs-setup">
+    <h2><span class="section-num">12</span> OBS Setup</h2>
+    <div class="section-rule"></div>
+
+    <p>Ology sends video and audio to OBS as two separate sources. Video comes from the output popup window. Audio is captured directly from the browser running the control page. This separation preserves binaural stereo integrity on the OBS recording bus.</p>
+
+    <h3>Step 1 — Open the output window</h3>
+    <ol class="steps">
+      <li>In Ology, open the <span class="tab-chip">Output</span> tab in the right panel.</li>
+      <li>Click <span class="ctrl">⛶ Open output window</span>. A popup opens and immediately requests fullscreen.</li>
+      <li>When your browser prompts <em>"Allow this page to go fullscreen?"</em> — click <strong>Allow</strong>. This only happens once.</li>
+      <li>The output canvas fills your entire screen with no address bar, no tabs, no OS chrome.</li>
+    </ol>
+
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Press Escape to exit fullscreen</strong>
+        The window stays open when you exit fullscreen — just the chrome reappears. Click the button again to return to fullscreen. Keep this window open throughout your session.
+      </div>
+    </div>
+
+    <h3>Step 2 — Add the video source in OBS</h3>
+    <ol class="steps">
+      <li>In OBS Studio, go to the <strong>Sources</strong> panel and click <span class="key">+</span>.</li>
+      <li>Choose <strong>Window Capture</strong>.</li>
+      <li>Name it <span class="key">Ology Video</span> and click OK.</li>
+      <li>In the <strong>Window</strong> dropdown, select the Ology output window — it will appear as something like <span class="key">Opera - Ology</span>.</li>
+      <li>Check <strong>Client Area</strong> to crop out the thin OS window border.</li>
+      <li>Click OK. The Ology canvas should fill the OBS source.</li>
+    </ol>
+
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Window Capture method</strong>
+        Use <strong>Windows Graphics Capture</strong> as the capture method in OBS for the cleanest result on Windows. If the source appears black, try switching to <strong>BitBlt</strong> in the Window Capture properties.
+      </div>
+    </div>
+
+    <h3>Step 3 — Add the audio source in OBS</h3>
+    <ol class="steps">
+      <li>In the Sources panel, click <span class="key">+</span> again.</li>
+      <li>Choose <strong>Application Audio Capture</strong> (Windows) or <strong>Desktop Audio</strong> (Mac).</li>
+      <li>Set it to capture audio from the browser window running the Ology control page.</li>
+      <li>Verify audio levels appear in the OBS audio mixer — you should see the drone waveform moving when audio is playing.</li>
+    </ol>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Keep the control page open</strong>
+        The Ology control page (<span class="key">localhost:8080</span>) must stay open and running throughout the session. It is the sole audio source and writes the live visual state to the output window every frame via localStorage. Closing it stops both audio and visual updates.
+      </div>
+    </div>
+
+    <h3>The param overlay</h3>
+    <p>Toggle the <span class="ctrl">Overlay</span> button in the Output tab to show a live parameter readout in the top-left corner of the output window. Displays theme name, drone, carrier/beat Hz, entrainment mode, ambient bed, and timing values. The overlay hides automatically after 2 seconds when the mouse is idle and reappears on mouse movement — so it never pollutes a clean recording unless you want it to.</p>
+  </section>
+
+
+  <!-- ── Section: Safety ───────────────────────────────────────────────── -->
+  <section class="doc-section" id="safety">
+    <h2><span class="section-num">13</span> Safety &amp; Accuracy</h2>
+    <div class="section-rule"></div>
+
+    <div class="callout warn" style="margin-bottom:24px">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Not a medical device</strong>
+        Ology is not intended to diagnose, treat, cure, or prevent any condition. All frequency-to-state mappings are experiential meditation tools based on tradition and preliminary research, not clinical protocols. Consult a qualified professional for therapeutic treatment.
+      </div>
+    </div>
+
+    <div class="safety-grid">
+      <div class="safety-item">
+        <span class="safety-icon">🔆</span>
+        <div>
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe limiter — on by default</strong>
+          The maximum flash rate is capped to protect against photosensitivity responses. Do not disable this in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
+        </div>
+      </div>
+      <div class="safety-item">
+        <span class="safety-icon">🎧</span>
+        <div>
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Headphones for Binaural only</strong>
+          Binaural mode requires stereo headphones. On speakers, the two tones blend and the intended psychoacoustic effect is not delivered. Use Isochronic or Monaural for speaker or broadcast use.
+        </div>
+      </div>
+      <div class="safety-item">
+        <span class="safety-icon">🧘</span>
+        <div>
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Safe environment</strong>
+          Use Ology in a comfortable, quiet setting. Do not use while driving, operating machinery, or in any situation requiring active attention.
+        </div>
+      </div>
+      <div class="safety-item">
+        <span class="safety-icon">🌿</span>
+        <div>
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Spiritual frequencies</strong>
+          The Solfeggio frequencies (396–963 Hz) and chakra attributions are spiritual tradition claims, not clinically established findings. Presented as carriers for meditation intention only.
+        </div>
+      </div>
+    </div>
+
+    <h3>About the science</h3>
+
+    <div class="two-col" style="margin-top:0">
+      <div>
+        <p>A 2023 systematic review of 14 EEG studies on binaural beats found mixed results: 5 supported the brainwave entrainment hypothesis, 8 reported contradictory results. The review attributed the inconsistency to significant methodological heterogeneity across studies.</p>
+        <p style="font-size:11.5px;color:var(--faint);margin-top:4px">Ingendoh RM, Posny ES, Heine A. PLOS ONE 18(5), e0286023 (2023).</p>
+      </div>
+      <div>
+        <p>Richard P. Taylor's research at the University of Oregon demonstrated that fractal patterns at mid-range complexity (fractal dimension ~1.3–1.5) produce measurable physiological stress reduction via skin conductance and EEG response.</p>
+        <p style="font-size:11.5px;color:var(--faint);margin-top:4px">Taylor RP. Leonardo 39(3), 245–251 (2006). MIT Press.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="divider"></div>
+  <div style="text-align:center;padding:20px 0 40px;color:var(--faint);font-size:12px;line-height:1.8">
+    <div style="font-size:18px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px">Ology</div>
+    Beta v1.0 · AIMA Productions · aima.productions<br>
+    Created by Joselito Sering · © 2026
+  </div>
+
+</div><!-- .content-inner -->
+</main><!-- #content -->
+
+<script>
+// Scroll progress bar
+const bar = document.getElementById('progress-bar');
+const content = document.getElementById('content');
+content.addEventListener('scroll', () => {
+  const scrolled = content.scrollTop;
+  const total = content.scrollHeight - content.clientHeight;
+  bar.style.transform = `scaleX(${scrolled / total})`;
+});
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('.doc-section');
+const navLinks = document.querySelectorAll('#nav a');
+
+content.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 60;
+    if (content.scrollTop >= top) current = section.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+// Smooth scroll nav clicks
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
