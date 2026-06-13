@@ -506,57 +506,28 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 }
 
 /* ══════════════════════════════════════════════════════════════
-   VIEWER BAR — PROG/PREVIEW toggle + live status (mobile + tablet)
-   Sits ABOVE the canvas in normal flow.
+   VIEWER BAR — matches desktop .mon-hdr label format
+   PREVIEW + PROGRAM badge-buttons, LIVE dot, theme name right
    ══════════════════════════════════════════════════════════════ */
 #viewerBar{
   display:none;            /* shown via breakpoints */
   align-items:center;
-  justify-content:space-between;
-  gap:8px;
+  gap:7px;
   padding:0 2px 8px;
   flex-shrink:0;
 }
-#viewerToggle{
-  display:flex;
-  background:rgba(11,15,26,.6);
-  border:1px solid var(--stroke);
-  border-radius:99px;
-  padding:3px;
-  gap:2px;
-}
-#viewerToggle button{
-  border:none;background:none;
-  color:var(--dim);
-  font-size:11px;font-weight:700;letter-spacing:.6px;
-  text-transform:uppercase;
-  padding:7px 16px;border-radius:99px;
-  cursor:pointer;transition:.15s;
+/* badge-buttons reuse .mon-badge look; inactive = dimmed */
+#viewerBar .mon-badge{
+  cursor:pointer;
+  opacity:.4;
+  transition:opacity .15s,filter .15s;
   -webkit-tap-highlight-color:transparent;
 }
-#viewerToggle button.on{
-  background:linear-gradient(135deg,var(--iris),#3A6FA8);
-  color:#fff;
-}
-#viewerStatus{
-  display:flex;align-items:center;gap:6px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;letter-spacing:1px;font-weight:600;
-  color:var(--dim);text-transform:uppercase;
-  padding-right:4px;
-}
-#viewerStatus .dot{
-  width:7px;height:7px;border-radius:50%;
-  background:#ff6b6b;
-  box-shadow:0 0 6px rgba(255,107,107,.8);
-  animation:livePulse 1.6s ease-in-out infinite;
-}
-#viewerStatus.is-prev .dot{
-  background:#7aa2ff;
-  box-shadow:0 0 6px rgba(122,162,255,.8);
-  animation:none;
-}
-@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.35}}
+#viewerBar .mon-badge.on{opacity:1}
+#viewerBar .mon-badge:not(.on){filter:grayscale(.4)}
+/* LIVE indicator hidden while in preview */
+#viewerBar .mon-live{transition:opacity .15s}
+#viewerBar.show-prev .mon-live{opacity:0;visibility:hidden}
 @media(max-width:1023px){
   #viewerBar{display:flex}
 }
@@ -701,13 +672,12 @@ body.fs-fallback #fsBtnExit{
   </div>
 
   <div class="center">
-    <!-- Viewer bar (mobile/tablet): PROGRAM/PREVIEW toggle + live status -->
-    <div id="viewerBar">
-      <div id="viewerToggle" role="group" aria-label="Switch viewer">
-        <button class="on" id="vtPgm" onclick="setViewer('prog')">Program</button>
-        <button id="vtPrev" onclick="setViewer('prev')">Preview</button>
-      </div>
-      <div id="viewerStatus"><span class="dot"></span><span id="viewerStatusTxt">LIVE · Program</span></div>
+    <!-- Viewer bar (mobile/tablet): PREVIEW/PROGRAM toggle matches desktop label format -->
+    <div id="viewerBar" class="mon-hdr">
+      <button class="mon-badge prev" id="vtPrev" onclick="setViewer('prev')">PREVIEW</button>
+      <button class="mon-badge prog on" id="vtPgm" onclick="setViewer('prog')">PROGRAM</button>
+      <span class="mon-live" id="viewerLive"><span class="dot"></span>LIVE</span>
+      <span class="mon-name" id="viewerName">Intergalactic Beings</span>
     </div>
 
     <div class="monitors">
@@ -1540,6 +1510,7 @@ function presetApply(id){
     /* Preview name */
     var thName=THEMES[flat.th]?THEMES[flat.th].n:'';
     var pvn=document.getElementById('prevName');if(pvn)pvn.textContent=thName;
+    var vbn2=document.getElementById('viewerName');var vbar2=document.getElementById('viewerBar');if(vbn2&&vbar2&&vbar2.classList.contains('show-prev'))vbn2.textContent=thName;
     var phpn=document.getElementById('ph-prev-name');if(phpn)phpn.textContent=thName;
     /* Audio controls (UI only — engine untouched) */
     if(a){
@@ -1622,6 +1593,7 @@ function presetApplyToProgram(id){
   var thName=THEMES[flat.th]?THEMES[flat.th].n:'';
   var pn=document.getElementById('progName');if(pn)pn.textContent=thName;
   var pvn=document.getElementById('prevName');if(pvn)pvn.textContent=thName;
+  var vbn=document.getElementById('viewerName');var vbar=document.getElementById('viewerBar');if(vbn&&!(vbar&&vbar.classList.contains('show-prev')))vbn.textContent=thName;
   var phpn=document.getElementById('ph-prev-name');if(phpn)phpn.textContent=thName;
   saveProg();
 }
@@ -1877,11 +1849,13 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     if(prev) prev.classList.toggle('viewer-active', showPrev);
     if(bPgm){ bPgm.classList.toggle('on', !showPrev); }
     if(bPrev){ bPrev.classList.toggle('on', showPrev); }
-    /* update the live status label */
-    var st=document.getElementById('viewerStatus');
-    var stx=document.getElementById('viewerStatusTxt');
-    if(st) st.classList.toggle('is-prev', showPrev);
-    if(stx) stx.textContent = showPrev ? 'PREVIEW' : 'LIVE \u00b7 Program';
+    /* drive the viewer bar: LIVE indicator + theme name */
+    var bar=document.getElementById('viewerBar');
+    if(bar) bar.classList.toggle('show-prev', showPrev);
+    var vn=document.getElementById('viewerName');
+    if(vn){
+      try{ vn.textContent = showPrev ? THEMES[PREV.th].n : THEMES[PROG.th].n; }catch(e){}
+    }
     /* the now-visible canvas needs a resize so it draws at correct size */
     window.resizeAll && setTimeout(window.resizeAll, 30);
   };
