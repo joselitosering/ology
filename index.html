@@ -12,6 +12,9 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .modetog button.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;box-shadow:0 3px 12px rgba(108,63,255,.45)}
 .play-btn{background:none;border:1px solid var(--s2);border-radius:8px;color:var(--txt);padding:6px 12px;cursor:pointer;font-size:12px}
 .play-btn.paused{color:var(--grn);border-color:rgba(62,204,133,.4)}
+#goBtn{width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;text-align:center;border:1px solid var(--iris);background:rgba(123,167,212,.08);color:var(--teal);transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
+#goBtn:hover{background:rgba(123,167,212,.18);border-color:var(--teal);box-shadow:0 0 14px rgba(168,216,234,.28);color:#fff}
+#goBtn:active{background:linear-gradient(135deg,rgba(91,143,191,.55),rgba(168,216,234,.35));border-color:var(--acc2);box-shadow:0 0 22px rgba(168,216,234,.45);transform:scale(.97);color:#fff}
 #stageView{display:flex;height:calc(100vh - 44px);overflow:hidden}
 #mobileView{display:none;height:calc(100vh - 44px)}
 .sidebar{width:86px;flex-shrink:0;background:var(--sb);border-right:1px solid var(--stroke);display:flex;flex-direction:column;padding:8px 6px;gap:2px;overflow-y:auto}
@@ -51,7 +54,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .dial-svg{cursor:ns-resize;touch-action:none}
 .dial-label{font-size:8px;letter-spacing:.8px;text-transform:uppercase;color:var(--faint);text-align:center}
 .dial-val{font-size:9px;color:var(--acc2);text-align:center}
-.right-panel{width:274px;flex-shrink:0;background:var(--ps);border-left:1px solid var(--stroke);display:flex;flex-direction:column;overflow:hidden}
+.right-panel{width:340px;flex-shrink:0;background:var(--ps);border-left:1px solid var(--stroke);display:flex;flex-direction:column;overflow:hidden}
 .rp-header{padding:12px 14px 10px;border-bottom:1px solid var(--stroke)}
 .rp-title{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--dim)}
 .rp-body{flex:1;overflow-y:auto;padding:14px}
@@ -64,7 +67,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .rval{font-size:11px;color:var(--acc2);font-variant-numeric:tabular-nums;min-width:36px;text-align:right}
 input[type=range]{-webkit-appearance:none;height:3px;border-radius:99px;background:rgba(255,255,255,.14);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(168,117,255,.9)}
-.right-panel input[type=range]{width:100px}
+.right-panel input[type=range]{flex:1;min-width:0}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
 .chip{font-size:10.5px;padding:5px 10px;border-radius:99px;border:1px solid var(--s2);background:rgba(255,255,255,.03);color:var(--dim);cursor:pointer;transition:.15s}
 .chip:hover{border-color:var(--acc)}
@@ -200,9 +203,54 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
 #helpCloseBtn{position:absolute;top:12px;right:14px;z-index:2;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:var(--dim);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;flex-shrink:0;line-height:1}
 #helpCloseBtn:hover{background:rgba(255,78,106,.22);border-color:rgba(255,78,106,.45);color:#ff7a8a}
 #helpCloseBtn svg{width:12px;height:12px;pointer-events:none}
+
+/* ── Brand readability overrides (Outfit — no Courier) ── */
+
+/* Panel section headers — teal, slightly larger, readable */
+.section h4{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;font-weight:600}
+
+/* Row labels — full contrast text, comfortable reading size */
+.row label{font-size:13px;color:var(--txt);letter-spacing:.01em;white-space:nowrap}
+
+/* Row readout values — teal accent, same size as label */
+.rval{font-size:13px;color:var(--acc2);font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+
+/* Panel title (VISUALS / AUDIO / OUTPUT…) */
+.rp-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--teal)}
+
+/* Note / helper text — readable, good contrast */
+.note{font-size:12px;color:#C4D8EA;line-height:1.7}
+
+/* Drone info line */
+#droneInfo{font-size:12px;color:#C4D8EA;line-height:1.5}
+
+/* Select / dropdown — brand colors, Outfit font, iris border */
+select{font-family:'Outfit',system-ui,-apple-system,sans-serif!important;font-size:13px!important;font-weight:500!important;background:#0e1422!important;color:var(--txt)!important;border:1px solid var(--iris)!important;border-radius:8px!important;padding:9px 34px 9px 12px!important;width:100%!important;cursor:pointer!important;-webkit-appearance:none!important;appearance:none!important;margin-bottom:6px!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237BA7D4' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important}
+select:focus{outline:none!important;border-color:var(--teal)!important;box-shadow:0 0 0 2px rgba(168,216,234,.18)!important}
+select option{background:#0e1422;color:var(--txt)}
+
+/* Segment button brand active */
+.seg button{font-size:11px;letter-spacing:.3px}
+.seg button.on{background:linear-gradient(135deg,rgba(123,167,212,.28),rgba(168,216,234,.14));color:var(--txt);border-bottom:2px solid var(--teal)}
+
+/* Slider thumb brand glow */
+input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),0 0 3px rgba(168,216,234,.6)}
+
+/* Toggle, buttons */
+.tog.on{background:var(--teal)}
+.btn-p{background:linear-gradient(135deg,var(--iris),#3A6FA8)}
+.btn-g{color:var(--txt);border-color:var(--stroke)}
+.btn-g:hover{border-color:var(--iris);color:var(--teal)}
+.tbtn.on{background:linear-gradient(135deg,var(--iris),#3A6FA8);box-shadow:0 3px 10px rgba(91,143,191,.4)}
+
+/* URL box — JetBrains Mono is appropriate here (URL is code) */
+.urlbox{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);border-color:var(--stroke)}
+
+/* Logo canvas drop-shadow brand color */
+.logo{filter:drop-shadow(0 0 7px rgba(123,167,212,.65))}
 </style>
 <div class="topbar">
-  <svg class="logo" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="lg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8D8EA"/><stop offset="50%" stop-color="#7BA7D4"/><stop offset="100%" stop-color="#C084B0"/></radialGradient></defs><circle cx="14" cy="14" r="2.8" fill="url(#lg1)"/><g opacity=".85"><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#7BA7D4" stroke-width="1.1"/><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#A8D8EA" stroke-width="1.1" transform="rotate(60 14 14)"/><ellipse cx="14" cy="14" rx="11" ry="3.5" fill="none" stroke="#C084B0" stroke-width="1.1" transform="rotate(120 14 14)"/></g><circle cx="25" cy="14" r="1.6" fill="#A8D8EA" opacity=".9"/><circle cx="25" cy="14" r="1.6" fill="#E8896A" opacity=".9" transform="rotate(60 14 14)"/><circle cx="25" cy="14" r="1.6" fill="#C084B0" opacity=".9" transform="rotate(120 14 14)"/></svg>
+  <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
   <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.2 · Free Version</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
@@ -233,7 +281,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
     <div class="rp-header"><span class="rp-title" id="rpTitle">Visuals</span></div>
     <div class="rp-body">
       <div data-pane="visuals">
-        <div class="section"><h4>Preview Theme</h4><select id="themeChips" style="width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:8px;color:var(--txt);padding:8px 10px;font-size:11px;cursor:pointer;appearance:none;-webkit-appearance:none" aria-label="Preview theme"></select></div>
+        <div class="section"><h4>Preview Theme</h4><select id="themeChips" aria-label="Preview theme"></select></div>
         <div class="section">
           <h4>Motion</h4>
           <div class="row"><label>Intensity</label><input type="range" min="0" max="100" value="50" oninput="SP('intensity',this.value)"><span class="rval" id="rv_intensity">0.50</span></div>
@@ -250,7 +298,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
           <div class="seg"><button data-sym="0" onclick="setSym(0)">Radial</button><button data-sym="1" onclick="setSym(1)">Mirror</button><button data-sym="2" class="on" onclick="setSym(2)">Kaleidoscope</button></div>
         </div>
         <div class="section" style="padding-bottom:4px">
-          <button id="goBtn" onclick="executeTransition()" style="background:linear-gradient(135deg,var(--grn),#23a066);border:none;color:#fff;width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:1.5px;transition:.15s">GO</button>
+          <button id="goBtn" onclick="executeTransition()">GO</button>
         </div>
       </div>
       <div data-pane="audio" hidden>
@@ -263,7 +311,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
         </div>
         <div class="section">
           <h4>Drone Generator</h4>
-          <select id="droneChips" style="width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:8px;color:var(--txt);padding:8px 10px;font-size:11px;margin-bottom:6px;cursor:pointer;appearance:none;-webkit-appearance:none" aria-label="Drone preset"></select>
+          <select id="droneChips" aria-label="Drone preset"></select>
           <p class="note" id="droneInfo" style="margin:0 0 2px;color:var(--faint)">Carrier 136.1 Hz · Beat 6.00 Hz · Band theta · Mode binaural</p>
         </div>
         <div class="section">
@@ -278,7 +326,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
             <button data-mode="isochronic" onclick="uiMode('isochronic',this)">Isochronic</button>
             <button data-mode="monaural" onclick="uiMode('monaural',this)">Monaural</button>
           </div>
-          <p class="note" style="color:var(--faint)">Binaural needs headphones for true L/R separation. On stage speakers use Isochronic.</p>
+
         </div>
         <div class="section">
           <h4>Texture</h4>
@@ -287,9 +335,9 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
         </div>
         <div class="section">
           <h4>Ambient Bed</h4>
-          <select id="bedChips2" style="width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:8px;color:var(--txt);padding:8px 10px;font-size:11px;margin-bottom:6px;cursor:pointer;appearance:none;-webkit-appearance:none" aria-label="Ambient bed"></select>
+          <select id="bedChips2" aria-label="Ambient bed"></select>
           <div class="row" style="margin-top:10px"><label>Drone ↔ Bed</label><input type="range" id="blendSlider" min="0" max="100" value="30" oninput="uiBlend(this.value)"><span class="rval" id="blendRO">0.30</span></div>
-          <p class="note" style="margin:4px 0 0;color:var(--faint)">Left = all drone · center = balanced · right = all ambient bed.</p>
+
         </div>
         <div class="section">
           <h4>Loop &amp; Master</h4>
@@ -302,7 +350,7 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
         </div>
         <div class="section">
           <h4>Reactivity · Band → Visual</h4>
-          <p class="note" style="color:var(--faint)">Routes are applied by the renderer (M1). Driving the drone moves these visual params live.</p>
+
           <div class="row"><label>Sub → Bloom</label><input type="range" min="0" max="100" value="50" oninput="uiRoute('sub','bloom',this)"><span class="rval">0.50</span></div>
           <div class="row"><label>Low → Zoom</label><input type="range" min="0" max="100" value="30" oninput="uiRoute('low','zoom',this)"><span class="rval">0.30</span></div>
           <div class="row"><label>Mid → Chaos</label><input type="range" min="0" max="100" value="40" oninput="uiRoute('mid','chaos',this)"><span class="rval">0.40</span></div>
@@ -1276,6 +1324,41 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
   document.getElementById('helpBackdrop').addEventListener('mousedown',function(){
     closeHelp();
   });
+})();
+</script>
+<script>
+/* ── Animated atom logo — kaleidoscope petal engine ── */
+(function(){
+  var cv=document.getElementById('logoKal');
+  if(!cv)return;
+  var ctx=cv.getContext('2d'),t=0;
+  var cols=['#7BA7D4','#A8D8EA','#E8896A','#C084B0','#FFFFFF'];
+  function frame(){
+    t+=.018;
+    var w=cv.width,h=cv.height,cx=w/2,cy=h/2,seg=6;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='rgba(11,15,26,.55)';ctx.fillRect(0,0,w,h);
+    for(var s=0;s<seg;s++){
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(s*2*Math.PI/seg+t*.4);
+      for(var k=0;k<3;k++){
+        var r=(Math.sin(t*1.1+k*1.9)*.5+.5)*cx*.82+2;
+        var a=Math.sin(t*.7+k)*1.3;
+        var x=Math.cos(a)*r,y=Math.sin(a*1.5)*r*.5;
+        var sz=k===0?2.8+2*Math.sin(t*1.8+s):1.4+1.4*Math.sin(t*2.2+k+s);
+        ctx.beginPath();ctx.arc(x,y,sz,0,7);
+        ctx.fillStyle=cols[(k+s)%5]+(k===0?'cc':'88');ctx.fill();
+        ctx.strokeStyle=cols[(k+s)%5]+'aa';ctx.lineWidth=k===0?.9:.5;ctx.stroke();
+      }
+      ctx.restore();
+    }
+    var bloom=ctx.createRadialGradient(cx,cy,0,cx,cy,cx*.8);
+    bloom.addColorStop(0,'rgba(255,255,255,.18)');
+    bloom.addColorStop(.5,'rgba(192,132,176,.06)');
+    bloom.addColorStop(1,'rgba(11,15,26,0)');
+    ctx.fillStyle=bloom;ctx.fillRect(0,0,w,h);
+    requestAnimationFrame(frame);
+  }
+  frame();
 })();
 </script>
 </html>
