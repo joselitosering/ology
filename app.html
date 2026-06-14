@@ -952,22 +952,26 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
 /* ─── iOS / mobile audio unlock ───────────────────────────────────────────
    AudioContext starts suspended (autoplay policy). On iOS Safari, resume()
    only works inside a user-gesture handler — and the unlock from the gate
-   page does NOT survive the navigation to app.html. So we resume the audio
-   on the first touch/click/key here, once. */
+   page does NOT survive the navigation to app.html.
+   iOS can also ignore the FIRST resume (race), so we retry start() on every
+   user gesture until the engine reports playing, rather than latching once. */
 (function(){
-  var _unlocked=false;
+  var _confirmed=false, _tries=0;
   function _unlockAudio(){
-    if(_unlocked)return;
     var A=window.OlogyAudio;
-    if(!A)return;
-    /* start() builds the bus + resumes the context (must run in a gesture on iOS).
-       Don't gate on isReady() — isReady needs mixBus, which start() creates. */
-    try{ A.start(); }catch(e){ return; }
+    if(!A){return;}
+    /* call start() on each gesture — it resumes the context + builds voices */
+    try{ A.start(); }catch(e){}
     if(typeof PROG!=='undefined'&&PROG.audio){PROG.audio.isPlaying=true;}
-    _unlocked=true;
-    ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
-      document.removeEventListener(ev,_unlockAudio,true);
-    });
+    _tries++;
+    /* consider it confirmed once the engine is ready AND we've tried a couple
+       of gestures (covers the iOS first-gesture-ignored race). */
+    if(A.isReady&&A.isReady()&&_tries>=2){_confirmed=true;}
+    if(_confirmed||_tries>=8){
+      ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
+        document.removeEventListener(ev,_unlockAudio,true);
+      });
+    }
   }
   ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
     document.addEventListener(ev,_unlockAudio,true);
