@@ -876,14 +876,14 @@ function refreshOut(){
 }
 window.setOut=function(kind,val,el){OUT[kind]=val;el.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));el.classList.add('on');refreshOut();};
 window.copyOutUrl=function(btn){const url=document.getElementById('outUrl').textContent;navigator.clipboard?.writeText(url).then(()=>{const o=btn.textContent;btn.textContent='✓ Copied';setTimeout(()=>btn.textContent=o,1400);}).catch(()=>{});};
-window.openOutView=function(){window.open(document.getElementById('outUrl').textContent,'_blank');};
+window.openOutView=function(){var url=location.href.replace(/\/[^/]*$/,'/')+('output.html?ar='+encodeURIComponent(OUT.ar)+'&res='+OUT.res+'&fps='+OUT.fps);window.open(url,'_blank');};
 /* Opens output.html as a popup then immediately requests fullscreen on it.
    Fullscreen removes the OS window chrome, address bar and title bar entirely.
    Same browser process as index.html so localStorage sync works instantly.
    Browser will prompt the user to allow fullscreen on first use — click Allow.
    Press Escape to exit fullscreen. In OBS use Window Capture → Client Area.  */
 window.openOutPopup=function(){
-  var url=document.getElementById('outUrl').textContent;
+  var url=location.href.replace(/\/[^/]*$/,'/')+('output.html?ar='+encodeURIComponent(OUT.ar)+'&res='+OUT.res+'&fps='+OUT.fps);
   /* Calculate a seed window that fits the screen at the correct AR.
      We fit to 90% of screen so the OS doesn't clamp the window.
      Fullscreen takes over after load — seed size only matters for the
