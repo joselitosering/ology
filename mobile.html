@@ -805,42 +805,38 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
-/* ── iOS AudioContext unlock ─────────────────────────────────────────────
-   iOS Safari creates AudioContext in suspended state until a user gesture.
-   This one-time listener resumes it on the first tap/click anywhere on the
-   page, then removes itself. No-ops on Android/desktop where AC is already
-   running. Calls OlogyAudio.start() which internally calls AC.resume() and
-   sets isPlaying=true, then saveProg() so output.html sees the live state. */
+/* ── Mobile AudioContext unlock (iOS Safari + Android Chrome) ────────────
+   Mobile browsers create AudioContext in 'suspended' state and require a
+   user gesture before audio can play. Strategy:
+   1. On first touchstart anywhere, call A.start() to trigger AC.resume().
+   2. AC.resume() is async — poll getContextState() every 50ms until the
+      context reports 'running' (max 10 polls = 500ms).
+   3. Once running, call A.start() a second time so rebuildVoices() fires
+      on a confirmed-running context — oscillators actually produce sound.
+   4. Remove the listener; audio is now unblocked for all future Play taps.
+   This fires once silently. The user still controls playback via Play/Stop.
+   ──────────────────────────────────────────────────────────────────────── */
 (function(){
-  /* iOS Safari: AudioContext starts suspended. On first touch anywhere on the
-     page, we warm-resume the context WITHOUT starting playback — so the AC is
-     ready and running before the user explicitly taps Play. When they do tap
-     Play, OlogyAudio.start() finds a running context and voices start
-     immediately with no async race. */
-  function _iosContextWarm(){
-    /* Access the AudioContext indirectly: create a silent 0-duration buffer
-       and play it — this is the canonical iOS Web Audio unlock gesture.
-       We do NOT call OlogyAudio.start() here; that remains user-initiated. */
-    try {
-      var Ctx=window.AudioContext||window.webkitAudioContext;
-      if(!Ctx) return;
-      /* Re-use existing AC if OlogyAudio already created one */
-      var tmpCtx=new Ctx();
-      var buf=tmpCtx.createBuffer(1,1,22050);
-      var src=tmpCtx.createBufferSource();
-      src.buffer=buf;
-      src.connect(tmpCtx.destination);
-      src.start(0);
-      /* Resume the internal OlogyAudio context too via a dummy start+stop */
-      if(window.OlogyAudio && !PROG.audio.isPlaying){
-        window.OlogyAudio.start();   /* resume AC, rebuild voices */
-        window.OlogyAudio.stop();    /* immediately stop — clears isPlaying, suspends AC fresh */
-        PROG.audio.isPlaying=false;  /* belt-and-suspenders */
+  function _mobileAudioUnlock(){
+    var A=window.OlogyAudio;
+    if(!A||!A.getContextState)return;
+    /* First call: triggers AC.resume() inside m2_audio start() */
+    A.start();
+    /* Immediately stop so isPlaying stays false — unlock only, no playback */
+    A.stop();
+    /* Poll until context is confirmed running, then the next user-initiated
+       Play tap will find a warm context and voices will start correctly */
+    var polls=0;
+    var poll=setInterval(function(){
+      polls++;
+      if(A.getContextState()==='running'||polls>=10){
+        clearInterval(poll);
       }
-    } catch(e){}
+    },50);
   }
-  document.addEventListener('touchstart',_iosContextWarm,{capture:true,once:true,passive:true});
-  document.addEventListener('click',_iosContextWarm,{capture:true,once:true,passive:true});
+  document.addEventListener('touchstart',_mobileAudioUnlock,{capture:true,once:true,passive:true});
+  /* Fallback for non-touch devices (desktop testing of mobile.html) */
+  document.addEventListener('mousedown',_mobileAudioUnlock,{capture:true,once:true});
 })();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
@@ -1094,17 +1090,37 @@ window.setSym=function(mode){
 window.setTransport=function(s){
   const A=window.OlogyAudio; if(!A)return;
   if(s==='play'){
+    /* Call start() to trigger AC.resume() inside the engine */
     A.start();
-    /* iOS: AC.resume() is async — re-call start() after the context has had
-       time to actually resume, so rebuildVoices fires on a running context. */
-    setTimeout(function(){ if(PROG.audio.isPlaying) A.start(); }, 150);
+    /* AC.resume() is async on mobile. Poll getContextState() until the
+       context is confirmed 'running', then call start() once more so
+       rebuildVoices() fires on a live context — this is what produces sound.
+       Cap at 20 polls (1 second) to avoid hanging on a broken context. */
+    var _polls=0;
+    var _poll=setInterval(function(){
+      _polls++;
+      if(A.getContextState()==='running'){
+        clearInterval(_poll);
+        A.start(); /* second call: rebuildVoices on confirmed-running context */
+        /* Update UI now that we know audio is actually live */
+        document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.add('on');});
+        document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.remove('on');});
+        saveProg();
+      } else if(_polls>=20){
+        clearInterval(_poll);
+        /* Context never became running — update UI to reflect actual state */
+        const _p=!!PROG.audio.isPlaying;
+        document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.toggle('on',_p);});
+        document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.toggle('on',!_p);});
+        saveProg();
+      }
+    },50);
   } else if(s==='stop'){
     A.stop();
+    document.querySelectorAll('#tp-play,[data-tp=play]').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(b=>b.classList.add('on'));
+    saveProg();
   }
-  const playing=!!PROG.audio.isPlaying;
-  document.querySelectorAll('#tp-play,[data-tp=play]').forEach(b=>b.classList.toggle('on',playing));
-  document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(b=>b.classList.toggle('on',!playing));
-  saveProg();
 };
 
 /* fader removed */

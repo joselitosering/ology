@@ -560,6 +560,7 @@
     setLoop: setLoop, setMaster: setMaster, setRoute: setRoute,
     updateAnalysis: updateAnalysis, getAnalysisFrame: getAnalysisFrame,
     isReady: isReady, dispose: dispose,
+    getContextState: function(){ return AC ? AC.state : 'closed'; },
     CONTRACTS_VERSION: CONTRACTS_VERSION
   };
 
