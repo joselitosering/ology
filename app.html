@@ -948,6 +948,31 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
+
+/* ─── iOS / mobile audio unlock ───────────────────────────────────────────
+   AudioContext starts suspended (autoplay policy). On iOS Safari, resume()
+   only works inside a user-gesture handler — and the unlock from the gate
+   page does NOT survive the navigation to app.html. So we resume the audio
+   on the first touch/click/key here, once. */
+(function(){
+  var _unlocked=false;
+  function _unlockAudio(){
+    if(_unlocked)return;
+    var A=window.OlogyAudio;
+    if(!A)return;
+    /* start() builds the bus + resumes the context (must run in a gesture on iOS).
+       Don't gate on isReady() — isReady needs mixBus, which start() creates. */
+    try{ A.start(); }catch(e){ return; }
+    if(typeof PROG!=='undefined'&&PROG.audio){PROG.audio.isPlaying=true;}
+    _unlocked=true;
+    ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
+      document.removeEventListener(ev,_unlockAudio,true);
+    });
+  }
+  ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
+    document.addEventListener(ev,_unlockAudio,true);
+  });
+})();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
   var DRONES=[
