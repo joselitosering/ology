@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8">
 
   <!-- ── Primary identity ── -->
-  <title>Ology · Beta v1.2 — Free Version</title>
+  <title>Ology 1.0 — Free Version</title>
   <meta name="description" content="An infinite, audio-reactive kaleidoscope for meditation, performance, and worship. Binaural drones, isochronic entrainment, ambient texture beds — free in your browser. See your sound. Still your mind.">
   <meta name="author" content="Joselito Sering · AIMA Productions">
   <meta name="copyright" content="© 2026 Joselito Sering · AIMA Productions · aima.productions">
@@ -623,7 +623,7 @@ body.viewer-fs #fsHint{display:block}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.2 · Free Version</div></div>
+  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Ology 1.0 · Free Version</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
@@ -1903,7 +1903,7 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     var slow=(typeof a.slowness==='number')?a.slowness.toFixed(2):'0.00';
     var line=theme.n+' \u2014 '+(spec.name||droneId)+' \u00b7 '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz \u00b7 '+(a.mode||spec.mode||'\u2014')+' \u00b7 '+bedLabel;
     hint.classList.add('with-params');
-    hint.innerHTML='<div style="opacity:.85">Ology Beta v1.2 \u00b7 AIMA Productions</div><div>'+line+'</div><div style="opacity:.5;margin-top:4px">Tap viewer to exit</div>';
+    hint.innerHTML='<div style="opacity:.85">Ology 1.0 \u00b7 AIMA Productions</div><div>'+line+'</div><div style="opacity:.5;margin-top:4px">Tap viewer to exit</div>';
   };
 
   /* ── Init: default viewer — PREVIEW on mobile/tablet, PROGRAM on desktop ── */
