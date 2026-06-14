@@ -2,44 +2,38 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ology · Help Guide · Beta v1.0</title>
+<title>Ology · Help Guide · Beta v1.3</title>
 <style>
 /* ── Reset & Base ─────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Brand palette */
-  --bg:        #0B0F1A;
-  --surface:   #111827;
-  --panel:     #1A2233;
-  --stroke:    rgba(123,167,212,.18);
-  --s2:        rgba(123,167,212,.28);
-  --txt:       #E8F0F8;
-  --dim:       #8FA8C0;
-  --faint:     #4a6a84;
-  --acc:       #7BA7D4;
-  --acc-dark:  #3A6FA8;
-  --teal:      #A8D8EA;
-  --teal-dim:  rgba(168,216,234,.12);
-  --red:       #E8896A;
-  --grn:       #6abfa0;
-  --warn-bg:   rgba(232,137,106,.08);
-  --warn-border: rgba(232,137,106,.28);
-  --tip-bg:    rgba(168,216,234,.07);
-  --tip-border: rgba(168,216,234,.25);
-  --note-bg:   rgba(123,167,212,.07);
-  --note-border: rgba(123,167,212,.28);
-  --iris:      #7BA7D4;
-  --amber:     #E8896A;
-  --rose:      #C084B0;
-  --grad:      linear-gradient(90deg,#5B8FBF,#A8D8EA,#E8896A,#C084B0);
+  /* App-native palette */
+  --bg:        #06070d;
+  --surface:   #0b0d15;
+  --panel:     #0e1022;
+  --stroke:    rgba(255,255,255,.08);
+  --s2:        rgba(255,255,255,.14);
+  --txt:       #e8eaf2;
+  --dim:       #8a90a8;
+  --faint:     #4a5068;
+  --acc:       #a875ff;
+  --acc-dark:  #6c3fff;
+  --teal:      #35dfd6;
+  --teal-dim:  rgba(53,223,214,.12);
+  --red:       #ff4e6a;
+  --grn:       #3ecc85;
+  --warn-bg:   rgba(255,78,106,.08);
+  --warn-border: rgba(255,78,106,.28);
+  --tip-bg:    rgba(53,223,214,.07);
+  --tip-border: rgba(53,223,214,.25);
+  --note-bg:   rgba(168,117,255,.07);
+  --note-border: rgba(168,117,255,.28);
 
-  /* Type scale — brand fonts */
-  --font-ui:   'Outfit', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  /* Type scale */
+  --font-ui:   'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
 
   /* Sizes */
   --nav-w: 220px;
@@ -51,16 +45,16 @@ html { scroll-behavior: smooth; }
 /* ── Global scrollbar — matches app dark theme ───────────────────────── */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #7BA7D4 transparent;
+  scrollbar-color: rgba(168,117,255,.35) transparent;
 }
 *::-webkit-scrollbar { width: 4px; height: 4px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb {
-  background: #7BA7D4;
+  background: rgba(168,117,255,.3);
   border-radius: 99px;
 }
 *::-webkit-scrollbar-thumb:hover {
-  background: #A8D8EA;
+  background: rgba(168,117,255,.55);
 }
 
 body {
@@ -149,7 +143,7 @@ nav a:hover {
 nav a.active {
   color: var(--acc);
   border-left-color: var(--acc);
-  background: rgba(123,167,212,.08);
+  background: rgba(168,117,255,.08);
 }
 
 nav a .nav-icon {
@@ -239,8 +233,8 @@ nav a.active .nav-icon { opacity: 1; }
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--acc);
-  background: rgba(123,167,212,.12);
-  border: 1px solid rgba(123,167,212,.25);
+  background: rgba(168,117,255,.12);
+  border: 1px solid rgba(168,117,255,.25);
   border-radius: 4px;
   padding: 2px 7px;
   letter-spacing: .5px;
@@ -250,7 +244,7 @@ nav a.active .nav-icon { opacity: 1; }
 
 .section-rule {
   height: 1px;
-  background: linear-gradient(90deg, rgba(123,167,212,.4), transparent);
+  background: linear-gradient(90deg, rgba(168,117,255,.4), transparent);
   margin-bottom: 24px;
 }
 
@@ -387,8 +381,8 @@ nav a.active .nav-icon { opacity: 1; }
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(123,167,212,.15);
-  border: 1px solid rgba(123,167,212,.35);
+  background: rgba(168,117,255,.15);
+  border: 1px solid rgba(168,117,255,.35);
   color: var(--acc);
   font-size: 11px;
   font-weight: 700;
@@ -443,7 +437,7 @@ nav a.active .nav-icon { opacity: 1; }
   transition: border-color .15s;
 }
 
-.ctrl-card:hover { border-color: rgba(123,167,212,.3); }
+.ctrl-card:hover { border-color: rgba(168,117,255,.3); }
 
 .ctrl-card-name {
   font-family: var(--font-mono);
@@ -459,11 +453,11 @@ nav a.active .nav-icon { opacity: 1; }
 .ctrl-card-range {
   font-size: 10px;
   color: var(--acc);
-  background: rgba(123,167,212,.1);
+  background: rgba(168,117,255,.1);
   border-radius: 4px;
   padding: 1px 6px;
   font-weight: 600;
-  border: 1px solid rgba(123,167,212,.2);
+  border: 1px solid rgba(168,117,255,.2);
 }
 
 .ctrl-card p {
@@ -482,7 +476,7 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .data-table th {
-  background: rgba(123,167,212,.1);
+  background: rgba(168,117,255,.1);
   color: var(--acc);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -491,7 +485,7 @@ nav a.active .nav-icon { opacity: 1; }
   font-weight: 700;
   padding: 9px 12px;
   text-align: left;
-  border-bottom: 1px solid rgba(123,167,212,.2);
+  border-bottom: 1px solid rgba(168,117,255,.2);
 }
 
 .data-table td {
@@ -525,8 +519,8 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .band-delta  { background: rgba(63,134,255,.15);  color: #7aabff; border: 1px solid rgba(63,134,255,.3); }
-.band-theta  { background: rgba(123,167,212,.15); color: #A8D8EA; border: 1px solid rgba(123,167,212,.3); }
-.band-alpha  { background: rgba(168,216,234,.13);  color: #C4E8F4; border: 1px solid rgba(168,216,234,.3); }
+.band-theta  { background: rgba(168,117,255,.15); color: #c9a0ff; border: 1px solid rgba(168,117,255,.3); }
+.band-alpha  { background: rgba(53,223,214,.13);  color: #6af0eb; border: 1px solid rgba(53,223,214,.3); }
 .band-beta   { background: rgba(245,158,11,.13);  color: #fbbf24; border: 1px solid rgba(245,158,11,.3); }
 .band-gamma  { background: rgba(255,78,106,.13);  color: #ff8f9e; border: 1px solid rgba(255,78,106,.3); }
 .band-schumann { background: rgba(134,239,172,.12); color: #86efac; border: 1px solid rgba(134,239,172,.3); }
@@ -606,8 +600,8 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .imap-nav-icon.active {
-  background: rgba(123,167,212,.15);
-  border: 1px solid rgba(123,167,212,.3);
+  background: rgba(168,117,255,.15);
+  border: 1px solid rgba(168,117,255,.3);
 }
 
 .imap-nav-icon.active .ilabel { color: var(--acc); }
@@ -651,7 +645,7 @@ nav a.active .nav-icon { opacity: 1; }
   font-size: 9px;
   color: var(--faint);
   letter-spacing: .8px;
-  background: radial-gradient(ellipse at center, rgba(123,167,212,.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(168,117,255,.08) 0%, transparent 70%);
 }
 
 .imap-panel {
@@ -759,7 +753,7 @@ nav a.active .nav-icon { opacity: 1; }
 }
 
 .go-btn-demo {
-  background: linear-gradient(135deg, #6abfa0, #3a9a7a);
+  background: linear-gradient(135deg, #3ecc85, #2aaa6a);
   color: #fff;
   font-size: 13px;
   font-weight: 800;
@@ -815,8 +809,8 @@ nav a.active .nav-icon { opacity: 1; }
   margin-bottom: 8px;
 }
 
-.tag-headphones { background: rgba(123,167,212,.15); color: var(--acc); border: 1px solid rgba(123,167,212,.3); }
-.tag-speakers   { background: rgba(168,216,234,.12);  color: var(--teal); border: 1px solid rgba(168,216,234,.3); }
+.tag-headphones { background: rgba(168,117,255,.15); color: var(--acc); border: 1px solid rgba(168,117,255,.3); }
+.tag-speakers   { background: rgba(53,223,214,.12);  color: var(--teal); border: 1px solid rgba(53,223,214,.3); }
 
 .mode-card p {
   font-size: 12px;
@@ -845,7 +839,7 @@ nav a.active .nav-icon { opacity: 1; }
   transition: border-color .15s;
 }
 
-.session-card:hover { border-color: rgba(123,167,212,.3); }
+.session-card:hover { border-color: rgba(168,117,255,.3); }
 
 .session-card-title {
   font-size: 14px;
@@ -973,7 +967,7 @@ nav a.active .nav-icon { opacity: 1; }
 <aside id="nav">
   <div class="nav-brand">
     <div class="wordmark">Ology</div>
-    <div class="sub">Help Guide · Beta v1.0</div>
+    <div class="sub">Help Guide · Beta v1.3</div>
   </div>
 
   <div class="nav-section-label">Getting Started</div>
@@ -1040,7 +1034,7 @@ nav a.active .nav-icon { opacity: 1; }
     </a>
   </nav>
 
-  <div class="nav-footer">Ology Beta v1.0 · AIMA Productions</div>
+  <div class="nav-footer">Ology Beta v1.3 · AIMA Productions</div>
 </aside>
 
 <!-- ── Main Content ────────────────────────────────────────────────────── -->
@@ -1049,7 +1043,7 @@ nav a.active .nav-icon { opacity: 1; }
 
   <!-- Hero -->
   <header class="page-hero">
-    <div class="eyebrow">Ology · Help Guide · Beta v1.0</div>
+    <div class="eyebrow">Ology · Help Guide · Beta v1.3</div>
     <h1>Everything you need<br>to run a session.</h1>
     <p class="lead">Ology is a browser-based audio-reactive kaleidoscope for meditation, neuroplasticity, and live performance. This guide covers every control, the full drone library, OBS setup, and ready-to-use session recipes.</p>
   </header>
@@ -1162,8 +1156,8 @@ nav a.active .nav-icon { opacity: 1; }
       <div class="annot-row">
         <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> PREVIEW — staging area for changes</div>
         <div class="annot"><span class="annot-dot" style="background:#ff7a8a"></span> PROGRAM — what's live on screen and in OBS</div>
-        <div class="annot"><span class="annot-dot" style="background:#7BA7D4"></span> Control panel — updates PREVIEW only</div>
-        <div class="annot"><span class="annot-dot" style="background:#6abfa0"></span> GO — commits PREVIEW → PROGRAM</div>
+        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> Control panel — updates PREVIEW only</div>
+        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO — commits PREVIEW → PROGRAM</div>
       </div>
     </div>
 
@@ -1398,7 +1392,7 @@ nav a.active .nav-icon { opacity: 1; }
     <h2><span class="section-num">06</span> Output Tab</h2>
     <div class="section-rule"></div>
 
-    <p>The Output tab controls everything related to the OBS canvas, the param overlay, and wireless phone pairing.</p>
+    <p>The Output tab controls the OBS output window, the param overlay, and wireless phone pairing.</p>
 
     <h3>Why two separate pages?</h3>
     <p>Ology uses two pages. <span class="key">index.html</span> is the control surface — it generates all audio and runs the operator's UI. <span class="key">output.html</span> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
@@ -1411,8 +1405,11 @@ nav a.active .nav-icon { opacity: 1; }
       </div>
     </div>
 
+    <h3>Aspect ratio</h3>
+    <p>Select the output aspect ratio (16:9 · 9:16 · 1:1 · 4:3) before opening the output window. This sets the canvas shape passed to output.html.</p>
+
     <h3>Param overlay</h3>
-    <p>Toggle the <span class="ctrl">Overlay</span> button to show a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Useful for session documentation and recording metadata. Colour is theme-derived and updates each frame.</p>
+    <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Useful for session documentation and recording metadata. Colour is theme-derived and updates each frame. Font scales with the output window size and wraps if the window is resized narrow.</p>
   </section>
 
 
@@ -1473,7 +1470,7 @@ nav a.active .nav-icon { opacity: 1; }
           <td><span class="band-pill band-gamma">Gamma</span> Insight · 40 Hz</td>
         </tr>
         <tr>
-          <td>Birth Tunnels of Stars</td>
+          <td>Aurora Borealis</td>
           <td>Forward tunnel flight, layered rings</td>
           <td>Indigo → cyan → silver</td>
           <td><span class="band-pill band-schumann">Schumann</span> Earth Pulse · 7.83 Hz</td>
@@ -1639,7 +1636,7 @@ nav a.active .nav-icon { opacity: 1; }
       </div>
       <div class="session-card">
         <div class="session-card-title"><span class="emoji">🌐</span> Lucid Dreaming</div>
-        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Birth Tunnels of Stars</span></div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Aurora Borealis</span></div>
         <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Theta — Dreamgate (4 Hz)</span></div>
         <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Binaural (headphones)</span></div>
         <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Whales · Blend 0.45</span></div>
@@ -1655,11 +1652,12 @@ nav a.active .nav-icon { opacity: 1; }
     <h2><span class="section-num">12</span> OBS Setup</h2>
     <div class="section-rule"></div>
 
-    <p>Ology sends video and audio to OBS as two separate sources. Video comes from the output popup window. Audio is captured directly from the browser running the control page. This separation preserves binaural stereo integrity on the OBS recording bus.</p>
+    <p>Ology sends video and audio to OBS as two separate sources. Video comes from the output popup window captured via Window Capture. Audio is captured directly from the browser running the control page. This separation preserves binaural stereo integrity on the OBS recording bus.</p>
 
     <h3>Step 1 — Open the output window</h3>
     <ol class="steps">
       <li>In Ology, open the <span class="tab-chip">Output</span> tab in the right panel.</li>
+      <li>Select your aspect ratio (16:9 · 9:16 · 1:1 · 4:3).</li>
       <li>Click <span class="ctrl">⛶ Open output window</span>. A popup opens and immediately requests fullscreen.</li>
       <li>When your browser prompts <em>"Allow this page to go fullscreen?"</em> — click <strong>Allow</strong>. This only happens once.</li>
       <li>The output canvas fills your entire screen with no address bar, no tabs, no OS chrome.</li>
@@ -1708,7 +1706,7 @@ nav a.active .nav-icon { opacity: 1; }
     </div>
 
     <h3>The param overlay</h3>
-    <p>Toggle the <span class="ctrl">Overlay</span> button in the Output tab to show a live parameter readout in the top-left corner of the output window. Displays theme name, drone, carrier/beat Hz, entrainment mode, ambient bed, and timing values. The overlay hides automatically after 2 seconds when the mouse is idle and reappears on mouse movement — so it never pollutes a clean recording unless you want it to.</p>
+    <p>Toggle <span class="ctrl">On</span> in the Output tab to show a live parameter readout in the top-left corner of the output window. Displays theme name, drone, carrier/beat Hz, entrainment mode, ambient bed, and timing values. Font scales with the output window size and wraps if the window is resized narrow.</p>
   </section>
 
 
@@ -1774,7 +1772,7 @@ nav a.active .nav-icon { opacity: 1; }
   <div class="divider"></div>
   <div style="text-align:center;padding:20px 0 40px;color:var(--faint);font-size:12px;line-height:1.8">
     <div style="font-size:18px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px">Ology</div>
-    Beta v1.0 · AIMA Productions · aima.productions<br>
+    Beta v1.3 · AIMA Productions · aima.productions<br>
     Created by Joselito Sering · © 2026
   </div>
 
