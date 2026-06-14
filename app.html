@@ -623,7 +623,7 @@ body.viewer-fs #fsHint{display:block}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">1.0 · Free Version</div></div>
+  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
@@ -850,8 +850,15 @@ const dialRefs={};
 
 /* ─── ADAPTIVE FPS / DPR ──────────────────────────────────────────────── */
 let dprCap=Math.min(devicePixelRatio||1,2);
+/* On touch layouts, fix the canvas resolution for the whole session.
+   The adaptive downscaler below resizes the canvas backing buffer mid-session,
+   which desyncs the shader's cached resolution and squeezes the canvas after
+   ~30s of low FPS. Desktop keeps adaptive DPR; mobile/tablet stays fixed. */
+const _isTouchLayout=window.innerWidth<=1023||('ontouchstart' in window);
+if(_isTouchLayout){dprCap=Math.min(devicePixelRatio||1,1.5);}
 const _fps={frames:0,last:performance.now(),fps:60,lowCount:0,highCount:0};
 function _updateFps(now){
+  if(_isTouchLayout)return;   /* no adaptive resize on touch — prevents squeeze */
   _fps.frames++;
   const elapsed=now-_fps.last;
   if(elapsed>=500){

@@ -129,6 +129,31 @@ body.exiting #gate,body.exiting #scrim{
   opacity:0;transition:opacity .55s ease}
 body.exiting #gateKal{
   opacity:0;transition:opacity .55s ease}
+/* ── Mobile: tighten everything so the gate fits without scroll ── */
+@media(max-width:600px){
+  #gate{padding:18px 18px;justify-content:center}
+  #gateLogoWrap{margin-bottom:16px}
+  #gateKalIcon{width:60px;height:60px}
+  .wm{font-size:clamp(2.4rem,15vw,4rem);margin-bottom:10px}
+  .spectrum{margin:0 auto 16px}
+  .sub{font-size:.92rem;max-width:32ch;margin-bottom:7px}
+  .tag-line{font-size:.62rem;letter-spacing:.2em;margin-bottom:20px}
+  #disclaimer{font-size:.6rem;line-height:1.55;padding:10px 13px;
+    margin-bottom:20px;max-width:90vw}
+  #btns{gap:10px;max-width:300px}
+  #enterBtn{padding:13px;font-size:.92rem}
+  #donateBtn{padding:9px 18px;font-size:.8rem}
+  #credit{font-size:.52rem;letter-spacing:.12em;bottom:10px}
+}
+/* ── Very short screens: trim further ── */
+@media(max-height:680px){
+  #gateLogoWrap{margin-bottom:12px}
+  #gateKalIcon{width:52px;height:52px}
+  .wm{font-size:clamp(2rem,12vw,3.2rem);margin-bottom:8px}
+  .spectrum{margin:0 auto 12px}
+  .tag-line{margin-bottom:14px}
+  #disclaimer{margin-bottom:14px;line-height:1.45}
+}
 </style>
 </head>
 <body>
@@ -166,7 +191,7 @@ body.exiting #gateKal{
 
   <!-- Buttons -->
   <div id="btns">
-    <button id="enterBtn" onclick="enter()">&#9654;&ensp;Enter — Ology 1.0, Free &amp; Open</button>
+    <button id="enterBtn" onclick="enter()">&#9654;&ensp;Enter — Free</button>
     <a id="donateBtn" href="https://buymeacoffee.com/joselitosering"
        target="_blank" rel="noopener noreferrer">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
