@@ -8,6 +8,22 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; position:relative; cursor:auto; }
     canvas { display:block; }
+    #dbgFrame {
+      display: none;
+      position: absolute;
+      top: 8px; right: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: #0f0;
+      background: rgba(0,0,0,0.75);
+      padding: 6px 10px;
+      border: 1px solid #0f0;
+      border-radius: 4px;
+      line-height: 1.6;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: pre;
+    }
     #readout {
       display: none; /* hidden by default; re-enable in dev by removing this line */
       position: absolute;
@@ -42,6 +58,7 @@
   <div id="readout"></div>
   <!-- M6 param overlay — toggled via ology_overlay localStorage key from index.html -->
   <div id="paramOverlay"></div>
+  <div id="dbgFrame"></div>
 
   <script src="m1_shaders.js"></script>
   <script src="m2_audio.js"></script>
@@ -242,7 +259,7 @@ function loadProgObj(s){
         }) : null;
         /* Always update frame even if prog sig unchanged — frame changes every
            100ms while audio plays; prog only changes on user control actions. */
-        if(data.frame) _wsFrame = data.frame;
+        if(data.frame){ _wsFrame=data.frame; window._lastPollMs=Date.now(); }
         if(sig === _lastSeen) return;
         _lastSeen = sig;
         if(data.prog)  loadProgObj(data.prog);
@@ -427,6 +444,29 @@ function loop(now){
     try {
       if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
     } catch(e){ console.error('[output.html] draw error:',e); }
+    /* Debug overlay — press D to toggle */
+    var _dbgEl=document.getElementById('dbgFrame');
+    if(_dbgEl&&_dbgEl.style.display!=='none'){
+      var b=frame.bands||{};
+      _dbgEl.textContent=
+        'isPlaying: '+PROG.audio.isPlaying+'
+'+
+        'frame.t:   '+(frame.t?frame.t.toFixed(0):'—')+'
+'+
+        'level:     '+(frame.level!=null?frame.level.toFixed(4):'—')+'
+'+
+        'sub:       '+(b.sub!=null?b.sub.toFixed(4):'—')+'
+'+
+        'low:       '+(b.low!=null?b.low.toFixed(4):'—')+'
+'+
+        'mid:       '+(b.mid!=null?b.mid.toFixed(4):'—')+'
+'+
+        'high:      '+(b.high!=null?b.high.toFixed(4):'—')+'
+'+
+        '_wsFrame:  '+(_wsFrame?'yes t='+(typeof _wsFrame.t==='number'?_wsFrame.t.toFixed(0):'?'):'null')+'
+'+
+        'poll age:  '+(window._lastPollMs?(Date.now()-window._lastPollMs)+'ms':'—');
+    }
   }
 
   /* dimension readout (unless &obs=1) */
@@ -440,6 +480,15 @@ function loop(now){
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
+
+/* Debug: press D to show frame/state readout on output.html */
+window._lastPollMs=null;
+document.addEventListener('keydown',function(e){
+  if(e.key==='d'||e.key==='D'){
+    var el=document.getElementById('dbgFrame');
+    if(el) el.style.display=(el.style.display==='none'?'block':'none');
+  }
+});
 
 /* ─── AUTO FULLSCREEN ─────────────────────────────────────────────────── */
 /* When opened via the popup button (&fs=1), request fullscreen on the page
