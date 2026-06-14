@@ -104,7 +104,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 .note{font-size:10px;color:var(--faint);line-height:1.5}
 textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:9px;color:var(--txt);padding:9px;font-size:12px;resize:vertical;min-height:64px}
 .urlbox{background:rgba(0,0,0,.35);border:1px solid var(--stroke);border-radius:9px;padding:8px 10px;font-size:10.5px;color:var(--acc2);font-family:monospace;word-break:break-all}
-}
 .transport{display:flex;gap:8px;margin-bottom:6px}
 .tp-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.05);border:1px solid var(--s2);color:var(--txt);padding:10px 4px;border-radius:10px;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;transition:.15s}
 .tp-btn .e{font-size:16px;line-height:1}
@@ -119,6 +118,10 @@ textarea{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--stroke);bo
 .m7-qr{display:none;justify-content:center;margin:10px 0}
 .m7-qr.show{display:flex}
 .m7-qr canvas{border-radius:6px}
+.m7-ta{width:100%;background:rgba(0,0,0,.45);border:1px solid var(--stroke);border-radius:9px;color:var(--dim);padding:8px 9px;font-size:10px;font-family:monospace;resize:vertical;min-height:56px;max-height:120px;line-height:1.4}
+.m7-ta:focus{outline:none;border-color:var(--acc);color:var(--txt)}
+.m7-ta.step{display:none}.m7-ta.step.show{display:block}
+.m7-btn{background:linear-gradient(135deg,var(--acc),#3A6FA8);border:none;color:#fff;padding:8px 14px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;width:100%;margin-bottom:6px;letter-spacing:.4px;transition:.15px}
 .m7-btn:hover{opacity:.88}
 .m7-btn.secondary{background:rgba(255,255,255,.06);border:1px solid var(--s2);color:var(--dim)}
 .m7-btn.secondary:hover{color:var(--txt)}
@@ -438,8 +441,13 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
     flex-direction:column;
     height:100%;
     padding:6px;
+    gap:6px;
+    overflow-y:auto;
+    align-items:stretch;
   }
-  .mon-screen{aspect-ratio:unset}
+  }
+  .monitor{flex-shrink:0}
+  .mon-screen{aspect-ratio:16/9;max-height:none;flex-shrink:0}
   .right-panel{
     order:2;
     width:220px;
@@ -451,6 +459,73 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   .rp-body{
     height:calc(100% - 36px);
     overflow-y:auto;
+  }
+}
+
+/* ── Tablet portrait 431px–1024px ────────────────────────────────────────
+   Keeps three-column base layout; widens touch targets, adds safe-area,
+   contains scroll bounce. Covers iPad Mini (768), iPad (820), iPad Air (834).
+   Landscape tablets (>1024px wide or orientation:landscape) fall through to
+   base styles which already render well at those widths.
+   ──────────────────────────────────────────────────────────────────────── */
+@media (min-width:431px) and (max-width:1024px) and (orientation:portrait){
+
+  /* Sidebar: keep vertical column, widen slightly for easier tap */
+  .sidebar{
+    width:76px;
+    padding:8px 4px;
+  }
+  .nav-item{
+    padding:12px 4px;
+    font-size:9px;
+    min-height:60px;
+  }
+  .nav-item .ico{
+    width:22px;
+    height:22px;
+  }
+
+  /* Canvas area: standard flex fill */
+  .center{
+    flex:1;
+    min-width:0;
+  }
+
+  /* Right panel: slightly narrower to give canvas more room */
+  .right-panel{
+    width:300px;
+    padding-bottom:env(safe-area-inset-bottom);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Scroll container: touch-friendly, no bounce propagation */
+  .rp-body{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    padding:14px 14px calc(env(safe-area-inset-bottom) + 60px);
+  }
+
+  /* Touch targets */
+  .seg button{min-height:44px}
+  .tp-btn{min-height:44px}
+  input[type=range]{height:24px}
+
+  /* Monitors: stacked 16:9 column in portrait, PREV on top PROG below */
+  .monitors{
+    flex-direction:column;
+    gap:8px;
+    padding:10px;
+    overflow-y:auto;
+    align-items:stretch;
+  }
+  .monitor{flex-shrink:0}
+  .mon-screen{
+    aspect-ratio:16/9;
+    max-height:none;
+    flex-shrink:0;
   }
 }
 </style>
