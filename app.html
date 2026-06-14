@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8">
 
   <!-- ── Primary identity ── -->
-  <title>Ology 1.0 — Free Version</title>
+  <title>Ology · Beta v1.2 — Free Version</title>
   <meta name="description" content="An infinite, audio-reactive kaleidoscope for meditation, performance, and worship. Binaural drones, isochronic entrainment, ambient texture beds — free in your browser. See your sound. Still your mind.">
   <meta name="author" content="Joselito Sering · AIMA Productions">
   <meta name="copyright" content="© 2026 Joselito Sering · AIMA Productions · aima.productions">
@@ -34,7 +34,7 @@
   <link rel="apple-touch-icon"         href="ology_favicon.svg">
 
   <!-- ── Fonts ── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Outfit',system-ui,-apple-system,sans-serif}
 :root{--bg:#0B0F1A;--sb:#111827;--panel:rgba(17,24,39,.88);--ps:#1A2233;--stroke:rgba(123,167,212,.18);--s2:rgba(123,167,212,.28);--txt:#E8F0F8;--dim:#8FA8C0;--faint:#4a6a84;--acc:#7BA7D4;--acc2:#A8D8EA;--red:#E8896A;--grn:#6abfa0;--iris:#7BA7D4;--teal:#A8D8EA;--amber:#E8896A;--rose:#C084B0;--grad:linear-gradient(90deg,#5B8FBF,#A8D8EA,#E8896A,#C084B0);}
@@ -51,7 +51,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 #goBtn{width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;text-align:center;border:1px solid var(--iris);background:rgba(123,167,212,.08);color:var(--teal);transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
 #goBtn:hover{background:rgba(123,167,212,.18);border-color:var(--teal);box-shadow:0 0 14px rgba(168,216,234,.28);color:#fff}
 #goBtn:active{background:linear-gradient(135deg,rgba(91,143,191,.55),rgba(168,216,234,.35));border-color:var(--acc2);box-shadow:0 0 22px rgba(168,216,234,.45);transform:scale(.97);color:#fff}
-#stageView{display:flex;height:calc(100vh - 44px);height:calc(100dvh - 44px);overflow:hidden}
+#stageView{display:flex;height:calc(100vh - 44px);overflow:hidden}
 #mobileView{display:none;height:calc(100vh - 44px)}
 .sidebar{width:86px;flex-shrink:0;background:var(--sb);border-right:1px solid var(--stroke);display:flex;flex-direction:column;padding:8px 6px;gap:2px;overflow-y:auto}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:10px;cursor:pointer;color:var(--dim);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;transition:.16s;border:1px solid transparent}
@@ -300,330 +300,10 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* Logo canvas drop-shadow brand color */
 .logo{filter:drop-shadow(0 0 7px rgba(123,167,212,.65))}
-
-/* ══════════════════════════════════════════════════════════════
-   RESPONSIVE LAYOUT — Mobile-first breakpoints
-   Desktop  ≥1024px : current layout, unchanged
-   Tablet   600-1023px : icon-only sidebar, bottom-sheet panel
-   Phone    ≤599px  : bottom tab bar, full bottom sheet, fullscreen-first
-   ══════════════════════════════════════════════════════════════ */
-
-/* ── CSS custom props for layout ── */
-:root{
-  --topbar-h:44px;
-  --tabbar-h:60px;
-  --sheet-peek:0px;
-}
-
-/* ── Touch-friendly range inputs on mobile ── */
-@media(max-width:1023px){
-  input[type=range]{height:36px;touch-action:pan-x}
-  input[type=range]::-webkit-slider-thumb{width:22px;height:22px}
-  .row label{font-size:14px}
-  .rval{font-size:14px}
-  .section h4{font-size:11px}
-  select{font-size:15px!important;padding:12px 36px 12px 14px!important}
-}
-
-/* ══════════════════════════════════════════════════════════════
-   TABLET  600px – 1023px
-   Mini dual-viewer (prog/preview switchable) on top-left,
-   control panel to the right. OBS output hidden.
-   ══════════════════════════════════════════════════════════════ */
-@media(min-width:600px) and (max-width:1023px){
-
-  /* Hide desktop sidebar; bottom tab bar drives nav */
-  .sidebar{display:none}
-
-  /* stageView: row — viewer column + control column */
-  #stageView{
-    height:calc(100vh - var(--topbar-h));
-    height:calc(100dvh - var(--topbar-h));
-  }
-
-  /* Center viewer column — fills all space left of the panel */
-  .center{flex:1 1 auto;min-width:0}
-  .monitors{padding:10px;gap:8px;flex-direction:column}
-
-  /* Show only the active monitor (toggled via JS .viewer-active) */
-  .monitor{flex:1;min-height:0;display:none}
-  .monitor.viewer-active{display:flex}
-  .mon-screen{aspect-ratio:unset;height:100%;max-height:none}
-
-  /* Right panel: fixed-width column on the right, nav inside at top */
-  .right-panel{
-    position:relative;
-    width:340px;
-    flex-shrink:0;
-    max-height:none;
-    transform:none;
-    border-left:1px solid var(--stroke);
-    border-top:none;
-    border-radius:0;
-    box-shadow:none;
-    z-index:auto;
-  }
-  .right-panel.sheet-hidden{transform:none}
-  .rp-header::before{display:none}
-
-  /* Bottom tab bar hidden on tablet (in-panel tabs handle nav) */
-  #bottomTabBar{display:none!important}
-}
-
-/* ══════════════════════════════════════════════════════════════
-   PHONE  ≤ 599px
-   Pinned mini-viewer on top, controls scroll below it.
-   Viewer switches prog/preview; tap to fullscreen.
-   ══════════════════════════════════════════════════════════════ */
-@media(max-width:599px){
-
-  /* Compact topbar */
-  .bs{display:none}
-  .bn{font-size:14px!important;letter-spacing:.28em!important}
-  .topbar{padding:0 10px;gap:8px}
-  .play-btn{font-size:11px;padding:5px 10px}
-
-  /* Hide desktop sidebar */
-  .sidebar{display:none}
-
-  /* stageView: vertical stack — viewer pinned, controls scroll */
-  #stageView{
-    flex-direction:column;
-    height:calc(100vh - var(--topbar-h));
-    height:calc(100dvh - var(--topbar-h));
-    overflow:hidden;
-  }
-
-  /* Viewer pinned at top, fixed height */
-  .center{
-    flex:0 0 auto;
-    height:38vh;
-    height:38dvh;
-    min-height:0;
-  }
-  .monitors{padding:8px;gap:0;flex-direction:column;height:100%}
-
-  /* Only the active monitor shows */
-  .monitor{flex:1;min-height:0;display:none}
-  .monitor.viewer-active{display:flex;flex-direction:column}
-  .mon-screen{aspect-ratio:unset;height:100%;max-height:none;cursor:pointer}
-
-  /* Hide redundant monitor header on phone — toggle replaces it */
-  .mon-hdr{display:none}
-  /* Viewer toggle pills — clearly on top of the canvas */
-  .mon-screen{border-radius:0}
-
-  /* Right panel: flows below viewer, scrolls, NOT a sheet */
-  .right-panel{
-    position:static;
-    left:auto;right:auto;bottom:auto;
-    width:auto;
-    flex:1 1 auto;
-    max-height:none;
-    transform:none!important;
-    border-left:none;
-    border-top:1px solid var(--stroke);
-    border-radius:0;
-    box-shadow:none;
-    z-index:auto;
-    min-height:0;
-  }
-  .right-panel.sheet-hidden{transform:none!important}
-  .rp-header::before{display:none}
-  .rp-header{padding:10px 14px 8px}
-
-  /* Bottom tab bar */
-  #bottomTabBar{display:none!important}
-
-  /* Sections tighter */
-  .rp-body{padding:12px}
-  .section{margin-bottom:14px}
-  .row{margin-bottom:12px}
-  .seg button{font-size:11px;padding:9px 6px}
-  .chips{gap:6px}
-  .chip{font-size:12px;padding:7px 12px}
-
-  /* Hide floating sheet toggle (replaced by inline-flow model) */
-}
-
-/* ══════════════════════════════════════════════════════════════
-   BOTTOM TAB BAR  (phone only, hidden on tablet/desktop)
-   ══════════════════════════════════════════════════════════════ */
-#bottomTabBar{
-  display:none;         /* shown via @media 599px above */
-  position:fixed;
-  bottom:0;left:0;right:0;
-  height:var(--tabbar-h);
-  background:var(--sb);
-  border-top:1px solid var(--stroke);
-  z-index:400;
-  align-items:stretch;
-  padding:0 4px;
-  padding-bottom:env(safe-area-inset-bottom);
-  gap:0;
-}
-.tab-btn{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:3px;border:none;background:none;
-  color:var(--dim);font-size:9px;letter-spacing:.6px;
-  text-transform:uppercase;cursor:pointer;
-  transition:color .16s;
-  -webkit-tap-highlight-color:transparent;
-  padding:0 2px;
-}
-.tab-btn svg{width:22px;height:22px;flex-shrink:0}
-.tab-btn.on{color:var(--teal)}
-.tab-btn.on svg{filter:drop-shadow(0 0 4px rgba(168,216,234,.6))}
-
-/* ══════════════════════════════════════════════════════════════
-   FULLSCREEN BUTTON  (all mobile — fixed overlay on canvas)
-   ══════════════════════════════════════════════════════════════ */
-/* Fullscreen button — floats top-right of the viewer on mobile */
-#fsBtn{
-  display:none;
-  position:absolute;
-  top:14px;right:14px;
-  z-index:60;
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(11,15,26,.7);
-  border:1px solid rgba(123,167,212,.4);
-  color:var(--teal);
-  align-items:center;justify-content:center;
-  cursor:pointer;
-  box-shadow:0 2px 12px rgba(0,0,0,.5);
-  transition:color .15s,border-color .15s,background .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-#fsBtn:hover{background:rgba(123,167,212,.18)}
-#fsBtn svg{width:18px;height:18px;pointer-events:none}
-@media(max-width:1023px){
-  #fsBtn{display:flex}
-}
-
-/* ══════════════════════════════════════════════════════════════
-   VIEWER BAR — matches desktop .mon-hdr label format
-   PREVIEW + PROGRAM badge-buttons, LIVE dot, theme name right
-   ══════════════════════════════════════════════════════════════ */
-#viewerBar{
-  display:none;            /* shown via breakpoints */
-  align-items:center;
-  gap:7px;
-  padding:0 2px 8px;
-  flex-shrink:0;
-}
-/* badge-buttons reuse .mon-badge look; inactive = dimmed */
-#viewerBar .mon-badge{
-  cursor:pointer;
-  opacity:.4;
-  font-family:inherit;
-  transition:opacity .15s,filter .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-#viewerBar .mon-badge.on{opacity:1}
-#viewerBar .mon-badge:not(.on){filter:grayscale(.4)}
-/* LIVE indicator hidden while in preview */
-#viewerBar .mon-live{transition:opacity .15s}
-#viewerBar.show-prev .mon-live{opacity:0;visibility:hidden}
-@media(max-width:1023px){
-  #viewerBar{display:flex}
-  /* viewer bar replaces the per-monitor header on all touch layouts */
-  .monitors .mon-hdr{display:none}
-}
-
-/* ══════════════════════════════════════════════════════════════
-   OUTPUT TAB — hide OBS-specific controls on mobile
-   ══════════════════════════════════════════════════════════════ */
-@media(max-width:1023px){
-  .obs-only{display:none!important}
-  .mobile-display{display:block!important}
-}
-.mobile-display{display:none}
-
-/* ══════════════════════════════════════════════════════════════
-   MOBILE/TABLET TAB STRIP — sits directly under the viewer
-   ══════════════════════════════════════════════════════════════ */
-#mTabStrip{
-  display:none;             /* shown on touch breakpoints below */
-  flex-shrink:0;
-  background:var(--sb);
-  border-bottom:1px solid var(--stroke);
-  padding:0 4px;
-}
-#mTabStrip .mts-btn{
-  flex:1;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  border:none;background:none;
-  color:var(--dim);font-family:inherit;
-  font-size:12px;font-weight:600;letter-spacing:.5px;
-  padding:13px 4px;
-  cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:color .15s,border-color .15s,background .15s;
-  -webkit-tap-highlight-color:transparent;
-}
-#mTabStrip .mts-ico{display:none}
-#mTabStrip .mts-ico svg{width:18px;height:18px;display:block}
-#mTabStrip .mts-btn.on{
-  color:var(--teal);
-  border-bottom-color:var(--teal);
-}
-/* Tabs show inside the panel on all touch layouts; icons on tablet */
-@media(max-width:1023px){
-  #mTabStrip{display:flex}
-}
-@media(min-width:600px) and (max-width:1023px){
-  #mTabStrip .mts-ico{display:block}
-}
-
-
-/* ══════════════════════════════════════════════════════════════
-   SIMPLE FULLSCREEN VIEWER (mobile/tablet)
-   Expands the EXISTING program viewer to fill the screen via CSS.
-   No second canvas, no native API — the live render loop keeps
-   drawing the same #progCanvas. Tap the viewer to exit.
-   ══════════════════════════════════════════════════════════════ */
-body.viewer-fs #stageView{
-  position:fixed!important;
-  inset:0!important;
-  z-index:9990!important;
-  height:100vh!important;height:100dvh!important;
-  flex-direction:column!important;
-}
-body.viewer-fs .topbar,
-body.viewer-fs .sidebar,
-body.viewer-fs .right-panel,
-body.viewer-fs #mTabStrip,
-body.viewer-fs #bottomTabBar,
-body.viewer-fs #viewerBar{display:none!important}
-body.viewer-fs .center{
-  flex:1 1 auto!important;
-  height:100%!important;
-  width:100%!important;
-}
-body.viewer-fs .monitors{height:100%!important;padding:0!important}
-body.viewer-fs .mon-screen{border-radius:0!important;cursor:pointer}
-/* Tap-to-exit hint */
-#fsHint{
-  display:none;
-  position:fixed;
-  bottom:calc(env(safe-area-inset-bottom,0px) + 20px);
-  left:50%;transform:translateX(-50%);
-  z-index:9992;
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(232,240,248,.55);
-  pointer-events:none;
-  animation:fsHintFade 3s ease forwards;
-}
-body.viewer-fs #fsHint{display:block}
-@keyframes fsHintFade{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
-/* Param overlay rides on the existing viewer when fullscreen */
-#fsHint.with-params{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 12px);left:14px;transform:none;text-align:left}
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div></div>
+  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.2 · Free Version</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
@@ -637,41 +317,20 @@ body.viewer-fs #fsHint{display:block}
     <div class="nav-item" id="aboutNavItem" onclick="openBrief(this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z"/><path d="M10 2v15M2 7l8 5 8-5"/></svg></span>About</div>
     <div class="nav-item" hidden style="display:none!important" onclick="selectTab('agent',this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="2"/><ellipse cx="10" cy="10" rx="8" ry="3"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(60 10 10)"/><ellipse cx="10" cy="10" rx="8" ry="3" transform="rotate(120 10 10)"/></svg></span>Agent<span class="soon">V2</span></div>
   </div>
-  <!-- ── Fullscreen tap-to-exit hint (mobile) ── -->
-  <div id="fsHint">Tap viewer to exit</div>
-  <!-- TEMP iOS audio debug readout — remove after diagnosis -->
-  <div id="audioDbg" style="position:fixed;left:8px;bottom:8px;z-index:99999;font:11px/1.5 monospace;color:#7BA7D4;background:rgba(11,15,26,.85);padding:6px 9px;border:1px solid rgba(123,167,212,.4);border-radius:6px;max-width:80vw;pointer-events:none;white-space:pre">audio: init…</div>
-
   <div class="center">
-    <!-- Viewer bar (mobile/tablet): PREVIEW/PROGRAM toggle matches desktop label format -->
-    <div id="viewerBar" class="mon-hdr">
-      <button class="mon-badge prev" id="vtPrev" onclick="setViewer('prev')">PREVIEW</button>
-      <button class="mon-badge prog on" id="vtPgm" onclick="setViewer('prog')">PROGRAM</button>
-      <span class="mon-live" id="viewerLive"><span class="dot"></span>LIVE</span>
-      <span class="mon-name" id="viewerName">Intergalactic Beings</span>
-    </div>
-
     <div class="monitors">
-      <div class="monitor" id="monPrev">
+      <div class="monitor">
         <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Psilocybin Dreams</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
-      <div class="monitor viewer-active" id="monPgm">
+      <div class="monitor">
         <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Intergalactic Beings</span></div>
-        <div class="mon-screen prog-scr" onclick="exitViewerFs()"><canvas id="progCanvas"></canvas></div>
+        <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
 
-
   </div>
   <div class="right-panel">
-    <!-- Tab nav lives inside the panel (mobile/tablet) -->
-    <nav id="mTabStrip" role="tablist" aria-label="Control tabs">
-    <button class="mts-btn on" role="tab" aria-selected="true" onclick="mobileTab('visuals',this)"><span class="mts-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="3"/><path d="M10 2C5.5 2 2 6 2 10s3.5 8 8 8 8-4 8-8-3.5-8-8-8z" opacity=".5"/><path d="M10 6v1M10 13v1M6 10H5M15 10h-1"/></svg></span><span class="mts-lbl">Visuals</span></button>
-    <button class="mts-btn" role="tab" aria-selected="false" onclick="mobileTab('audio',this)"><span class="mts-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 10h2M16 10h2M6 6v8M14 6v8M10 4v12"/></svg></span><span class="mts-lbl">Audio</span></button>
-    <button class="mts-btn" role="tab" aria-selected="false" onclick="mobileTab('output',this)"><span class="mts-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="14" height="7" rx="1.5"/><path d="M10 2v8M7 5l3-3 3 3"/></svg></span><span class="mts-lbl">Output</span></button>
-    <button class="mts-btn" role="tab" aria-selected="false" onclick="openHelp(this)"><span class="mts-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 14v-1"/><path d="M10 9.5c0-1.1.9-2 2-2a2 2 0 01.5 3.9C11.8 11.8 10 12.4 10 13.5"/></svg></span><span class="mts-lbl">Help</span></button>
-    </nav>
     <div class="rp-header"><span class="rp-title" id="rpTitle">Visuals</span></div>
     <div class="rp-body">
       <div data-pane="visuals">
@@ -753,14 +412,10 @@ body.viewer-fs #fsHint{display:block}
       </div>
       <div data-pane="output" hidden>
         <div class="section">
-          <div class="obs-only">
-          <h4>OBS Output Format</h4>
-          <div class="row" style="margin-bottom:6px"><label>Aspect ratio</label></div>
+          <h4>OBS Output View — Program Only</h4>
           <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
-          <div class="row" style="margin-bottom:6px;margin-top:10px"><label>Frame rate</label></div>
-          <div class="seg"><button data-fps="24" onclick="setOut('fps','24',this)">24</button><button class="on" data-fps="30" onclick="setOut('fps','30',this)">30</button><button data-fps="60" onclick="setOut('fps','60',this)">60 fps</button></div>
-          <div class="row" style="margin-bottom:6px;margin-top:10px"><label>Resolution</label></div>
           <div class="seg"><button data-res="720" onclick="setOut('res','720',this)">720p</button><button class="on" data-res="1080" onclick="setOut('res','1080',this)">1080p</button><button data-res="1440" onclick="setOut('res','1440',this)">1440p</button></div>
+          <div class="seg"><button data-fps="24" onclick="setOut('fps','24',this)">24</button><button class="on" data-fps="30" onclick="setOut('fps','30',this)">30</button><button data-fps="60" onclick="setOut('fps','60',this)">60 fps</button></div>
           <div class="row" style="margin-top:6px"><label>Output dimensions</label><span class="rval" id="outDims" style="color:var(--acc)">1920×1080</span></div>
           <p class="note" style="margin-bottom:8px">fps is metadata only — canvas renders at full rate; set the authoritative frame rate in OBS → Settings → Video.</p>
           <h4 style="margin-top:6px">Browser Source URL</h4>
@@ -769,16 +424,8 @@ body.viewer-fs #fsHint{display:block}
           <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
           <p class="note" style="margin-top:7px">Opens a chromeless window sized to the exact output resolution. In OBS use <strong>Window Capture → Client Area</strong> to capture it with no borders.</p>
-          </div><!-- /obs-only -->
-          <!-- Mobile: fullscreen output button (hidden on desktop) -->
-          <div class="mobile-display">
-          <h4>Fullscreen Output</h4>
-          <p class="note" style="margin-bottom:12px">View the live program canvas filling the whole screen. Tap anywhere on it to exit.</p>
-          <button id="goBtn" onclick="openFsOutput()">⛶ &nbsp;Go Fullscreen</button>
-          </div>
         </div>
-
-        <div class="section obs-only">
+        <div class="section">
           <h4>Live Overlay</h4>
           <!-- M6: toggles ology_overlay localStorage key; output.html reacts via storage event -->
           <div class="seg" id="overlayTogSeg">
@@ -852,15 +499,8 @@ const dialRefs={};
 
 /* ─── ADAPTIVE FPS / DPR ──────────────────────────────────────────────── */
 let dprCap=Math.min(devicePixelRatio||1,2);
-/* On touch layouts, fix the canvas resolution for the whole session.
-   The adaptive downscaler below resizes the canvas backing buffer mid-session,
-   which desyncs the shader's cached resolution and squeezes the canvas after
-   ~30s of low FPS. Desktop keeps adaptive DPR; mobile/tablet stays fixed. */
-const _isTouchLayout=window.innerWidth<=1023||('ontouchstart' in window);
-if(_isTouchLayout){dprCap=Math.min(devicePixelRatio||1,1.5);}
 const _fps={frames:0,last:performance.now(),fps:60,lowCount:0,highCount:0};
 function _updateFps(now){
-  if(_isTouchLayout)return;   /* no adaptive resize on touch — prevents squeeze */
   _fps.frames++;
   const elapsed=now-_fps.last;
   if(elapsed>=500){
@@ -876,10 +516,6 @@ function _updateFps(now){
 /* ─── CANVAS FIT ──────────────────────────────────────────────────────── */
 function fit(c,dprOverride){
   if(!c)return;const r=c.getBoundingClientRect();
-  /* Skip hidden canvases (display:none → 0×0). Resizing them to 2px
-     collapses the backing buffer and causes a 1-frame blank/line when
-     they become visible again. Leave the buffer intact instead. */
-  if(r.width<2||r.height<2)return;
   const dpr=dprOverride!=null?Math.min(dprOverride,Math.min(devicePixelRatio||1,2)):Math.min(devicePixelRatio||1,2);
   const w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));
   if(c.width!==w||c.height!==h){c.width=w;c.height=h;}
@@ -950,46 +586,6 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
-
-/* ─── iOS / mobile audio unlock ───────────────────────────────────────────
-   AudioContext starts suspended (autoplay policy). On iOS Safari, resume()
-   only works inside a user-gesture handler — and the unlock from the gate
-   page does NOT survive the navigation to app.html.
-   iOS can also ignore the FIRST resume (race), so we retry start() on every
-   user gesture until the engine reports playing, rather than latching once. */
-(function(){
-  var _confirmed=false, _tries=0;
-  var _dbg=function(msg){var e=document.getElementById('audioDbg');if(e)e.textContent=msg;};
-  /* probe context: lets us read an actual AudioContext.state on this device */
-  var _Ctx=window.AudioContext||window.webkitAudioContext;
-  var _probe=null; try{ _probe=_Ctx?new _Ctx():null; }catch(e){}
-  function _state(){ return _probe?_probe.state:'no-ctx'; }
-  _dbg('audio: OlogyAudio='+(!!window.OlogyAudio)+'\nprobe='+_state()+' tries=0');
-  function _unlockAudio(){
-    var A=window.OlogyAudio;
-    if(!A){_dbg('audio: NO OlogyAudio object');return;}
-    try{ if(_probe&&_probe.state!=='running')_probe.resume(); }catch(e){}
-    try{ A.start(); }catch(e){ _dbg('audio: start() threw '+e); }
-    if(typeof PROG!=='undefined'&&PROG.audio){PROG.audio.isPlaying=true;}
-    _tries++;
-    var rdy=!!(A.isReady&&A.isReady());
-    _dbg('audio: ready='+rdy+'\nprobeState='+_state()+'\ntries='+_tries+' master='+(PROG.audio?PROG.audio.masterLevel:'?'));
-    if(rdy&&_tries>=2){_confirmed=true;}
-    if(_confirmed||_tries>=8){
-      ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
-        document.removeEventListener(ev,_unlockAudio,true);
-      });
-    }
-  }
-  /* Only attach the gesture-unlock on touch devices (iOS/iPad). On desktop
-     the AudioContext resumes normally via the transport controls, so we must
-     NOT auto-start audio on any click. */
-  if(_isTouchLayout){
-    ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
-      document.addEventListener(ev,_unlockAudio,true);
-    });
-  }
-})();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
   var DRONES=[
@@ -1081,23 +677,14 @@ function loop(now){
   if(playing){PREV.t+=dt;PROG.t+=dt;}
   _updateFps(now);
   const pc=document.getElementById('prevCanvas'),gc=document.getElementById('progCanvas');
-  /* In fullscreen, keep the canvas backing size modest and let CSS scale it up.
-     Resizing the backing buffer to full device pixels can lose the WebGL
-     context on mobile GPUs (freeze). Cap DPR low while fullscreen. */
-  var _fsActive=document.body.classList.contains('viewer-fs');
-  fit(pc);
-  fit(gc, _fsActive ? Math.min(dprCap,1) : dprCap);
+  fit(pc);fit(gc,dprCap);
   if(window.OlogyShaders&&window.OlogyShaders.isReady()){
     const progState=PROG;
     const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():NULL_ANALYSIS;
     /* Save frame to localStorage for output.html cross-tab sync */
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
-    try{
-      if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
-      if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
-    }catch(e){}
-    /* M6 param overlay on the fullscreen viewer (mobile) */
-    try{ if(window._updateFsHint) window._updateFsHint(); }catch(e){}
+    if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
+    if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
   }
   requestAnimationFrame(loop);
 }
@@ -1531,7 +1118,6 @@ function presetApply(id){
     /* Preview name */
     var thName=THEMES[flat.th]?THEMES[flat.th].n:'';
     var pvn=document.getElementById('prevName');if(pvn)pvn.textContent=thName;
-    var vbn2=document.getElementById('viewerName');var vbar2=document.getElementById('viewerBar');if(vbn2&&vbar2&&vbar2.classList.contains('show-prev'))vbn2.textContent=thName;
     var phpn=document.getElementById('ph-prev-name');if(phpn)phpn.textContent=thName;
     /* Audio controls (UI only — engine untouched) */
     if(a){
@@ -1614,7 +1200,6 @@ function presetApplyToProgram(id){
   var thName=THEMES[flat.th]?THEMES[flat.th].n:'';
   var pn=document.getElementById('progName');if(pn)pn.textContent=thName;
   var pvn=document.getElementById('prevName');if(pvn)pvn.textContent=thName;
-  var vbn=document.getElementById('viewerName');var vbar=document.getElementById('viewerBar');if(vbn&&!(vbar&&vbar.classList.contains('show-prev')))vbn.textContent=thName;
   var phpn=document.getElementById('ph-prev-name');if(phpn)phpn.textContent=thName;
   saveProg();
 }
@@ -1737,29 +1322,13 @@ window.m9LoadPreset=function(presetId){
 renderPresets();
 
 /* ─── INIT ────────────────────────────────────────────────────────────── */
-(function(){var e=document.getElementById('prevName');if(e)e.textContent=THEMES[PREV.th].n;})();
-(function(){var e=document.getElementById('ph-prev-name');if(e)e.textContent=THEMES[PREV.th].n;})();
-(function(){var e=document.getElementById('progName');if(e)e.textContent=THEMES[PROG.th].n;})();
+document.getElementById('prevName').textContent=THEMES[PREV.th].n;
+document.getElementById('ph-prev-name').textContent=THEMES[PREV.th].n;
+document.getElementById('progName').textContent=THEMES[PROG.th].n;
 document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='visuals');
 
 })();
 </script>
-<!-- ── Bottom Tab Bar (phone only) ── -->
-<nav id="bottomTabBar" role="tablist" aria-label="Main navigation">
-  <button class="tab-btn on" role="tab" aria-selected="true"  onclick="mobileTab('visuals',this)">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="3"/><path d="M10 2C5.5 2 2 6 2 10s3.5 8 8 8 8-4 8-8-3.5-8-8-8z" opacity=".5"/><path d="M10 6v1M10 13v1M6 10H5M15 10h-1"/></svg>
-    Visuals
-  </button>
-  <button class="tab-btn" role="tab" aria-selected="false" onclick="mobileTab('audio',this)">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 10h2M16 10h2M6 6v8M14 6v8M10 4v12"/></svg>
-    Audio
-  </button>
-  <button class="tab-btn" role="tab" aria-selected="false" onclick="openHelp(this)">
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 14v-1"/><path d="M10 9.5c0-1.1.9-2 2-2a2 2 0 01.5 3.9C11.8 11.8 10 12.4 10 13.5"/></svg>
-    Help
-  </button>
-</nav>
-
 <!-- ── Brief (About / Marketing) Overlay ── -->
 <div id="briefOverlay" role="dialog" aria-modal="true" aria-label="Ology — About & Marketing Brief">
   <div id="briefBackdrop"></div>
@@ -1849,123 +1418,6 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
   document.getElementById('helpBackdrop').addEventListener('mousedown',function(){
     closeHelp();
   });
-})();
-</script>
-<script>
-/* ══════════════════════════════════════════════════════════════
-   MOBILE UI — Session A
-   Sheet toggle · Bottom tab bar · Fullscreen API + iOS fallback
-   Orientation lock · No changes to M1/M2/M9/render loop
-   ══════════════════════════════════════════════════════════════ */
-(function(){
-
-  /* ── Viewer toggle: PROGRAM / PREVIEW ── */
-  window.setViewer = function(which){
-    var pgm = document.getElementById('monPgm');
-    var prev = document.getElementById('monPrev');
-    var bPgm = document.getElementById('vtPgm');
-    var bPrev = document.getElementById('vtPrev');
-    var showPrev = (which === 'prev');
-    if(pgm)  pgm.classList.toggle('viewer-active', !showPrev);
-    if(prev) prev.classList.toggle('viewer-active', showPrev);
-    if(bPgm){ bPgm.classList.toggle('on', !showPrev); }
-    if(bPrev){ bPrev.classList.toggle('on', showPrev); }
-    /* drive the viewer bar: LIVE indicator + theme name */
-    var bar=document.getElementById('viewerBar');
-    if(bar) bar.classList.toggle('show-prev', showPrev);
-    var vn=document.getElementById('viewerName');
-    if(vn){
-      try{ vn.textContent = showPrev ? THEMES[PREV.th].n : THEMES[PROG.th].n; }catch(e){}
-    }
-    /* the now-visible canvas needs a resize so it draws at correct size */
-    window.resizeAll && setTimeout(window.resizeAll, 30);
-  };
-
-  /* ── Tab strip / bottom bar — switch control pane ── */
-  window.mobileTab = function(name, el){
-    document.querySelectorAll('[data-pane]').forEach(function(p){
-      p.hidden = (p.dataset.pane !== name);
-    });
-    var titles={visuals:'Visuals',audio:'Audio',output:'Output',presets:'Presets',agent:'Agent \u2014 v2'};
-    var rpt=document.getElementById('rpTitle');
-    if(rpt) rpt.textContent=titles[name]||name;
-    /* mirror to desktop sidebar */
-    document.querySelectorAll('.nav-item').forEach(function(n){
-      n.classList.toggle('on',n.getAttribute('onclick')&&n.getAttribute('onclick').indexOf("'"+name+"'")!==-1);
-    });
-    /* update tab strip + bottom bar active state */
-    document.querySelectorAll('.mts-btn,.tab-btn').forEach(function(b){
-      var match=b.getAttribute('onclick')&&b.getAttribute('onclick').indexOf("'"+name+"'")!==-1;
-      b.classList.toggle('on',match);
-      b.setAttribute('aria-selected',match?'true':'false');
-    });
-    /* scroll control panel to top */
-    var rp=document.querySelector('.right-panel');if(rp) rp.scrollTop=0;
-    var rpb=document.querySelector('.rp-body');if(rpb) rpb.scrollTop=0;
-  };
-
-  /* Simple fullscreen — expand existing viewer via CSS class, no 2nd canvas */
-  var _fsCreditDate=(function(){try{return new Date().toISOString().slice(0,10);}catch(e){return '';}})();
-
-  window.openFsOutput = function(){
-    /* force PROGRAM view first so monPgm is visible (not display:none) */
-    if(window.setViewer) window.setViewer('prog');
-    document.body.classList.add('viewer-fs');
-    /* Resize across reflow frames: the program canvas may have been
-       collapsed (display:none) while in preview, so getBoundingClientRect
-       needs the layout to settle before fit() reads real dimensions. */
-    var _r=function(){ window.resizeAll && window.resizeAll(); };
-    requestAnimationFrame(function(){ _r(); requestAnimationFrame(_r); });
-    setTimeout(_r, 120);
-    setTimeout(_r, 300);
-  };
-  window.exitViewerFs = function(){
-    if(!document.body.classList.contains('viewer-fs')) return;
-    document.body.classList.remove('viewer-fs');
-    window.resizeAll && setTimeout(window.resizeAll, 40);
-  };
-  /* Back-compat alias (Output tab button calls openFsOutput) */
-  window.toggleFullscreen = function(){
-    if(document.body.classList.contains('viewer-fs')) window.exitViewerFs();
-    else window.openFsOutput();
-  };
-
-  /* M6 param overlay — show on the fsHint element while fullscreen + overlay on */
-  window._updateFsHint=function(){
-    var hint=document.getElementById('fsHint');
-    if(!hint) return;
-    var fs=document.body.classList.contains('viewer-fs');
-    if(!fs){ hint.classList.remove('with-params'); return; }
-    var on=(localStorage.getItem('ology_overlay')==='1');
-    if(!on){ hint.classList.remove('with-params'); return; }
-    /* build the param line (mirrors output.html format) */
-    var a=PROG.audio||{};
-    var th=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
-    var theme=THEMES[th];
-    var droneId=a.droneId||'theta-intuition';
-    var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
-    var carrier=(a.carrierHz!=null)?+a.carrierHz:spec.carrier;
-    var beat=(a.beatHz!=null)?+a.beatHz:spec.beat;
-    var bedId=a.ambientBed||'none',bedLabel='\u2014';
-    for(var i=0;i<M_BEDS.length;i++){if(M_BEDS[i][0]===bedId){bedLabel=(bedId!=='none')?M_BEDS[i][1]:'\u2014';break;}}
-    var tickle=(typeof a.brainTickleAmount==='number')?a.brainTickleAmount.toFixed(2):'0.00';
-    var slow=(typeof a.slowness==='number')?a.slowness.toFixed(2):'0.00';
-    var line=theme.n+' \u2014 '+(spec.name||droneId)+' \u00b7 '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz \u00b7 '+(a.mode||spec.mode||'\u2014')+' \u00b7 '+bedLabel;
-    hint.classList.add('with-params');
-    hint.innerHTML='<div style="opacity:.85">Ology 1.0 \u00b7 AIMA Productions</div><div>'+line+'</div><div style="opacity:.5;margin-top:4px">Tap viewer to exit</div>';
-  };
-
-  /* ── Init: default viewer — PREVIEW on mobile/tablet, PROGRAM on desktop ── */
-  window.addEventListener('load',function(){
-    if(window.setViewer) window.setViewer(window.innerWidth<=1023 ? 'prev' : 'prog');
-    window.resizeAll && setTimeout(window.resizeAll, 120);
-  });
-
-  /* Re-fit canvases when crossing breakpoints (orientation/resize) */
-  window.addEventListener('resize', function(){
-    window.resizeAll && setTimeout(window.resizeAll, 60);
-  });
-
 })();
 </script>
 <script>
