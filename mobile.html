@@ -812,20 +812,35 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
    running. Calls OlogyAudio.start() which internally calls AC.resume() and
    sets isPlaying=true, then saveProg() so output.html sees the live state. */
 (function(){
-  function _iosUnlock(){
-    if(window.OlogyAudio && window.OlogyAudio.isReady && !PROG.audio.isPlaying){
-      window.OlogyAudio.start();
-      /* Sync transport UI to reflect playing state */
-      document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.add('on');});
-      document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.remove('on');});
-      var lbl=document.getElementById('tp-play-lbl');if(lbl)lbl.textContent='Pause';
-      saveProg();
-    }
-    document.removeEventListener('touchstart',_iosUnlock,{capture:true});
-    document.removeEventListener('click',_iosUnlock,{capture:true});
+  /* iOS Safari: AudioContext starts suspended. On first touch anywhere on the
+     page, we warm-resume the context WITHOUT starting playback — so the AC is
+     ready and running before the user explicitly taps Play. When they do tap
+     Play, OlogyAudio.start() finds a running context and voices start
+     immediately with no async race. */
+  function _iosContextWarm(){
+    /* Access the AudioContext indirectly: create a silent 0-duration buffer
+       and play it — this is the canonical iOS Web Audio unlock gesture.
+       We do NOT call OlogyAudio.start() here; that remains user-initiated. */
+    try {
+      var Ctx=window.AudioContext||window.webkitAudioContext;
+      if(!Ctx) return;
+      /* Re-use existing AC if OlogyAudio already created one */
+      var tmpCtx=new Ctx();
+      var buf=tmpCtx.createBuffer(1,1,22050);
+      var src=tmpCtx.createBufferSource();
+      src.buffer=buf;
+      src.connect(tmpCtx.destination);
+      src.start(0);
+      /* Resume the internal OlogyAudio context too via a dummy start+stop */
+      if(window.OlogyAudio && !PROG.audio.isPlaying){
+        window.OlogyAudio.start();   /* resume AC, rebuild voices */
+        window.OlogyAudio.stop();    /* immediately stop — clears isPlaying, suspends AC fresh */
+        PROG.audio.isPlaying=false;  /* belt-and-suspenders */
+      }
+    } catch(e){}
   }
-  document.addEventListener('touchstart',_iosUnlock,{capture:true,once:true,passive:true});
-  document.addEventListener('click',_iosUnlock,{capture:true,once:true,passive:true});
+  document.addEventListener('touchstart',_iosContextWarm,{capture:true,once:true,passive:true});
+  document.addEventListener('click',_iosContextWarm,{capture:true,once:true,passive:true});
 })();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
@@ -1078,8 +1093,14 @@ window.setSym=function(mode){
    together — all share the one AudioContext reaching AC.destination. */
 window.setTransport=function(s){
   const A=window.OlogyAudio; if(!A)return;
-  if(s==='play')      A.start();
-  else if(s==='stop') A.stop();
+  if(s==='play'){
+    A.start();
+    /* iOS: AC.resume() is async — re-call start() after the context has had
+       time to actually resume, so rebuildVoices fires on a running context. */
+    setTimeout(function(){ if(PROG.audio.isPlaying) A.start(); }, 150);
+  } else if(s==='stop'){
+    A.stop();
+  }
   const playing=!!PROG.audio.isPlaying;
   document.querySelectorAll('#tp-play,[data-tp=play]').forEach(b=>b.classList.toggle('on',playing));
   document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(b=>b.classList.toggle('on',!playing));
