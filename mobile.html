@@ -1162,7 +1162,7 @@ function saveProg(){
     if(!window.OlogyAudio||!window.OlogyAudio.isReady())return;
     try{
       var frame=window.OlogyAudio.getAnalysisFrame();
-      if(!frame||!frame.level)return; /* skip silent/zero frames */
+      if(!frame)return;
       fetch('/sync/latest',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
