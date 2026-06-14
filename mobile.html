@@ -301,6 +301,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 /* Logo canvas drop-shadow brand color */
 .logo{filter:drop-shadow(0 0 7px rgba(123,167,212,.65))}
 
+
 /* ── iPhone XS Max (and all narrow phones ≤430 px wide) ──────────────────
    Layout: single vertical column
    Order:  [topbar] → [canvas monitors] → [mobile nav tabs] → [control panel]
@@ -417,25 +418,31 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
     min-height:0;
     border-left:none;
     border-top:1px solid var(--stroke);
-    padding-bottom:env(safe-area-inset-bottom);
+    /* flex column so header + sticky-go footer claim fixed space,
+       rp-body fills the rest without height calc */
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
   }
   .rp-header{
     padding:8px 12px 7px;
     display:flex;
     align-items:center;
     gap:10px;
+    flex-shrink:0;
   }
   .rp-title{
     font-size:10px;
     letter-spacing:1.8px;
   }
   .rp-body{
-    padding:10px 12px;
-    padding-bottom:calc(env(safe-area-inset-bottom) + 10px);
-    /* height = 100% of right-panel minus header (~36px) */
-    height:calc(100% - 36px);
+    padding:10px 12px calc(env(safe-area-inset-bottom) + 80px);
+    flex:1;
+    min-height:0;
     overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
+    /* overscroll-behavior:contain stops rubber-band propagation to parent;
+       avoids the bounce-back that buries the bottom of the scroll content */
+    overscroll-behavior:contain;
   }
 
   /* ── Section + row tightening ── */
@@ -609,7 +616,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
           <h4>Symmetry</h4>
           <div class="seg"><button data-sym="0" onclick="setSym(0)">Radial</button><button data-sym="1" onclick="setSym(1)">Mirror</button><button data-sym="2" class="on" onclick="setSym(2)">Kaleidoscope</button></div>
         </div>
-        <div class="section" style="padding-bottom:4px">
+        <div class="section">
           <button id="goBtn" onclick="executeTransition()">GO</button>
         </div>
       </div>
