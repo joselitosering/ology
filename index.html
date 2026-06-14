@@ -282,9 +282,11 @@ body.exiting #gateKal{
 
 /* ── Enter handler ── */
 function enter(){
+  var isMobile=window.matchMedia('(pointer:coarse)').matches
+    &&window.matchMedia('(max-width:1024px)').matches;
   document.body.classList.add('exiting');
   setTimeout(function(){
-    window.location.replace('app.html');
+    window.location.replace(isMobile?'mobile.html':'web.html');
   },520);
 }
 
