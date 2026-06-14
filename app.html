@@ -639,6 +639,8 @@ body.viewer-fs #fsHint{display:block}
   </div>
   <!-- ── Fullscreen tap-to-exit hint (mobile) ── -->
   <div id="fsHint">Tap viewer to exit</div>
+  <!-- TEMP iOS audio debug readout — remove after diagnosis -->
+  <div id="audioDbg" style="position:fixed;left:8px;bottom:8px;z-index:99999;font:11px/1.5 monospace;color:#7BA7D4;background:rgba(11,15,26,.85);padding:6px 9px;border:1px solid rgba(123,167,212,.4);border-radius:6px;max-width:80vw;pointer-events:none;white-space:pre">audio: init…</div>
 
   <div class="center">
     <!-- Viewer bar (mobile/tablet): PREVIEW/PROGRAM toggle matches desktop label format -->
@@ -957,16 +959,22 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
    user gesture until the engine reports playing, rather than latching once. */
 (function(){
   var _confirmed=false, _tries=0;
+  var _dbg=function(msg){var e=document.getElementById('audioDbg');if(e)e.textContent=msg;};
+  /* probe context: lets us read an actual AudioContext.state on this device */
+  var _Ctx=window.AudioContext||window.webkitAudioContext;
+  var _probe=null; try{ _probe=_Ctx?new _Ctx():null; }catch(e){}
+  function _state(){ return _probe?_probe.state:'no-ctx'; }
+  _dbg('audio: OlogyAudio='+(!!window.OlogyAudio)+'\nprobe='+_state()+' tries=0');
   function _unlockAudio(){
     var A=window.OlogyAudio;
-    if(!A){return;}
-    /* call start() on each gesture — it resumes the context + builds voices */
-    try{ A.start(); }catch(e){}
+    if(!A){_dbg('audio: NO OlogyAudio object');return;}
+    try{ if(_probe&&_probe.state!=='running')_probe.resume(); }catch(e){}
+    try{ A.start(); }catch(e){ _dbg('audio: start() threw '+e); }
     if(typeof PROG!=='undefined'&&PROG.audio){PROG.audio.isPlaying=true;}
     _tries++;
-    /* consider it confirmed once the engine is ready AND we've tried a couple
-       of gestures (covers the iOS first-gesture-ignored race). */
-    if(A.isReady&&A.isReady()&&_tries>=2){_confirmed=true;}
+    var rdy=!!(A.isReady&&A.isReady());
+    _dbg('audio: ready='+rdy+'\nprobeState='+_state()+'\ntries='+_tries+' master='+(PROG.audio?PROG.audio.masterLevel:'?'));
+    if(rdy&&_tries>=2){_confirmed=true;}
     if(_confirmed||_tries>=8){
       ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
         document.removeEventListener(ev,_unlockAudio,true);
