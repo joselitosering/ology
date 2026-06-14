@@ -191,6 +191,22 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 /* Logo canvas drop-shadow brand color */
 .logo{filter:drop-shadow(0 0 7px rgba(123,167,212,.65))}
 
+/* ── Debug overlay — toggle with triple-tap topbar logo ── */
+#dbg{display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:rgba(0,0,0,.92);border-top:1px solid rgba(123,167,212,.3);
+  max-height:42vh;flex-direction:column;font-family:monospace}
+#dbg.open{display:flex}
+#dbg-bar{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  border-bottom:1px solid rgba(123,167,212,.2);flex-shrink:0}
+#dbg-bar span{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#7BA7D4;flex:1}
+#dbg-bar button{background:none;border:1px solid rgba(123,167,212,.3);color:#8FA8C0;
+  border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer}
+#dbg-log{flex:1;overflow-y:auto;padding:6px 10px;font-size:10px;line-height:1.7;color:#8FA8C0}
+#dbg-log .ok{color:#6abfa0}#dbg-log .err{color:#E8896A}
+#dbg-log .warn{color:#f0c040}#dbg-log .info{color:#A8D8EA}
+#dbg-state{padding:4px 10px 6px;font-size:9px;color:#4a6a84;
+  border-top:1px solid rgba(123,167,212,.15);flex-shrink:0}
+
 
 /* ── iPhone XS Max (and all narrow phones ≤430 px wide) ──────────────────
    Layout: single vertical column
@@ -534,6 +550,22 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
+<!-- ── iOS speaker unlock: silent looping <audio> element promotes the
+     Web Audio session from "ambient" (headphone-only) to "playback"
+     (speaker + headphone). Played once on first user tap, then loops
+     silently for the page lifetime. Zero audible content. ── -->
+<audio id="iosSpeakerUnlock" loop preload="auto"
+  src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//OEAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAEAAABIADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV6urq6urq6urq6urq6urq6urq6urq6urq6v////////////////////////////////8AAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAAAAAAAAAAAASDs90hvAAAAAAAAAAAAAAAAAAAA//MUZAAAAAGkAAAAAAAAA0gAAAAATEFN//MUZAMAAAGkAAAAAAAAA0gAAAAARTMu//MUZAYAAAGkAAAAAAAAA0gAAAAAOTku//MUZAkAAAGkAAAAAAAAA0gAAAAAMTAw"
+  style="display:none" x-webkit-airplay="deny"></audio>
+<div id="dbg">
+  <div id="dbg-bar">
+    <span>Ology Debug</span>
+    <button onclick="dbgClear()">Clear</button>
+    <button onclick="dbgClose()">✕</button>
+  </div>
+  <div id="dbg-log"></div>
+  <div id="dbg-state" id="dbg-state-bar">AC: — | isPlaying: — | ready: —</div>
+</div>
 <div id="stageView">
   <div class="sidebar">
     <div class="nav-item on" onclick="selectTab('visuals',this)"><span class="ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="3"/><path d="M10 2C5.5 2 2 6 2 10s3.5 8 8 8 8-4 8-8-3.5-8-8-8z" opacity=".5"/><path d="M10 6v1M10 13v1M6 10H5M15 10h-1"/></svg></span>Visuals</div>
@@ -822,6 +854,14 @@ if(window.OlogyShaders){window.OlogyShaders.init();}
   function _mobileAudioUnlock(){
     var A=window.OlogyAudio;
     if(!A)return;
+    /* Play silent <audio> element FIRST — this promotes the iOS audio session
+       from "ambient" (routes to headphones only) to "playback" (routes to
+       speaker). Must happen before Web Audio init so the session is already
+       promoted when oscillators start. */
+    var sil=document.getElementById('iosSpeakerUnlock');
+    if(sil){
+      sil.play().catch(function(){});
+    }
     /* Init inside the gesture — satisfies autoplay policy on all platforms */
     if(!_audioInited){
       A.init(PROG.audio);
@@ -1723,6 +1763,104 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
 })();
 </script>
 <script>
+/* ── Debug overlay ───────────────────────────────────────────────────────
+   Triple-tap the OLOGY logo in the topbar to open/close.
+   Captures all audio engine events, context state, and errors.
+   Remove before shipping final build.                                     */
+(function(){
+  var _dbgEl=null, _stateEl=null;
+  var _tapCount=0, _tapTimer=null;
+
+  function _init(){
+    _dbgEl=document.getElementById('dbg-log');
+    _stateEl=document.getElementById('dbg-state');
+    /* Triple-tap logo to toggle */
+    var logo=document.getElementById('logoKal');
+    if(logo){
+      logo.style.cursor='pointer';
+      logo.addEventListener('click',function(){
+        _tapCount++;
+        clearTimeout(_tapTimer);
+        _tapTimer=setTimeout(function(){_tapCount=0;},600);
+        if(_tapCount>=3){_tapCount=0;dbgToggle();}
+      });
+    }
+    /* Patch console.error to capture errors in overlay */
+    var _origErr=console.error.bind(console);
+    console.error=function(){
+      _origErr.apply(console,arguments);
+      _dbgLog(Array.from(arguments).join(' '),'err');
+    };
+    var _origWarn=console.warn.bind(console);
+    console.warn=function(){
+      _origWarn.apply(console,arguments);
+      _dbgLog(Array.from(arguments).join(' '),'warn');
+    };
+    /* Catch uncaught errors */
+    window.addEventListener('error',function(e){
+      _dbgLog('UNCAUGHT: '+e.message+' ('+e.filename+':'+e.lineno+')','err');
+    });
+    window.addEventListener('unhandledrejection',function(e){
+      _dbgLog('UNHANDLED PROMISE: '+(e.reason&&e.reason.message||e.reason),'err');
+    });
+    /* Patch OlogyAudio calls to log them */
+    setTimeout(function(){
+      var A=window.OlogyAudio;
+      if(!A){_dbgLog('OlogyAudio not found after load','err');return;}
+      _dbgLog('OlogyAudio loaded — version: '+A.CONTRACTS_VERSION,'ok');
+      ['init','start','stop','setDrone','setMode'].forEach(function(fn){
+        var orig=A[fn].bind(A);
+        A[fn]=function(){
+          var args=Array.from(arguments);
+          var cs=A.getContextState?A.getContextState():'?';
+          _dbgLog(fn+'('+args.slice(0,2).join(',')+')'+ ' [AC:'+cs+']','info');
+          var ret=orig.apply(A,args);
+          var cs2=A.getContextState?A.getContextState():'?';
+          _dbgLog('  → isPlaying:'+( (window.PROG&&window.PROG.audio)?window.PROG.audio.isPlaying:'?')+' AC:'+cs2, cs2==='running'?'ok':'warn');
+          return ret;
+        };
+      });
+      _dbgLog('OlogyAudio methods patched for logging','info');
+    },500);
+    _dbgLog('Debug overlay ready — triple-tap logo to toggle','info');
+    _dbgLog('UA: '+navigator.userAgent.slice(0,100),'info');
+    setInterval(_updateState,500);
+  }
+
+  function _dbgLog(msg,cls){
+    if(!_dbgEl)return;
+    var d=document.createElement('div');
+    d.className=cls||'info';
+    var t=new Date().toLocaleTimeString('en',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    d.textContent='['+t+'] '+msg;
+    _dbgEl.appendChild(d);
+    if(_dbgEl.children.length>120)_dbgEl.removeChild(_dbgEl.firstChild);
+    _dbgEl.scrollTop=_dbgEl.scrollHeight;
+  }
+
+  function _updateState(){
+    if(!_stateEl)return;
+    var A=window.OlogyAudio;
+    var cs=A&&A.getContextState?A.getContextState():'none';
+    var ip=(window.PROG&&window.PROG.audio)?window.PROG.audio.isPlaying:false;
+    var rdy=A?A.isReady():false;
+    var lsLen=0;
+    try{var ls=localStorage.getItem('ology_prog');lsLen=ls?ls.length:0;}catch(e){}
+    _stateEl.textContent='AC:'+cs+' | isPlaying:'+ip+' | ready:'+rdy+' | ls:'+lsLen+'b';
+  }
+
+  window.dbgToggle=function(){var d=document.getElementById('dbg');if(d)d.classList.toggle('open');};
+  window.dbgClose=function(){var d=document.getElementById('dbg');if(d)d.classList.remove('open');};
+  window.dbgClear=function(){if(_dbgEl)_dbgEl.innerHTML='';};
+  window.dbgLog=_dbgLog;
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',_init);
+  }else{
+    _init();
+  }
+})();
+
 /* ── Animated atom logo — kaleidoscope petal engine ── */
 (function(){
   var cv=document.getElementById('logoKal');
