@@ -805,6 +805,28 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
+/* ── iOS AudioContext unlock ─────────────────────────────────────────────
+   iOS Safari creates AudioContext in suspended state until a user gesture.
+   This one-time listener resumes it on the first tap/click anywhere on the
+   page, then removes itself. No-ops on Android/desktop where AC is already
+   running. Calls OlogyAudio.start() which internally calls AC.resume() and
+   sets isPlaying=true, then saveProg() so output.html sees the live state. */
+(function(){
+  function _iosUnlock(){
+    if(window.OlogyAudio && window.OlogyAudio.isReady && !PROG.audio.isPlaying){
+      window.OlogyAudio.start();
+      /* Sync transport UI to reflect playing state */
+      document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.add('on');});
+      document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.remove('on');});
+      var lbl=document.getElementById('tp-play-lbl');if(lbl)lbl.textContent='Pause';
+      saveProg();
+    }
+    document.removeEventListener('touchstart',_iosUnlock,{capture:true});
+    document.removeEventListener('click',_iosUnlock,{capture:true});
+  }
+  document.addEventListener('touchstart',_iosUnlock,{capture:true,once:true,passive:true});
+  document.addEventListener('click',_iosUnlock,{capture:true,once:true,passive:true});
+})();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
   var DRONES=[
@@ -856,17 +878,23 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
     document.getElementById('beatSlider').value=s.beat;
     document.getElementById('beatRO').textContent=s.beat.toFixed(1);
     setModeSeg(s.mode); if(window.OlogyAudio)window.OlogyAudio.setMode(s.mode);
+    /* Sync PROG.audio so output.html localStorage sees the change */
+    PROG.audio.droneId=id;
+    PROG.audio.carrierHz=s.carrier;
+    PROG.audio.beatHz=s.beat;
+    PROG.audio.mode=s.mode;
+    saveProg();
     refreshInfo();
   };
-  window.uiMode=function(m,el){if(window.OlogyAudio)window.OlogyAudio.setMode(m);setModeSeg(m);refreshInfo();};
-  window.uiCarrier=function(v){if(window.OlogyAudio)window.OlogyAudio.setCarrier(parseFloat(v));document.getElementById('carrierRO').textContent=Math.round(v);refreshInfo();};
-  window.uiBeat=function(v){if(window.OlogyAudio)window.OlogyAudio.setBeat(parseFloat(v));document.getElementById('beatRO').textContent=parseFloat(v).toFixed(1);refreshInfo();};
-  window.uiBed=function(id,el){if(window.OlogyAudio)window.OlogyAudio.setBed(id);if(bWrap.value!==id)bWrap.value=id;};
-  window.uiBlend=function(v){if(window.OlogyAudio)window.OlogyAudio.setBedBlend(v/100);document.getElementById('blendRO').textContent=(v/100).toFixed(2);};
-  window.uiTickle=function(v){if(window.OlogyAudio)window.OlogyAudio.setTickle(v/100);document.getElementById('tickleRO').textContent=(v/100).toFixed(2);};
-  window.uiSlow=function(v){if(window.OlogyAudio)window.OlogyAudio.setSlowness(v/100);document.getElementById('slowRO').textContent=(v/100).toFixed(2);};
-  window.uiMaster=function(v){PROG.audio.masterLevel=v/100;if(window.OlogyAudio)window.OlogyAudio.setMaster(v/100);document.getElementById('masterRO').textContent=(v/100).toFixed(2);};
-  window.uiLoop=function(b,el){if(window.OlogyAudio)window.OlogyAudio.setLoop(b);var seg=document.getElementById('loopSeg');[].forEach.call(seg.children,function(x){x.classList.toggle('on',x===el);});};
+  window.uiMode=function(m,el){if(window.OlogyAudio)window.OlogyAudio.setMode(m);setModeSeg(m);PROG.audio.mode=m;saveProg();refreshInfo();};
+  window.uiCarrier=function(v){if(window.OlogyAudio)window.OlogyAudio.setCarrier(parseFloat(v));document.getElementById('carrierRO').textContent=Math.round(v);PROG.audio.carrierHz=parseFloat(v);saveProg();refreshInfo();};
+  window.uiBeat=function(v){if(window.OlogyAudio)window.OlogyAudio.setBeat(parseFloat(v));document.getElementById('beatRO').textContent=parseFloat(v).toFixed(1);PROG.audio.beatHz=parseFloat(v);saveProg();refreshInfo();};
+  window.uiBed=function(id,el){if(window.OlogyAudio)window.OlogyAudio.setBed(id);if(bWrap.value!==id)bWrap.value=id;PROG.audio.ambientBed=id;saveProg();};
+  window.uiBlend=function(v){if(window.OlogyAudio)window.OlogyAudio.setBedBlend(v/100);document.getElementById('blendRO').textContent=(v/100).toFixed(2);PROG.audio.ambientBlend=v/100;saveProg();};
+  window.uiTickle=function(v){if(window.OlogyAudio)window.OlogyAudio.setTickle(v/100);document.getElementById('tickleRO').textContent=(v/100).toFixed(2);PROG.audio.brainTickleAmount=v/100;saveProg();};
+  window.uiSlow=function(v){if(window.OlogyAudio)window.OlogyAudio.setSlowness(v/100);document.getElementById('slowRO').textContent=(v/100).toFixed(2);PROG.audio.slowness=v/100;saveProg();};
+  window.uiMaster=function(v){PROG.audio.masterLevel=v/100;if(window.OlogyAudio)window.OlogyAudio.setMaster(v/100);document.getElementById('masterRO').textContent=(v/100).toFixed(2);saveProg();};
+  window.uiLoop=function(b,el){if(window.OlogyAudio)window.OlogyAudio.setLoop(b);var seg=document.getElementById('loopSeg');[].forEach.call(seg.children,function(x){x.classList.toggle('on',x===el);});PROG.audio.loop=b;saveProg();};
   window.uiRoute=function(band,param,el){
     var amount=el.value/100;
     if(window.OlogyAudio) window.OlogyAudio.setRoute(band,param,amount);
