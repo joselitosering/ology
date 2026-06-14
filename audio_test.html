@@ -75,7 +75,7 @@ var AC = null;
 var masterGain = null;
 var activeOscs = [];
 var engineState = {
-  droneId:'theta-intuition', carrierHz:null, beatHz:null, mode:'binaural',
+  droneId:'theta-intuition', carrierHz:136.1, beatHz:6, mode:'binaural',
   brainTickleAmount:0.2, slowness:0.6, key:'C', scale:'minor',
   ambientBed:'none', ambientBlend:0.3, loop:'evolving',
   routes:[], masterLevel:0.8, isPlaying:false
@@ -220,17 +220,27 @@ function testBinauralStop() {
 function testEngineInit() {
   var A = window.OlogyAudio;
   if (!A) { log('OlogyAudio not found — is m2_audio.js loaded?', 'err'); return; }
+  /* Play silent audio first to promote iOS audio session */
+  var sil=document.getElementById('iosSpeakerUnlock');
+  if(sil){ sil.play().catch(function(){}); }
   try {
     var ok = A.init(engineState);
     log('OlogyAudio.init() returned: '+ok, ok?'ok':'err');
-    log('Engine context state: '+(A.getContextState?A.getContextState():'no getContextState'), 'info');
+    log('  context state: '+(A.getContextState?A.getContextState():'no getContextState'), 'info');
+    log('  isReady(): '+A.isReady(), A.isReady()?'ok':'err');
+    /* Check what isReady sees by testing engine start directly */
+    if(!A.isReady()){
+      log('  isReady=false — trying start() anyway...','warn');
+      A.start();
+      log('  after start(): isReady='+A.isReady()+' ctx='+A.getContextState(),'info');
+    }
     updateStateBar();
-  } catch(e) { log('Engine init error: '+e.message, 'err'); }
+  } catch(e) { log('Engine init error: '+e.message+' stack:'+e.stack, 'err'); }
 }
 function testEnginePlay() {
   var A = window.OlogyAudio;
   if (!A) { log('OlogyAudio not found', 'err'); return; }
-  if (!A.isReady()) { log('Engine not ready — init first', 'warn'); return; }
+  log('isReady()='+A.isReady()+' ctx='+(A.getContextState?A.getContextState():'?'), A.isReady()?'ok':'warn');
   log('Calling OlogyAudio.start()…', 'info');
   A.start();
   log('After start() — isPlaying: '+engineState.isPlaying+' — context: '+(A.getContextState?A.getContextState():'?'), 'info');
