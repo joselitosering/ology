@@ -803,39 +803,47 @@ function blendS(a,b,f){
 
 /* ─── RENDER LOOP ─────────────────────────────────────────────────────── */
 if(window.OlogyShaders){window.OlogyShaders.init();}
-/* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
-if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
+/* M2 Audio Engine init — deferred into first user gesture so the
+   AudioContext is created inside a user interaction, satisfying browser
+   autoplay policy on iOS Safari, Android Chrome, and all other platforms.
+   OlogyShaders.init() is safe at load time (WebGL, no policy restriction).
+   ──────────────────────────────────────────────────────────────────────── */
 /* ── Mobile AudioContext unlock (iOS Safari + Android Chrome) ────────────
-   Mobile browsers create AudioContext in 'suspended' state and require a
-   user gesture before audio can play. Strategy:
-   1. On first touchstart anywhere, call A.start() to trigger AC.resume().
-   2. AC.resume() is async — poll getContextState() every 50ms until the
-      context reports 'running' (max 10 polls = 500ms).
-   3. Once running, call A.start() a second time so rebuildVoices() fires
-      on a confirmed-running context — oscillators actually produce sound.
-   4. Remove the listener; audio is now unblocked for all future Play taps.
-   This fires once silently. The user still controls playback via Play/Stop.
+   On first touchstart (or mousedown for desktop testing):
+   1. Call OlogyAudio.init() — creates the AudioContext inside a user gesture.
+      This satisfies browser autoplay policy; no "not allowed to start" error.
+   2. Call A.start() to trigger AC.resume().
+   3. Poll getContextState() every 50ms until 'running' (max 10 polls = 500ms).
+   4. Call A.start() once more — rebuildVoices() now fires on a live context.
+   5. Listener removes itself; subsequent Play taps go through setTransport.
    ──────────────────────────────────────────────────────────────────────── */
 (function(){
+  var _audioInited=false;
   function _mobileAudioUnlock(){
     var A=window.OlogyAudio;
-    if(!A||!A.getContextState)return;
-    /* First call: triggers AC.resume() inside m2_audio start() */
+    if(!A)return;
+    /* Init inside the gesture — satisfies autoplay policy on all platforms */
+    if(!_audioInited){
+      A.init(PROG.audio);
+      _audioInited=true;
+    }
+    if(!A.getContextState)return;
+    /* Trigger AC.resume() */
     A.start();
-    /* Immediately stop so isPlaying stays false — unlock only, no playback */
-    A.stop();
-    /* Poll until context is confirmed running, then the next user-initiated
-       Play tap will find a warm context and voices will start correctly */
+    /* Poll until context is running, then rebuild voices on live context */
     var polls=0;
     var poll=setInterval(function(){
       polls++;
-      if(A.getContextState()==='running'||polls>=10){
+      if(A.getContextState()==='running'){
+        clearInterval(poll);
+        A.start(); /* second call: rebuildVoices on confirmed-running context */
+        A.stop();  /* stop immediately — unlock only, playback stays user-controlled */
+      } else if(polls>=10){
         clearInterval(poll);
       }
     },50);
   }
   document.addEventListener('touchstart',_mobileAudioUnlock,{capture:true,once:true,passive:true});
-  /* Fallback for non-touch devices (desktop testing of mobile.html) */
   document.addEventListener('mousedown',_mobileAudioUnlock,{capture:true,once:true});
 })();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
@@ -960,7 +968,7 @@ chipWrap.addEventListener('change',function(){
   PREV.th=i;
   const n=THEMES[i].n;
   document.getElementById('prevName').textContent=n;
-  document.getElementById('ph-prev-name').textContent=n;
+  var _phn1=document.getElementById('ph-prev-name');if(_phn1)_phn1.textContent=n;
   /* M9: apply theme visualDefaults to PREV (non-destructive; audio unchanged) */
   if(window.applyThemeDefaults)window.applyThemeDefaults(i);
 });
@@ -1147,7 +1155,7 @@ window.selectTab=function(name,el){
   const e=document.getElementById('rpTitle');if(e)e.textContent=t[name]||name;
 };
 window.togglePlay=function(){playing=!playing;const b=document.getElementById('playBtn');if(b){b.textContent=playing?'❚❚ Running':'▶ Paused';b.classList.toggle('paused',!playing);}};
-window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;document.getElementById('ph-prev-name').textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
+window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;var _phn2=document.getElementById('ph-prev-name');if(_phn2)_phn2.textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
 
 /* ─── OBS OUTPUT URL ──────────────────────────────────────────────────── */
 const OUT={ar:'16:9',res:'1080',fps:'30'};
@@ -1607,7 +1615,7 @@ renderPresets();
 
 /* ─── INIT ────────────────────────────────────────────────────────────── */
 document.getElementById('prevName').textContent=THEMES[PREV.th].n;
-document.getElementById('ph-prev-name').textContent=THEMES[PREV.th].n;
+var _phpn=document.getElementById('ph-prev-name');if(_phpn)_phpn.textContent=THEMES[PREV.th].n;
 document.getElementById('progName').textContent=THEMES[PROG.th].n;
 document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='visuals');
 
