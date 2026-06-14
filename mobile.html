@@ -671,19 +671,17 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
       </div>
       <div data-pane="output" hidden>
         <div class="section">
-          <h4>OBS Output View — Program Only</h4>
+          <h4>Fullscreen Output</h4>
           <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
-          <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
-          <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
+          <button id="fsBtn" class="btn-g" onclick="enterFullscreen()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700;margin-top:4px">⛶ Fullscreen</button>
         </div>
         <div class="section">
-          <h4>Live Overlay</h4>
-          <!-- M6: toggles ology_overlay localStorage key; output.html reacts via storage event -->
+          <h4>Param Overlay</h4>
           <div class="seg" id="overlayTogSeg">
             <button id="ovOff" class="on" onclick="toggleOverlay(false)">Off</button>
             <button id="ovOn" onclick="toggleOverlay(true)">On</button>
           </div>
-          <p class="note" style="margin-top:5px">Shows theme title, drone, tuning, mode, bed &amp; texture in the top-left of output.html.</p>
+          <p class="note" style="margin-top:5px">Shows theme, drone, tuning, mode &amp; bed over the fullscreen canvas.</p>
         </div>
         <!-- M7: Stage-side pairing panel — hidden in v1 beta; deferred to v2 -->
         <div class="section" hidden>
@@ -717,6 +715,12 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
       </div>
     </div>
   </div>
+</div>
+
+<div id="fsView" style="display:none;position:fixed;inset:0;z-index:10000;background:#000;touch-action:manipulation">
+  <canvas id="fsCanvas" style="display:block;position:absolute"></canvas>
+  <div id="fsOverlay" style="display:none;position:absolute;top:10px;left:12px;font-family:'Courier New',monospace;font-size:11px;line-height:1.55;pointer-events:none;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.7);color:#e8f0f8"></div>
+  <div style="position:absolute;bottom:env(safe-area-inset-bottom,16px);right:12px;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.25);pointer-events:none">TAP TO EXIT</div>
 </div>
 
 <script src="m1_shaders.js"></script>
@@ -978,6 +982,12 @@ function loop(now){
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
     if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
+    /* Fullscreen output: mirror PROG canvas to fsCanvas + update overlay */
+    if(_fsActive){
+      var _fsc=document.getElementById('fsCanvas');
+      if(_fsc)window.OlogyShaders.draw(_fsc,toM1State(progState,PROG.audio),frame,progState.t,1);
+      renderFsOverlay();
+    }
   }
   requestAnimationFrame(loop);
 }
@@ -1172,6 +1182,107 @@ function saveProg(){
   }
   setInterval(_postFrame,100);
 })();
+
+/* ─── FULLSCREEN OUTPUT ────────────────────────────────────────────────────
+   Tap ⛶ Fullscreen in the Output tab → full-bleed canvas fills the iPhone
+   screen at the selected AR, Retina resolution, with optional param overlay.
+   Tap anywhere to exit. Uses the same running render loop as the PROG monitor.
+   No output.html, no OffscreenCanvas, no desktop required.                    */
+
+var _fsActive=false;
+var _fsCreditDate=(function(){
+  var d=new Date();
+  return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+})();
+
+function _sizeFsCanvas(){
+  var c=document.getElementById('fsCanvas');
+  if(!c)return;
+  var dpr=Math.min(window.devicePixelRatio||1,3);
+  var vw=window.innerWidth,vh=window.innerHeight;
+  var arMap={'16:9':[16,9],'9:16':[9,16],'1:1':[1,1],'4:3':[4,3]};
+  var ar=arMap[OUT.ar]||[16,9];
+  var aw=ar[0],ah=ar[1];
+  /* Fit inside viewport maintaining AR */
+  var dw,dh;
+  if(vw/vh>aw/ah){dh=vh;dw=Math.round(vh*aw/ah);}
+  else{dw=vw;dh=Math.round(vw*ah/aw);}
+  /* CSS display size */
+  c.style.width=dw+'px';c.style.height=dh+'px';
+  c.style.left=Math.round((vw-dw)/2)+'px';
+  c.style.top=Math.round((vh-dh)/2)+'px';
+  /* Pixel buffer at device pixel ratio for full Retina sharpness */
+  c.width=Math.round(dw*dpr);
+  c.height=Math.round(dh*dpr);
+}
+
+function renderFsOverlay(){
+  var el=document.getElementById('fsOverlay');
+  if(!el)return;
+  var on=(localStorage.getItem('ology_overlay')==='1');
+  el.style.display=on?'block':'none';
+  if(!on)return;
+  var a=PROG.audio||{};
+  var thIdx=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
+  var theme=THEMES[thIdx];
+  var droneId=a.droneId||'theta-intuition';
+  var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
+  var carrier=typeof a.carrierHz==='number'?a.carrierHz:spec.carrier;
+  var beat=typeof a.beatHz==='number'?a.beatHz:spec.beat;
+  var bedId=a.ambientBed||'none';
+  var bedLabel=bedId.charAt(0).toUpperCase()+bedId.slice(1);
+  var tickle=typeof a.brainTickleAmount==='number'?a.brainTickleAmount.toFixed(2):'0.00';
+  var slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
+  var hex=(theme&&theme.c&&theme.c[2])||'#e8f0f8';
+  el.style.color=hex;
+  var creditLine='Ology Beta v1.3 · Joselito Sering · AIMA Productions · '+_fsCreditDate;
+  var paramLine=theme.n+' — '+spec.name
+    +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
+    +' · '+(a.mode||spec.mode||'—')
+    +' · '+bedLabel
+    +' · t'+tickle+' m'+slow;
+  el.innerHTML='<div>'+creditLine+'</div><div>'+paramLine+'</div>';
+}
+
+window.enterFullscreen=function(){
+  var view=document.getElementById('fsView');
+  var stage=document.getElementById('stageView');
+  if(!view||!stage)return;
+  _sizeFsCanvas();
+  view.style.display='block';
+  stage.style.display='none';
+  _fsActive=true;
+  document.body.style.overflow='hidden';
+  /* Native fullscreen where supported (Android Chrome, desktop) */
+  try{if(view.requestFullscreen)view.requestFullscreen();}catch(e){}
+  try{if(view.webkitRequestFullscreen)view.webkitRequestFullscreen();}catch(e){}
+};
+
+window.exitFullscreen=function(){
+  var view=document.getElementById('fsView');
+  var stage=document.getElementById('stageView');
+  if(!view||!stage)return;
+  view.style.display='none';
+  stage.style.display='flex';
+  _fsActive=false;
+  document.body.style.overflow='';
+  try{if(document.exitFullscreen)document.exitFullscreen();}catch(e){}
+  try{if(document.webkitExitFullscreen)document.webkitExitFullscreen();}catch(e){}
+};
+
+/* Tap anywhere on the fullscreen view to exit */
+(function(){
+  var v=document.getElementById('fsView');
+  if(v)v.addEventListener('click',function(){ window.exitFullscreen(); });
+})();
+
+/* Re-size canvas on orientation change / window resize */
+window.addEventListener('orientationchange',function(){
+  if(_fsActive)setTimeout(_sizeFsCanvas,300);
+});
+window.addEventListener('resize',function(){
+  if(_fsActive)_sizeFsCanvas();
+});
 
 /* ─── GO BUTTON ───────────────────────────────────────────────────────── */
 window.executeTransition=function(){
