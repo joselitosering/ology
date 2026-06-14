@@ -1136,6 +1136,16 @@ window.setTransport=function(s){
 /* ─── LOCALSTORAGE SYNC ───────────────────────────────────────────────── */
 function saveProg(){
   try { localStorage.setItem('ology_prog', JSON.stringify(PROG)); } catch(e) {}
+  /* Cross-device sync: POST to server so output.html on another device
+     (Mac/OBS) picks it up via its /sync/latest poll. Fire-and-forget. */
+  try {
+    const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():null;
+    fetch('/sync/latest',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({prog:PROG,frame:frame})
+    }).catch(function(){});
+  } catch(e) {}
 }
 
 /* ─── GO BUTTON ───────────────────────────────────────────────────────── */

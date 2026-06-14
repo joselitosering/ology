@@ -434,10 +434,19 @@
 
   function start() {
     if (!AC) return;
-    try { AC.resume(); } catch (e) {}
     if (!mixBus) { buildBus(); }
-    rebuildVoices();
     S.isPlaying = true;
+    /* AC.resume() is async. Rebuild voices inside .then() so oscillators
+       are started only after the context is confirmed running — required on
+       iOS Safari and Android Chrome where osc.start() on a suspended context
+       is silently discarded. Falls back to sync rebuild if Promise unavailable. */
+    var resumed;
+    try { resumed = AC.resume(); } catch (e) {}
+    if (resumed && typeof resumed.then === 'function') {
+      resumed.then(function() { rebuildVoices(); });
+    } else {
+      rebuildVoices();
+    }
   }
 
   function stop() {
