@@ -1902,9 +1902,9 @@ document.querySelectorAll('[data-pane]').forEach(p=>p.hidden=p.dataset.pane!=='v
     hint.innerHTML='<div style="opacity:.85">Ology Beta v1.2 \u00b7 AIMA Productions</div><div>'+line+'</div><div style="opacity:.5;margin-top:4px">Tap viewer to exit</div>';
   };
 
-  /* ── Init: PROGRAM viewer active by default; resize on load ── */
+  /* ── Init: default viewer — PREVIEW on mobile/tablet, PROGRAM on desktop ── */
   window.addEventListener('load',function(){
-    if(window.setViewer) window.setViewer('prog');
+    if(window.setViewer) window.setViewer(window.innerWidth<=1023 ? 'prev' : 'prog');
     window.resizeAll && setTimeout(window.resizeAll, 120);
   });
 
