@@ -414,13 +414,6 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
         <div class="section">
           <h4>OBS Output View — Program Only</h4>
           <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
-          <div class="seg"><button data-res="720" onclick="setOut('res','720',this)">720p</button><button class="on" data-res="1080" onclick="setOut('res','1080',this)">1080p</button><button data-res="1440" onclick="setOut('res','1440',this)">1440p</button></div>
-          <div class="seg"><button data-fps="24" onclick="setOut('fps','24',this)">24</button><button class="on" data-fps="30" onclick="setOut('fps','30',this)">30</button><button data-fps="60" onclick="setOut('fps','60',this)">60 fps</button></div>
-          <div class="row" style="margin-top:6px"><label>Output dimensions</label><span class="rval" id="outDims" style="color:var(--acc)">1920×1080</span></div>
-          <p class="note" style="margin-bottom:8px">fps is metadata only — canvas renders at full rate; set the authoritative frame rate in OBS → Settings → Video.</p>
-          <h4 style="margin-top:6px">Browser Source URL</h4>
-          <div class="urlbox" id="outUrl">http://localhost:8080/output.html?ar=16:9&res=1080&fps=30</div>
-          <button class="btn-g" style="margin-top:8px" onclick="copyOutUrl(this)">📋 Copy URL</button>
           <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
           <p class="note" style="margin-top:7px">Opens a chromeless window sized to the exact output resolution. In OBS use <strong>Window Capture → Client Area</strong> to capture it with no borders.</p>
@@ -430,9 +423,9 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
           <!-- M6: toggles ology_overlay localStorage key; output.html reacts via storage event -->
           <div class="seg" id="overlayTogSeg">
             <button id="ovOff" class="on" onclick="toggleOverlay(false)">Off</button>
-            <button id="ovOn" onclick="toggleOverlay(true)">Param overlay on output</button>
+            <button id="ovOn" onclick="toggleOverlay(true)">On</button>
           </div>
-          <p class="note" style="margin-top:5px">Shows theme title, drone, tuning, mode, bed &amp; texture in the top-left of output.html. Independent of ?obs=1.</p>
+          <p class="note" style="margin-top:5px">Shows theme title, drone, tuning, mode, bed &amp; texture in the top-left of output.html.</p>
         </div>
         <!-- M7: Stage-side pairing panel — hidden in v1 beta; deferred to v2 -->
         <div class="section" hidden>
