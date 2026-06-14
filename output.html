@@ -8,7 +8,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; position:relative; cursor:auto; }
     canvas { display:block; }
-
+    #readout {
+      position: absolute;
+      bottom: 12px; right: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #0f0;
+      background: rgba(0,0,0,0.7);
+      padding: 6px 10px;
+      border: 1px solid #0f0;
+      border-radius: 3px;
+    }
     /* M6 — param overlay. Discreet strip, top-left, no box/border.
        Line 1: credit · Line 2: audio params
        Colour set per-frame by renderOverlay() from the active theme palette.
@@ -18,17 +28,17 @@
       position: absolute;
       top: 10px; left: 12px;
       font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(9px, 1.2vw, 15px);
+      font-size: 11px;
       line-height: 1.55;
       pointer-events: none;
       text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
-      white-space: normal;
-      max-width: calc(100vw - 24px);
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
   <canvas id="outCanvas"></canvas>
+  <div id="readout"></div>
   <!-- M6 param overlay — toggled via ology_overlay localStorage key from index.html -->
   <div id="paramOverlay"></div>
 
@@ -43,6 +53,7 @@ const params=new URLSearchParams(location.search);
 const cfgAspect=params.get('ar')||'16:9';
 const cfgResolution=params.get('res')||'1080';
 const cfgFps=parseInt(params.get('fps'))||30;
+const cfgHideReadout=params.has('obs');
 const cfgFullscreen=params.has('fs'); /* &fs=1 → auto-request fullscreen on load */
 
 /* aspect ratio → viewport constraint */
@@ -228,10 +239,12 @@ function loadProgObj(s){
           audio: data.prog.audio ? data.prog.audio.droneId+data.prog.audio.mode+
             data.prog.audio.ambientBed+data.prog.audio.carrierHz+data.prog.audio.beatHz : ''
         }) : null;
+        /* Always update frame even if prog sig unchanged — frame changes every
+           100ms while audio plays; prog only changes on user control actions. */
+        if(data.frame) _wsFrame = data.frame;
         if(sig === _lastSeen) return;
         _lastSeen = sig;
         if(data.prog)  loadProgObj(data.prog);
-        if(data.frame) _wsFrame = data.frame;
       })
       .catch(function(){}); /* server absent — fail silently */
   }
@@ -321,7 +334,7 @@ function renderOverlay(){
   const slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
 
   /* ── Compose lines: credit first, params second ── */
-  const creditLine='Ology Beta v1.3';
+  const creditLine='Ology Beta v1.1 · Joselito Sering · AIMA Productions · '+_creditDate;
   const paramLine=theme.n+' — '+(spec.name||droneId)
     +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
     +' · '+(a.mode||spec.mode||'—')
@@ -337,6 +350,9 @@ applyOverlayVisibility();
 
 /* ─── INIT & RENDER LOOP ──────────────────────────────────────────────– */
 const canvas=document.getElementById('outCanvas');
+const readout=document.getElementById('readout');
+/* obs=1 → fully hide the dimension overlay so OBS never captures the box. */
+if(cfgHideReadout && readout) readout.style.display='none';
 
 /* Load initial state from localStorage (if index.html has written it) */
 loadProg();
@@ -391,16 +407,30 @@ function loop(now){
        reactivity flatlines). This page never owns an AudioContext. */
     /* v1.1: prefer live frame from WebSocket (_wsFrame); fall back to
        localStorage for same-browser tab use; fall back to NULL_ANALYSIS. */
-    let frame = _wsFrame || NULL_ANALYSIS;
-    if(!_wsFrame){
-      try {
-        const saved=localStorage.getItem('ology_frame');
-        if(saved) frame=JSON.parse(saved);
-      } catch(e) {}
+    /* Always prefer the freshest frame by timestamp.
+       _wsFrame: from /sync/latest HTTP poll (cross-device, mobile→Mac).
+       lsFrame:  from ology_frame localStorage (same-browser two-tab).
+       Neither may be available if audio isn't playing — fall back to NULL. */
+    let frame = NULL_ANALYSIS;
+    let _lsFrame = null;
+    try {
+      const saved=localStorage.getItem('ology_frame');
+      if(saved) _lsFrame=JSON.parse(saved);
+    } catch(e) {}
+    /* Use whichever frame is more recent */
+    if(_wsFrame && _lsFrame){
+      frame = (_wsFrame.t >= _lsFrame.t) ? _wsFrame : _lsFrame;
+    } else {
+      frame = _wsFrame || _lsFrame || NULL_ANALYSIS;
     }
     try {
       if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
     } catch(e){ console.error('[output.html] draw error:',e); }
+  }
+
+  /* dimension readout (unless &obs=1) */
+  if(!cfgHideReadout && readout){
+    readout.textContent=canvas.width+'×'+canvas.height+' · '+cfgAspect+' · '+cfgResolution+'p'+cfgFps;
   }
 
   /* M6 — update overlay text every frame (cheap; text-only, no layout thrash when hidden) */

@@ -1141,8 +1141,7 @@ window.setTransport=function(s){
 /* ─── LOCALSTORAGE SYNC ───────────────────────────────────────────────── */
 function saveProg(){
   try { localStorage.setItem('ology_prog', JSON.stringify(PROG)); } catch(e) {}
-  /* Cross-device sync: POST to server so output.html on another device
-     (Mac/OBS) picks it up via its /sync/latest poll. Fire-and-forget. */
+  /* Cross-device sync: POST full prog+frame to server on every control change. */
   try {
     const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():null;
     fetch('/sync/latest',{
@@ -1152,6 +1151,27 @@ function saveProg(){
     }).catch(function(){});
   } catch(e) {}
 }
+
+/* ── Real-time frame sync — posts live FFT frame every 100ms independently
+   of saveProg(). output.html polls /sync/latest at the same 100ms interval.
+   Payload is tiny (~200 bytes). Server merges frame into its cached response
+   so output.html always gets the latest prog + latest live frame together.
+   This is what drives audio-reactive visuals on the output from mobile.      */
+(function(){
+  function _postFrame(){
+    if(!window.OlogyAudio||!window.OlogyAudio.isReady())return;
+    try{
+      var frame=window.OlogyAudio.getAnalysisFrame();
+      if(!frame||!frame.level)return; /* skip silent/zero frames */
+      fetch('/sync/latest',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({prog:PROG,frame:frame})
+      }).catch(function(){});
+    }catch(e){}
+  }
+  setInterval(_postFrame,100);
+})();
 
 /* ─── GO BUTTON ───────────────────────────────────────────────────────── */
 window.executeTransition=function(){
