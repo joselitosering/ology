@@ -341,8 +341,8 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
     height:calc(100dvh - var(--topbar-h));
   }
 
-  /* Center viewer column */
-  .center{flex:1.1;min-width:0}
+  /* Center viewer column — fills all space left of the panel */
+  .center{flex:1 1 auto;min-width:0}
   .monitors{padding:10px;gap:8px;flex-direction:column}
 
   /* Show only the active monitor (toggled via JS .viewer-active) */
@@ -350,13 +350,11 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   .monitor.viewer-active{display:flex}
   .mon-screen{aspect-ratio:unset;height:100%;max-height:none}
 
-  /* Hide redundant monitor header on tablet — toggle replaces it */
-  .mon-hdr{display:none}
-
-  /* Right panel: static column, full height, scrolls */
+  /* Right panel: fixed-width column on the right, full height */
   .right-panel{
-    position:static;
-    width:300px;
+    position:relative;
+    width:340px;
+    flex-shrink:0;
     max-height:none;
     transform:none;
     border-left:1px solid var(--stroke);
@@ -368,10 +366,18 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   .right-panel.sheet-hidden{transform:none}
   .rp-header::before{display:none}
 
-  /* Bottom tab bar visible on tablet too */
-  #bottomTabBar{display:none!important}
+  /* Tab strip docks to the TOP of the right panel (not a middle column) */
+  #mTabStrip{
+    position:absolute;
+    top:0;left:0;right:0;
+    z-index:5;
+    background:var(--sb);
+  }
+  /* Push the panel header/body below the docked strip */
+  .right-panel .rp-header{margin-top:46px}
 
-  /* Hide the floating sheet toggle (not used in this model) */
+  /* Bottom tab bar hidden on tablet (strip handles nav) */
+  #bottomTabBar{display:none!important}
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -531,6 +537,8 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 #viewerBar.show-prev .mon-live{opacity:0;visibility:hidden}
 @media(max-width:1023px){
   #viewerBar{display:flex}
+  /* viewer bar replaces the per-monitor header on all touch layouts */
+  .monitors .mon-hdr{display:none}
 }
 
 /* ══════════════════════════════════════════════════════════════
