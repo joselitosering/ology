@@ -981,9 +981,14 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
       });
     }
   }
-  ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
-    document.addEventListener(ev,_unlockAudio,true);
-  });
+  /* Only attach the gesture-unlock on touch devices (iOS/iPad). On desktop
+     the AudioContext resumes normally via the transport controls, so we must
+     NOT auto-start audio on any click. */
+  if(_isTouchLayout){
+    ['touchend','touchstart','click','keydown','pointerdown'].forEach(function(ev){
+      document.addEventListener(ev,_unlockAudio,true);
+    });
+  }
 })();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
