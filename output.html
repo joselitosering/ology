@@ -213,7 +213,7 @@ function loadProg(){
   } catch(e) {}
 }
 
-/* ─── v1.2 HTTP POLLING SYNC ─────────────────────────────────────────────
+/* ─── v1.4 HTTP POLLING SYNC ─────────────────────────────────────────────
    WebSocket to localhost is blocked by OBS CEF security policy.
    Solution: output.html polls GET /sync/latest every 100ms.
    The server caches the last POST from index.html and returns it instantly.
@@ -352,7 +352,7 @@ function renderOverlay(){
   const slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
 
   /* ── Compose lines: credit first, params second ── */
-  const creditLine='Ology Beta v1.1 · Joselito Sering · AIMA Productions · '+_creditDate;
+  const creditLine='Ology v1.4 · '+_creditDate;
   const paramLine=theme.n+' — '+(spec.name||droneId)
     +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
     +' · '+(a.mode||spec.mode||'—')
@@ -423,7 +423,7 @@ function loop(now){
        reads it as the live frame; if index.html is closed/backgrounded the
        key goes stale and we fall back to NULL_ANALYSIS (visuals still render,
        reactivity flatlines). This page never owns an AudioContext. */
-    /* v1.1: prefer live frame from WebSocket (_wsFrame); fall back to
+    /* v1.4: prefer live frame from HTTP poll (_wsFrame); fall back to
        localStorage for same-browser tab use; fall back to NULL_ANALYSIS. */
     /* Always prefer the freshest frame by timestamp.
        _wsFrame: from /sync/latest HTTP poll (cross-device, mobile→Mac).
