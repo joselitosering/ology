@@ -423,8 +423,12 @@
       AC = new Ctx();
       buildBus();
       rebuildVoices();
-      // Honor autoplay policy: start suspended until a user gesture calls start().
-      if (AC.state === 'running') { try { AC.suspend(); } catch (e) {} }
+      /* Do NOT suspend here. On desktop the context starts suspended by browser
+         autoplay policy so this was a no-op anyway. On mobile (iOS/Android) init()
+         is called inside a user gesture so the context is running — suspending it
+         immediately caused the async resume race that silenced audio. Leaving it
+         running means oscillators are live from creation and start() works on first
+         tap with no async gap. S.isPlaying stays false until user taps Play. */
       S.isPlaying = false;
       return true;
     } catch (e) {
