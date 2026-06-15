@@ -861,22 +861,22 @@ nav a.active .nav-icon{opacity:1}
     <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
 
     <h3>Strobe gate</h3>
-    <p>The <span class="ctrl">⚡ SAFE</span> button sits in the topbar, left of the Running indicator, on both <span class="key">web.html</span> and <span class="key">mobile.html</span>. It controls the strobe gate — a multiplier passed directly to the render engine every frame.</p>
+    <p>The <span class="ctrl">⚡ SAFE</span> button sits in the topbar, left of the Running indicator, on both <span class="key">web.html</span> and <span class="key">mobile.html</span>. It gates the audio analysis frame flowing into the visual engine — not the canvas itself.</p>
     <div class="ctrl-grid">
       <div class="ctrl-card">
-        <div class="ctrl-card-name">⚡ SAFE <span class="ctrl-card-range" style="background:rgba(62,204,133,.12);color:#3ecc85;border-color:rgba(62,204,133,.3)">default</span></div>
-        <p>Strobe gate is open — normal rendering. Flash rate is naturally limited by the drone's audio reactivity envelope and the Smooth parameter. Keep this state for all sessions.</p>
+        <div class="ctrl-card-name" style="color:#3ecc85">⚡ SAFE <span class="ctrl-card-range" style="background:rgba(62,204,133,.12);color:#3ecc85;border-color:rgba(62,204,133,.3)">default · bright green</span></div>
+        <p>Audio reactivity flows normally into the visual — sub drives bloom, low drives zoom, mid drives chaos, high drives colour shift. All entrainment drones and ambient beds continue playing. Keep this state for all sessions.</p>
       </div>
       <div class="ctrl-card">
-        <div class="ctrl-card-name" style="color:var(--red)">⚡ OFF</div>
-        <p>Strobe gate is closed — the render engine outputs a solid black frame every draw call. All visual content is suppressed instantly. Tap again to restore. Use if a participant reports discomfort or shows signs of photosensitive response.</p>
+        <div class="ctrl-card-name" style="color:rgba(255,78,106,.55)">⚡ SAFE <span class="ctrl-card-range" style="background:rgba(255,78,106,.08);color:rgba(255,78,106,.55);border-color:rgba(255,78,106,.25)">gated · dull red</span></div>
+        <p>Audio analysis is replaced with a zero-energy frame. The visual continues rendering at its current static parameter values — no flash, no reactivity-driven luminance oscillation. Audio keeps playing. Tap again to restore reactivity.</p>
       </div>
     </div>
     <div class="callout warn">
       <span class="callout-icon">⚠️</span>
       <div class="callout-body">
-        <strong>Keep ⚡ SAFE on in all therapeutic and public sessions</strong>
-        The strobe gate defaults to SAFE on every page load. Do not switch it OFF during a session unless you are immediately responding to a photosensitive event. Users with a history of photosensitive epilepsy should consult a physician before use.
+        <strong>Keep ⚡ SAFE bright green in all therapeutic and public sessions</strong>
+        The strobe gate defaults to SAFE (bright green) on every page load. If a participant reports photosensitive discomfort, tap the button — it dims red and audio reactivity is immediately decoupled from the visual. The canvas keeps rendering; the audio keeps playing. Tap again to restore. Users with a history of photosensitive epilepsy should consult a physician before use.
       </div>
     </div>
   </section>
@@ -1210,7 +1210,7 @@ nav a.active .nav-icon{opacity:1}
         <span class="safety-icon">🔆</span>
         <div>
           <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe gate — on by default</strong>
-          The <span class="ctrl">⚡ SAFE</span> button in the topbar controls the strobe gate. Default is SAFE (on) on every page load — the render engine passes through normally. Tap to <strong style="color:var(--red)">⚡ OFF</strong> to immediately black out the canvas if a participant reports photosensitive discomfort. Users with a history of photosensitive epilepsy should consult a physician before use.
+          The <span class="ctrl">⚡ SAFE</span> button in the topbar is <strong style="color:#3ecc85">bright green</strong> when active (default on every page load) — audio reactivity flows normally into the visual. If a participant reports photosensitive discomfort, tap once: the button dims to <strong style="color:rgba(255,78,106,.6)">dull red</strong> and audio analysis is immediately replaced with a zero-energy frame, stopping all reactivity-driven luminance changes. The canvas keeps rendering; audio keeps playing. Tap again to restore. Users with a history of photosensitive epilepsy should consult a physician before use.
         </div>
       </div>
       <div class="safety-item">
