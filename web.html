@@ -61,7 +61,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .nav-item .soon{font-size:7px;color:var(--acc);margin-top:-2px}
 .center{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
 .monitors{display:flex;gap:10px;padding:10px;flex:1;min-height:0;align-items:center}
-.monitor{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+.monitor{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0;align-items:center}
 .mon-hdr{display:flex;align-items:center;gap:7px;padding:0 2px}
 .mon-badge{font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;padding:3px 8px;border-radius:5px}
 .mon-badge.prev{background:rgba(42,85,204,.25);color:#7aa2ff;border:1px solid rgba(42,85,204,.45)}
@@ -70,7 +70,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .mon-live .dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 7px var(--red);animation:blink 1.2s infinite}
 @keyframes blink{50%{opacity:.2}}
 .mon-name{font-size:10px;color:var(--dim);flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mon-screen{flex:1;border-radius:12px;overflow:hidden;position:relative;min-height:0;border:1px solid var(--stroke);background:#000;aspect-ratio:var(--mon-ar,16/9);max-height:100%}
+.mon-screen{flex:1;border-radius:12px;overflow:hidden;position:relative;min-height:0;border:1px solid var(--stroke);background:#000;aspect-ratio:var(--mon-ar,16/9);max-height:100%;width:auto;max-width:100%}
 .mon-screen canvas{width:100%;height:100%;display:block}
 .mon-screen.prev-scr{border-color:rgba(42,85,204,.4)}
 .mon-screen.prog-scr{border-color:rgba(204,42,58,.35)}
@@ -320,7 +320,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <div class="center">
     <div class="monitors">
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Intergalactic Beings</span></div>
+        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Psilocybin Dreams</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
       <div class="monitor">
@@ -481,7 +481,7 @@ const THEMES=[
 /* Flat state shape retained from Document 3 baseline.
    sym: 0=Radial, 1=Mirror, 2=Kaleidoscope
    M1 symmetry mapping: Radial→1 seg (no fold), Mirror→2 segs, Kaleidoscope→state.seg */
-const PREV={th:0,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
+const PREV={th:3,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 /* M2 — contract-shaped AudioState (M0 v0.2.1 defaultAudioState); M2 mutates this by reference. */
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
