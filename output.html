@@ -8,34 +8,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; position:relative; cursor:auto; }
     canvas { display:block; }
-    #dbgFrame {
-      display: none;
-      position: absolute;
-      top: 8px; right: 8px;
-      font-family: 'Courier New', monospace;
-      font-size: 11px;
-      color: #0f0;
-      background: rgba(0,0,0,0.75);
-      padding: 6px 10px;
-      border: 1px solid #0f0;
-      border-radius: 4px;
-      line-height: 1.6;
-      pointer-events: none;
-      z-index: 9999;
-      white-space: pre;
-    }
-    #readout {
-      display: none; /* hidden by default; re-enable in dev by removing this line */
-      position: absolute;
-      bottom: 12px; right: 12px;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      color: #0f0;
-      background: rgba(0,0,0,0.7);
-      padding: 6px 10px;
-      border: 1px solid #0f0;
-      border-radius: 3px;
-    }
+ 
     /* M6 — param overlay. Discreet strip, top-left, no box/border.
        Line 1: credit · Line 2: audio params
        Colour set per-frame by renderOverlay() from the active theme palette.
@@ -45,41 +18,39 @@
       position: absolute;
       top: 10px; left: 12px;
       font-family: 'Courier New', Courier, monospace;
-      font-size: 11px;
+      font-size: clamp(9px, 1.2vw, 15px);
       line-height: 1.55;
       pointer-events: none;
       text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
-      white-space: nowrap;
+      white-space: normal;
+      max-width: calc(100vw - 24px);
     }
   </style>
 </head>
 <body>
   <canvas id="outCanvas"></canvas>
-  <div id="readout"></div>
   <!-- M6 param overlay — toggled via ology_overlay localStorage key from index.html -->
   <div id="paramOverlay"></div>
-  <div id="dbgFrame"></div>
-
+ 
   <script src="m1_shaders.js"></script>
   <script src="m2_audio.js"></script>
   <script>
 (function(){
 'use strict';
-
+ 
 /* ─── URL PARAMS (OUTPUT CONFIG) ─────────────────────────────────────── */
 const params=new URLSearchParams(location.search);
 const cfgAspect=params.get('ar')||'16:9';
 const cfgResolution=params.get('res')||'1080';
 const cfgFps=parseInt(params.get('fps'))||30;
-const cfgHideReadout=params.has('obs');
 const cfgFullscreen=params.has('fs'); /* &fs=1 → auto-request fullscreen on load */
-
+ 
 /* aspect ratio → viewport constraint */
 const arMap={'16:9':{w:16,h:9},'9:16':{w:9,h:16},'1:1':{w:1,h:1},'4:3':{w:4,h:3}};
 const ar=arMap[cfgAspect]||{w:16,h:9};
 const resPx={'720':720,'1080':1080,'1440':1440,'4K':2160};
 const maxLongEdge=resPx[cfgResolution]||1080;
-
+ 
 /* ─── THEMES (from index.html) ────────────────────────────────────────── */
 const THEMES=[
   {id:'intergalactic-beings', n:'Intergalactic Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
@@ -90,7 +61,7 @@ const THEMES=[
   {id:'quantum-fields',       n:'Quantum Fields',       c:['#2e6bff','#ff5bd0','#7b8cff']},
   {id:'torus-universes',      n:'Torus Universes',      c:['#c8772f','#8b4dff','#ffe7b0']}
 ];
-
+ 
 /* ─── M6 DRONE / BED MAPS (duplicated from index.html ll.559–574)
    MAINTENANCE: if drones/beds change in index.html, update here too.
    Duplication is inherent to the no-modules architecture and is accepted. ── */
@@ -112,21 +83,21 @@ var DRONES=[
 var BEDS=[['none','None'],['womb','Womb'],['waterfall','Waterfall'],['jungle','Jungle'],['forest','Forest'],['whales','Whales'],['ocean','Ocean']];
 var specOf={}; DRONES.forEach(function(d){specOf[d[0]]={name:d[1],carrier:d[2],beat:d[3],band:d[4],mode:d[5]};});
 var bedName={}; BEDS.forEach(function(b){bedName[b[0]]=b[1];});
-
+ 
 /* ─── PROGRAM STATE (matches index.html PROG) ──────────────────────────── */
 /* PROG default shape mirrors index.html's PROG (l.460) so localStorage sync
    maps 1:1. `intensity` drives fractalDepth; `smooth` drives M1 edge/blur.
    `int` is a legacy field kept only as a masterLevel fallback. */
 const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
-
+ 
 /* output.html is VIDEO-ONLY (per White Paper v0.4). Audio is generated in
    index.html and captured into OBS via Application/Desktop Audio Capture — this
    page never instantiates OlogyAudio, avoiding dual-AudioContext playback and
    binaural L/R degradation. `playing` only gates the local `t` clock; the
    strobe gate is fixed at 1 on the clean output (no preview-style strobing). */
 let playing=true, strobeGate=1;
-
+ 
 /* ─── CANVAS FIT ──────────────────────────────────────────────────────── */
 /* Two separate concerns:
    1. Pixel buffer (c.width/height) — always the full configured resolution
@@ -156,14 +127,14 @@ function fit(c){
   c.style.left=Math.round((ww-dw)/2)+'px';
   c.style.top =Math.round((wh-dh)/2)+'px';
 }
-
+ 
 /* ─── SYMMETRY MAPPER (from index.html) ──────────────────────────────── */
 function symToSegs(state){
   if(state.sym===0)return 1;
   if(state.sym===1)return 2;
   return Math.max(2,Math.round(state.seg));
 }
-
+ 
 /* ─── STATE → M1 ADAPTER (from index.html) ──────────────────────────── */
 function toM1State(s, liveAudio){
   return {
@@ -188,9 +159,9 @@ function toM1State(s, liveAudio){
     t:s.t
   };
 }
-
+ 
 const NULL_ANALYSIS={bands:{sub:0,low:0,mid:0,high:0},level:0,t:0};
-
+ 
 /* ─── LOCALSTORAGE SYNC ──────────────────────────────────────────────── */
 /* index.html writes the FLAT PROG object: localStorage.setItem('ology_prog',
    JSON.stringify(PROG)) on every saveProg() (l.730). PROG carries audio as a
@@ -212,20 +183,20 @@ function loadProg(){
     }
   } catch(e) {}
 }
-
-/* ─── v1.4 HTTP POLLING SYNC ─────────────────────────────────────────────
+ 
+/* ─── v1.2 HTTP POLLING SYNC ─────────────────────────────────────────────
    WebSocket to localhost is blocked by OBS CEF security policy.
    Solution: output.html polls GET /sync/latest every 100ms.
    The server caches the last POST from index.html and returns it instantly.
    100ms interval = max 100ms visual lag, imperceptible at 30-60fps.
-
+ 
    Fallback chain:
      1. HTTP poll  — primary (OBS + local dev, any browser)
      2. storage evt — secondary (same-browser two-tab use)
      3. Cold localStorage on init — tertiary (static snapshot)              */
-
+ 
 let _wsFrame = null; // live audio frame from index.html via poll
-
+ 
 function loadProgObj(s){
   try {
     if(!s || typeof s!=='object') return;
@@ -237,12 +208,12 @@ function loadProgObj(s){
     }
   } catch(e) {}
 }
-
+ 
 (function startPolling(){
   const POLL_URL = location.origin + '/sync/latest';
   const INTERVAL = 100; // ms — 10 polls/sec, negligible server load
   let _lastSeen = null;
-
+ 
   function poll(){
     fetch(POLL_URL, { cache: 'no-store' })
       .then(function(r){ return r.ok ? r.json() : null; })
@@ -257,43 +228,41 @@ function loadProgObj(s){
           audio: data.prog.audio ? data.prog.audio.droneId+data.prog.audio.mode+
             data.prog.audio.ambientBed+data.prog.audio.carrierHz+data.prog.audio.beatHz : ''
         }) : null;
-        /* Always update frame even if prog sig unchanged — frame changes every
-           100ms while audio plays; prog only changes on user control actions. */
-        if(data.frame){ _wsFrame=data.frame; window._lastPollMs=Date.now(); }
         if(sig === _lastSeen) return;
         _lastSeen = sig;
         if(data.prog)  loadProgObj(data.prog);
+        if(data.frame) _wsFrame = data.frame;
       })
       .catch(function(){}); /* server absent — fail silently */
   }
-
+ 
   setInterval(poll, INTERVAL);
   poll(); /* fire once immediately on load */
 })();
-
+ 
 /* Keep storage event as secondary fallback for same-browser tab usage */
 window.addEventListener('storage',e=>{
   if(e.key==='ology_prog') loadProg();
   if(e.key==='ology_overlay') applyOverlayVisibility();
 });
-
+ 
 /* ─── M6 OVERLAY STATE & FUNCTIONS ──────────────────────────────────── */
 /* overlayOn: default OFF if key absent (as per M6 spec) */
 let overlayOn=(localStorage.getItem('ology_overlay')==='1');
-
+ 
 /* applyOverlayVisibility — called on storage event and on init */
 function applyOverlayVisibility(){
   overlayOn=(localStorage.getItem('ology_overlay')==='1');
   const el=document.getElementById('paramOverlay');
   if(el) el.style.display=overlayOn?'block':'none';
 }
-
+ 
 /* ── Credit date — stamped once on load (refreshes each OBS Browser Source session) ── */
 const _creditDate=(function(){
   const d=new Date();
   return d.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
 })();
-
+ 
 /* renderOverlay — called each frame when overlayOn.
    Layout: two compact Courier lines, top-left, no box.
      Line 1: theme name
@@ -305,11 +274,11 @@ function renderOverlay(){
   const el=document.getElementById('paramOverlay');
   if(!el) return;
   const a=PROG.audio||{};
-
+ 
   /* ── Theme ── */
   const themeIdx=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
   const theme=THEMES[themeIdx];
-
+ 
   /* ── Per-theme text colour: lightest palette stop → HSL with L=88% ── */
   function hexToHsl(h){
     let r=parseInt(h.slice(1,3),16)/255,
@@ -336,60 +305,49 @@ function renderOverlay(){
   const lightestStop=theme.c.slice().sort((a,b)=>relLum(b)-relLum(a))[0];
   const [hh,sat]=hexToHsl(lightestStop);
   const overlayColor='hsl('+hh+','+sat+'%,88%)';
-
+ 
   /* ── Drone spec + null-safe carrier/beat ── */
   const droneId=a.droneId||'theta-intuition';
   const spec=specOf[droneId]||{name:droneId,carrier:136.1,beat:6,band:'theta',mode:'binaural'};
   const carrier=(a.carrierHz!=null)?+a.carrierHz:spec.carrier;
   const beat=(a.beatHz!=null)?+a.beatHz:spec.beat;
-
+ 
   /* ── Bed ── */
   const bedId=a.ambientBed||'none';
   const bedLabel=(bedId!=='none')?(bedName[bedId]||bedId):'—';
-
+ 
   /* ── Texture ── */
   const tickle=typeof a.brainTickleAmount==='number'?a.brainTickleAmount.toFixed(2):'0.00';
   const slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
-
+ 
   /* ── Compose lines: credit first, params second ── */
-  const creditLine='Ology v1.4 · '+_creditDate;
+  const creditLine='Ology Beta v1.1 · Joselito Sering · AIMA Productions · '+_creditDate;
   const paramLine=theme.n+' — '+(spec.name||droneId)
     +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
     +' · '+(a.mode||spec.mode||'—')
     +' · '+bedLabel
     +' · t'+tickle+' m'+slow;
-
+ 
   el.style.color=overlayColor;
   el.innerHTML='<div>'+creditLine+'</div><div>'+paramLine+'</div>';
 }
-
+ 
 /* Apply initial overlay visibility on load */
 applyOverlayVisibility();
-
+ 
 /* ─── INIT & RENDER LOOP ──────────────────────────────────────────────– */
-const readout=document.getElementById('readout');
-/* obs=1 → fully hide the dimension overlay so OBS never captures the box. */
-if(cfgHideReadout && readout) readout.style.display='none';
-
+const canvas=document.getElementById('outCanvas');
+ 
 /* Load initial state from localStorage (if index.html has written it) */
 loadProg();
-
+ 
 /* Init M1 once. Guard so a missing/failed shader module doesn't throw at load. */
 let m1Init=false;
 if(window.OlogyShaders){
   try { m1Init=window.OlogyShaders.init(); }
   catch(e){ console.error('[output.html] OlogyShaders.init failed:',e); }
 }
-
-/* Set canvas pixel dimensions immediately — before the first rAF frame fires.
-   A fresh <canvas> has width=0,height=0; draw() silently returns when tw/th=0.
-   Without this, the canvas is blank until fit() runs at its 100ms timeout,
-   by which point _resizing may already be true (fullscreen resize fired first),
-   blocking all draw() calls until the settle timer clears. Running fit() here
-   guarantees pixel dimensions are correct on frame 1. */
-const canvas=document.getElementById('outCanvas');
-fit(canvas);
-
+ 
 /* ─── RENDER PAUSE DURING WINDOW MIGRATION ────────────────────────────── */
 /* Root cause of cursor flicker: dragging the popup to a second monitor
    triggers a GPU compositing layer migration. The browser must re-allocate
@@ -397,39 +355,22 @@ fit(canvas);
    is in flight, every draw() call fights the migration for the GPU, starving
    OS cursor compositing entirely.
    Fix: set _resizing=true on first resize event, skip draw() until the
-   window has settled (200ms after last resize), then resume.
-   Hard-cap (v1.4): popup open → fullscreen fires a burst of resize events
-   that can exceed 200ms, leaving _resizing permanently true. An 800ms hard
-   cap from the first event in any burst forces _resizing=false regardless.
-   First-draw guard: _resizing is only honoured after the first successful
-   draw() — this ensures the canvas is never blank on initial load even if
-   a resize event fires before the settle timer. */
+   window has settled (200ms after last resize), then resume. Visuals freeze
+   briefly during drag — acceptable. PROG.t keeps incrementing so the
+   animation resumes at the correct position. */
 let _resizing=false;
 let _resizeTimer=null;
-let _resizeHardTimer=null;
-let _firstDrawDone=false;
 function _onResize(){
-  if(!_firstDrawDone) return; /* don't block before first frame is painted */
   _resizing=true;
   clearTimeout(_resizeTimer);
   _resizeTimer=setTimeout(()=>{
     fit(canvas);
     _resizing=false;
-    clearTimeout(_resizeHardTimer);
-    _resizeHardTimer=null;
   },200);
-  if(!_resizeHardTimer){
-    _resizeHardTimer=setTimeout(()=>{
-      _resizeHardTimer=null;
-      clearTimeout(_resizeTimer);
-      _resizeTimer=null;
-      fit(canvas);
-      _resizing=false;
-    },800);
-  }
 }
 window.addEventListener('resize',_onResize);
-
+setTimeout(()=>fit(canvas),100);
+ 
 /* 60fps cap — leaves GPU scheduler headroom for OS cursor compositing. */
 const FPS_CAP=1000/60;
 let lastT=performance.now();
@@ -439,7 +380,7 @@ function loop(now){
   lastFrame=now;
   const dt=(now-lastT)/1000; lastT=now;
   if(playing){PROG.t+=dt;}
-
+ 
   /* Skip draw() while window is migrating to a new display. GPU layer
      re-allocation must complete before we resume blitting. */
   if(!_resizing && window.OlogyShaders&&window.OlogyShaders.isReady()){
@@ -448,74 +389,27 @@ function loop(now){
        reads it as the live frame; if index.html is closed/backgrounded the
        key goes stale and we fall back to NULL_ANALYSIS (visuals still render,
        reactivity flatlines). This page never owns an AudioContext. */
-    /* v1.4: prefer live frame from HTTP poll (_wsFrame); fall back to
+    /* v1.1: prefer live frame from WebSocket (_wsFrame); fall back to
        localStorage for same-browser tab use; fall back to NULL_ANALYSIS. */
-    /* Always prefer the freshest frame by timestamp.
-       _wsFrame: from /sync/latest HTTP poll (cross-device, mobile→Mac).
-       lsFrame:  from ology_frame localStorage (same-browser two-tab).
-       Neither may be available if audio isn't playing — fall back to NULL. */
-    let frame = NULL_ANALYSIS;
-    let _lsFrame = null;
-    try {
-      const saved=localStorage.getItem('ology_frame');
-      if(saved) _lsFrame=JSON.parse(saved);
-    } catch(e) {}
-    /* Use whichever frame is more recent */
-    if(_wsFrame && _lsFrame){
-      frame = (_wsFrame.t >= _lsFrame.t) ? _wsFrame : _lsFrame;
-    } else {
-      frame = _wsFrame || _lsFrame || NULL_ANALYSIS;
+    let frame = _wsFrame || NULL_ANALYSIS;
+    if(!_wsFrame){
+      try {
+        const saved=localStorage.getItem('ology_frame');
+        if(saved) frame=JSON.parse(saved);
+      } catch(e) {}
     }
     try {
       if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
-      _firstDrawDone=true;
     } catch(e){ console.error('[output.html] draw error:',e); }
-    /* Debug overlay — press D to toggle */
-    var _dbgEl=document.getElementById('dbgFrame');
-    if(_dbgEl&&_dbgEl.style.display!=='none'){
-      var b=frame.bands||{};
-      _dbgEl.textContent=
-        'isPlaying: '+PROG.audio.isPlaying+'
-'+
-        'frame.t:   '+(frame.t?frame.t.toFixed(0):'—')+'
-'+
-        'level:     '+(frame.level!=null?frame.level.toFixed(4):'—')+'
-'+
-        'sub:       '+(b.sub!=null?b.sub.toFixed(4):'—')+'
-'+
-        'low:       '+(b.low!=null?b.low.toFixed(4):'—')+'
-'+
-        'mid:       '+(b.mid!=null?b.mid.toFixed(4):'—')+'
-'+
-        'high:      '+(b.high!=null?b.high.toFixed(4):'—')+'
-'+
-        '_wsFrame:  '+(_wsFrame?'yes t='+(typeof _wsFrame.t==='number'?_wsFrame.t.toFixed(0):'?'):'null')+'
-'+
-        'poll age:  '+(window._lastPollMs?(Date.now()-window._lastPollMs)+'ms':'—');
-    }
   }
-
-  /* dimension readout (unless &obs=1) */
-  if(!cfgHideReadout && readout){
-    readout.textContent=canvas.width+'×'+canvas.height+' · '+cfgAspect+' · '+cfgResolution+'p'+cfgFps;
-  }
-
+ 
   /* M6 — update overlay text every frame (cheap; text-only, no layout thrash when hidden) */
   if(overlayOn) renderOverlay();
-
+ 
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
-
-/* Debug: press D to show frame/state readout on output.html */
-window._lastPollMs=null;
-document.addEventListener('keydown',function(e){
-  if(e.key==='d'||e.key==='D'){
-    var el=document.getElementById('dbgFrame');
-    if(el) el.style.display=(el.style.display==='none'?'block':'none');
-  }
-});
-
+ 
 /* ─── AUTO FULLSCREEN ─────────────────────────────────────────────────── */
 /* When opened via the popup button (&fs=1), request fullscreen on the page
    itself — more reliable than the opener calling requestFullscreen() across
@@ -536,7 +430,7 @@ if(cfgFullscreen){
     }
   },300);
 }
-
+ 
 })();
   </script>
 </body>
