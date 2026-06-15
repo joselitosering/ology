@@ -48,6 +48,8 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .modetog button.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;box-shadow:0 3px 12px rgba(108,63,255,.45)}
 .play-btn{background:none;border:1px solid var(--s2);border-radius:8px;color:var(--txt);padding:6px 12px;cursor:pointer;font-size:12px}
 .play-btn.paused{color:var(--grn);border-color:rgba(62,204,133,.4)}
+.strobe-btn{background:none;border:1px solid rgba(62,204,133,.4);border-radius:8px;color:var(--grn);padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.3px;transition:background .15s,border-color .15s,color .15s}
+.strobe-btn.off{color:var(--red);border-color:rgba(255,78,106,.5);background:rgba(255,78,106,.08)}
 #goBtn{width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;text-align:center;border:1px solid var(--iris);background:rgba(123,167,212,.08);color:var(--teal);transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
 #goBtn:hover{background:rgba(123,167,212,.18);border-color:var(--teal);box-shadow:0 0 14px rgba(168,216,234,.28);color:#fff}
 #goBtn:active{background:linear-gradient(135deg,rgba(91,143,191,.55),rgba(168,216,234,.35));border-color:var(--acc2);box-shadow:0 0 22px rgba(168,216,234,.45);transform:scale(.97);color:#fff}
@@ -548,6 +550,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
   <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">v1.5 · Free Version</div></div>
   <div class="grow"></div>
+  <button class="strobe-btn" id="strobeBtn" onclick="toggleStrobe()" title="Strobe limiter — keeps flash rate below 3 Hz. Keep ON in all therapeutic and public sessions.">⚡ SAFE</button>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
 <!-- ── iOS speaker unlock: silent looping <audio> element promotes the
@@ -1329,6 +1332,11 @@ window.selectTab=function(name,el){
   const e=document.getElementById('rpTitle');if(e)e.textContent=t[name]||name;
 };
 window.togglePlay=function(){playing=!playing;const b=document.getElementById('playBtn');if(b){b.textContent=playing?'❚❚ Running':'▶ Paused';b.classList.toggle('paused',!playing);}};
+window.toggleStrobe=function(){
+  strobeGate=strobeGate>0?0:1;
+  var b=document.getElementById('strobeBtn');
+  if(b){b.textContent=strobeGate>0?'⚡ SAFE':'⚡ OFF';b.classList.toggle('off',strobeGate===0);}
+};
 window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;var _phn2=document.getElementById('ph-prev-name');if(_phn2)_phn2.textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
 
 /* ─── OBS OUTPUT URL ──────────────────────────────────────────────────── */

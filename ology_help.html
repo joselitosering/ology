@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>Ology · Help Guide · Beta v1.5</title>
+<title>Ology · Help Guide · Beta v1.5.1</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -39,11 +39,6 @@ nav a.active{color:var(--acc);border-left-color:var(--acc);background:rgba(168,1
 nav a .nav-icon{width:14px;height:14px;flex-shrink:0;opacity:.6}
 nav a.active .nav-icon{opacity:1}
 .nav-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--stroke);font-size:10px;color:var(--faint)}
-
-/* Sub-link — indented, lighter, no left-border accent */
-.nav-sub{padding-left:36px!important;font-size:11.5px!important;color:var(--faint)!important}
-.nav-sub:hover{color:var(--dim)!important}
-.nav-sub.active{color:var(--acc)!important;border-left-color:var(--acc)!important;background:rgba(168,117,255,.06)!important}
 
 /* ── Content ── */
 #content{flex:1;overflow-y:auto;overflow-x:hidden;min-width:0;height:100%}
@@ -237,13 +232,12 @@ nav a.active .nav-icon{opacity:1}
 <aside id="nav">
   <div class="nav-brand">
     <div class="wordmark">Ology</div>
-    <div class="sub">Help Guide · Beta v1.5</div>
+    <div class="sub">Help Guide · Beta v1.5.1</div>
   </div>
   <div class="nav-section-label">Getting Started</div>
   <nav>
     <a href="#overview" class="active"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Overview</a>
-    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Desktop Interface</a>
-    <a href="#mobile-view" class="nav-sub"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile Interface</a>
+    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Interface</a>
     <a href="#preview-program"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Preview &amp; Program</a>
   </nav>
   <div class="nav-section-label">Controls</div>
@@ -262,7 +256,7 @@ nav a.active .nav-icon{opacity:1}
     <a href="#obs-setup"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>OBS Setup</a>
     <a href="#safety"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety &amp; Accuracy</a>
   </nav>
-  <div class="nav-footer">Ology Beta v1.5 · AIMA Productions</div>
+  <div class="nav-footer">Ology Beta v1.5.1 · AIMA Productions</div>
 </aside>
 
 <!-- ── Main Content ─────────────────────────────────────────────────────── -->
@@ -270,7 +264,7 @@ nav a.active .nav-icon{opacity:1}
 <div class="content-inner">
 
   <header class="page-hero">
-    <div class="eyebrow">Ology · Help Guide · Beta v1.5</div>
+    <div class="eyebrow">Ology · Help Guide · Beta v1.5.1</div>
     <h1>Everything you need<br>to run a session.</h1>
     <p class="lead">Ology is a browser-based audio-reactive kaleidoscope for meditation, neuroplasticity, and live performance. This guide covers every control, the full drone library, OBS setup, and ready-to-use session recipes.</p>
   </header>
@@ -306,11 +300,14 @@ nav a.active .nav-icon{opacity:1}
   </section>
 
 
-  <!-- ── 02 Desktop Interface ────────────────────────────────────────────── -->
+  <!-- ── 02 Interface ─────────────────────────────────────────────────────── -->
   <section class="doc-section" id="interface">
-    <h2><span class="section-num">02</span> Desktop Interface</h2>
+    <h2><span class="section-num">02</span> Interface</h2>
     <div class="section-rule"></div>
-    <p>The Stage layout has four areas that work together. Understanding how they relate is the fastest way to become fluent with Ology.</p>
+    <p>Ology runs in two forms — a full desktop Stage and a mobile-optimised page — both sharing the same PREVIEW / PROGRAM model. Choose the form that fits your context; the controls work identically either way.</p>
+
+    <h3>Desktop</h3>
+    <p>The Stage layout has four areas. Understanding how they relate is the fastest way to become fluent with Ology.</p>
 
     <!-- Desktop UI diagram — SVG -->
     <div class="ui-diagram">
@@ -421,15 +418,11 @@ nav a.active .nav-icon{opacity:1}
     <div class="ctrl-grid">
       <div class="ctrl-card"><div class="ctrl-card-name">👁 Visuals</div><p>Theme, speed, chaos, zoom, rotation, segments, bloom, smooth. All changes update PREVIEW only — press GO to make them live.</p></div>
       <div class="ctrl-card"><div class="ctrl-card-name">🔊 Audio</div><p>Transport, drone preset, carrier/beat Hz, entrainment mode, ambient bed, reactivity routing, and master volume.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3), OBS param overlay toggle, and mobile phone pairing panel.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3), OBS param overlay toggle, and mobile phone pairing panel. The <span class="ctrl">⚡ SAFE</span> strobe button is in the topbar.</p></div>
       <div class="ctrl-card"><div class="ctrl-card-name">💾 Presets</div><p>Save, load, favorite, delete, export, and import complete session snapshots as JSON.</p></div>
     </div>
-  </section>
 
-
-  <!-- ── 02b Mobile Interface ──────────────────────────────────────────────────── -->
-  <section class="doc-section" id="mobile-view">
-    <h2><span class="section-num">02b</span> Mobile Interface</h2>
+    <h3 id="mobile-view" style="scroll-margin-top:32px">Mobile</h3>
     <div class="section-rule"></div>
     <p>The mobile page (<span class="key">mobile.html</span>) is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
 
@@ -447,7 +440,7 @@ nav a.active .nav-icon{opacity:1}
         <!-- Brand -->
         <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="none" stroke="url(#brandGrad)" stroke-width="0.3">OLOGY</text>
         <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="url(#brandGrad)">OLOGY</text>
-        <text x="48" y="33" font-size="7" fill="#A8D8EA" letter-spacing="2" font-family="monospace">v1.5 · Free Version</text>
+        <text x="48" y="33" font-size="7" fill="#A8D8EA" letter-spacing="2" font-family="monospace">v1.5.1 · Free Version</text>
         <!-- Play btn -->
         <rect x="604" y="10" width="84" height="24" rx="6" fill="none" stroke="rgba(123,167,212,.28)" stroke-width="1"/>
         <text x="646" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
@@ -539,7 +532,7 @@ nav a.active .nav-icon{opacity:1}
         <circle cx="24" cy="22" r="10" fill="rgba(123,167,212,.15)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
         <text x="24" y="26" text-anchor="middle" font-size="9" fill="#7BA7D4">◈</text>
         <text x="42" y="18" font-size="12" font-weight="700" fill="url(#brandGrad)">OLOGY</text>
-        <text x="42" y="31" font-size="6" fill="#A8D8EA" letter-spacing="1.5">v1.5 · FREE</text>
+        <text x="42" y="31" font-size="6" fill="#A8D8EA" letter-spacing="1.5">v1.5.1 · FREE</text>
         <rect x="238" y="10" width="70" height="24" rx="6" fill="none" stroke="rgba(106,191,160,.4)" stroke-width="1"/>
         <text x="273" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
         <!-- Zone 1: Canvas monitors (order:1, height ~38vh) -->
@@ -866,6 +859,26 @@ nav a.active .nav-icon{opacity:1}
 
     <h3>Param overlay</h3>
     <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
+
+    <h3>Strobe gate</h3>
+    <p>The <span class="ctrl">⚡ SAFE</span> button sits in the topbar, left of the Running indicator, on both <span class="key">web.html</span> and <span class="key">mobile.html</span>. It controls the strobe gate — a multiplier passed directly to the render engine every frame.</p>
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">⚡ SAFE <span class="ctrl-card-range" style="background:rgba(62,204,133,.12);color:#3ecc85;border-color:rgba(62,204,133,.3)">default</span></div>
+        <p>Strobe gate is open — normal rendering. Flash rate is naturally limited by the drone's audio reactivity envelope and the Smooth parameter. Keep this state for all sessions.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name" style="color:var(--red)">⚡ OFF</div>
+        <p>Strobe gate is closed — the render engine outputs a solid black frame every draw call. All visual content is suppressed instantly. Tap again to restore. Use if a participant reports discomfort or shows signs of photosensitive response.</p>
+      </div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Keep ⚡ SAFE on in all therapeutic and public sessions</strong>
+        The strobe gate defaults to SAFE on every page load. Do not switch it OFF during a session unless you are immediately responding to a photosensitive event. Users with a history of photosensitive epilepsy should consult a physician before use.
+      </div>
+    </div>
   </section>
 
 
@@ -1196,8 +1209,8 @@ nav a.active .nav-icon{opacity:1}
       <div class="safety-item">
         <span class="safety-icon">🔆</span>
         <div>
-          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe limiter — on by default</strong>
-          The maximum flash rate is capped to protect against photosensitivity responses. Do not disable in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe gate — on by default</strong>
+          The <span class="ctrl">⚡ SAFE</span> button in the topbar controls the strobe gate. Default is SAFE (on) on every page load — the render engine passes through normally. Tap to <strong style="color:var(--red)">⚡ OFF</strong> to immediately black out the canvas if a participant reports photosensitive discomfort. Users with a history of photosensitive epilepsy should consult a physician before use.
         </div>
       </div>
       <div class="safety-item">
@@ -1241,7 +1254,7 @@ nav a.active .nav-icon{opacity:1}
   <div class="divider"></div>
   <div style="text-align:center;padding:20px 0 40px;color:var(--faint);font-size:12px;line-height:1.8">
     <div style="font-size:18px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px">Ology</div>
-    Beta v1.5 · AIMA Productions · aima.productions<br>
+    Beta v1.5.1 · AIMA Productions · aima.productions<br>
     Created by Joselito Sering · © 2026
   </div>
 
