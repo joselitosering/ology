@@ -45,13 +45,13 @@
 
   /* ----- M0 frozen palettes (3-stop hex per ThemeId) --------------------- */
   var THEME_PALETTES = {
-    'intergalactic-beings': ['#7b3ff2', '#37e0d8', '#ffd36e'],
+    'intergalactic-beings': ['#0a0fff', '#ffffff', '#050510'],
     'supernovas':           ['#fff1c9', '#ff8a3d', '#d61f4e'],
-    'aurora-borealis':          ['#1b2a8a', '#27c2e0', '#cfd6ff'],
-    'psilocybin-dreams':    ['#ff2fa8', '#9cff4a', '#ff8a00'],
+    'aurora-borealis':      ['#1b2a8a', '#27c2e0', '#cfd6ff'],
+    'psilocybin-dreams':    ['#5a00cc', '#39ff6a', '#c200ff'],
     'microcosmos':          ['#16d39a', '#2a6cff', '#eafff6'],
-    'quantum-fields':       ['#2e6bff', '#ff5bd0', '#7b8cff'],
-    'torus-universes':      ['#c8772f', '#8b4dff', '#ffe7b0']
+    'quantum-fields':       ['#0a0014', '#ff00cc', '#3d006b'],
+    'torus-universes':      ['#08010f', '#1a0a6b', '#3b1205']
   };
 
   /* Stable integer index per theme -> drives a switch() in the shader.
