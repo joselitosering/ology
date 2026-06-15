@@ -321,11 +321,11 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <div class="center">
     <div class="monitors">
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Psilocybin Dreams</span></div>
+        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Interdimensional Beings</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Intergalactic Beings</span></div>
+        <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Interdimensional Beings</span></div>
         <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
@@ -414,7 +414,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
       <div data-pane="output" hidden>
         <div class="section">
           <h4>OBS Output View — Program Only</h4>
-          <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
+          <div class="seg"><button data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button class="on" data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
           <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
         </div>
@@ -469,7 +469,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* ─── THEMES ─────────────────────────────────────────────────────────── */
 const THEMES=[
-  {id:'intergalactic-beings', n:'Intergalactic Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
+  {id:'interdimensional-beings', n:'Interdimensional Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
   {id:'supernovas',           n:'Supernovas',           c:['#fff1c9','#ff8a3d','#d61f4e']},
   {id:'aurora-borealis',      n:'Aurora Borealis',      c:['#1b2a8a','#27c2e0','#cfd6ff']},
   {id:'psilocybin-dreams',    n:'Psilocybin Dreams',    c:['#ff2fa8','#9cff4a','#ff8a00']},
@@ -482,7 +482,7 @@ const THEMES=[
 /* Flat state shape retained from Document 3 baseline.
    sym: 0=Radial, 1=Mirror, 2=Kaleidoscope
    M1 symmetry mapping: Radial→1 seg (no fold), Mirror→2 segs, Kaleidoscope→state.seg */
-const PREV={th:3,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
+const PREV={th:0,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 /* M2 — contract-shaped AudioState (M0 v0.2.1 defaultAudioState); M2 mutates this by reference. */
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
@@ -859,7 +859,7 @@ window.togglePlay=function(){playing=!playing;const b=document.getElementById('p
 window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;document.getElementById('ph-prev-name').textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
 
 /* ─── OBS OUTPUT URL ──────────────────────────────────────────────────── */
-const OUT={ar:'16:9',res:'1080',fps:'30'};
+const OUT={ar:'9:16',res:'1080',fps:'30'};
 const AR_MAP={'16:9':[16,9],'9:16':[9,16],'1:1':[1,1],'4:3':[4,3]};
 function outDimensions(){const res=+OUT.res,[aw,ah]=AR_MAP[OUT.ar];let h,w;if(aw>=ah){h=res;w=Math.round(res*aw/ah);}else{w=res;h=Math.round(res*ah/aw);}w-=w%2;h-=h%2;return[w,h];}
 function refreshOut(){
@@ -949,7 +949,7 @@ refreshOut();
 
 /* ── M9: THEME PRESETS (mirrored from contracts.ts §6, no ES modules) ──── */
 const THEME_PRESETS=[
-  {themeId:'intergalactic-beings', defaultDroneId:'theta-intuition',      visualDefaults:{symmetry:8,  speed:0.6, chaos:0.3}},
+  {themeId:'interdimensional-beings', defaultDroneId:'theta-intuition',      visualDefaults:{symmetry:8,  speed:0.6, chaos:0.3}},
   {themeId:'supernovas',           defaultDroneId:'gamma-insight',        visualDefaults:{symmetry:12, speed:1.1, chaos:0.6}},
   {themeId:'aurora-borealis',      defaultDroneId:'schumann-earth-pulse', visualDefaults:{symmetry:6,  speed:0.9, zoom:0.8}},
   {themeId:'psilocybin-dreams',    defaultDroneId:'theta-vision-quest',   visualDefaults:{symmetry:10, speed:0.7, chaos:0.7}},
@@ -965,7 +965,7 @@ const THEME_PRESETS=[
    Round-trip note: fractalDepth = 1 + intensity*7 → intensity = (fd-1)/7 */
 function flatToVisualState(s){
   return {
-    themeId:    THEMES[s.th]?THEMES[s.th].id:'intergalactic-beings',
+    themeId:    THEMES[s.th]?THEMES[s.th].id:'interdimensional-beings',
     speed:      typeof s.speed==='number'?s.speed:0.5,
     chaos:      typeof s.chaos==='number'?s.chaos:0.55,
     fractalDepth: typeof s.intensity==='number'?1+s.intensity*7:4,
