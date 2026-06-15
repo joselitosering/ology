@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8">
 
   <!-- ── Primary identity ── -->
-  <title>Ology · v1.4 — Mobile</title>
+  <title>Ology · v1.5 — Mobile</title>
   <meta name="description" content="An infinite, audio-reactive kaleidoscope for meditation, performance, and worship. Binaural drones, isochronic entrainment, ambient texture beds — free in your browser. See your sound. Still your mind.">
   <meta name="author" content="Joselito Sering · AIMA Productions">
   <meta name="copyright" content="© 2026 Joselito Sering · AIMA Productions · aima.productions">
@@ -546,7 +546,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">v1.4 · Free Version</div></div>
+  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">v1.5 · Free Version</div></div>
   <div class="grow"></div>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
@@ -1225,24 +1225,51 @@ function renderFsOverlay(){
   var a=PROG.audio||{};
   var thIdx=(typeof PROG.th==='number'&&PROG.th>=0&&PROG.th<THEMES.length)?PROG.th:0;
   var theme=THEMES[thIdx];
-  var droneId=a.droneId||'theta-intuition';
-  var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
-  var carrier=typeof a.carrierHz==='number'?a.carrierHz:spec.carrier;
-  var beat=typeof a.beatHz==='number'?a.beatHz:spec.beat;
-  var bedId=a.ambientBed||'none';
-  var bedLabel=bedId.charAt(0).toUpperCase()+bedId.slice(1);
-  var tickle=typeof a.brainTickleAmount==='number'?a.brainTickleAmount.toFixed(2):'0.00';
-  var slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
-  var hex=(theme&&theme.c&&theme.c[2])||'#e8f0f8';
-  el.style.color=hex;
-  var versionLine='Ology v1.4';
-  var paramLine=theme.n
-    +' · '+spec.name
-    +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
-    +' · '+(function(m){var s=m||'—';return s.charAt(0).toUpperCase()+s.slice(1);})(a.mode||spec.mode)
-    +' · '+bedLabel
-    +' · t'+tickle+' m'+slow;
-  el.innerHTML='<div>'+versionLine+'</div><div>'+paramLine+'</div>';
+
+  /* ── Overlay colour: theme palette third stop; Quantum Fields → navy ── */
+  var overlayColor=theme.id==='quantum-fields'
+    ?'#1a3a6b'
+    :((theme&&theme.c&&theme.c[2])||'#e8f0f8');
+  el.style.color=overlayColor;
+
+  /* ── Line 1: always — app name + theme ── */
+  var line1='Ology v1.5 · '+theme.n;
+
+  /* ── Line 2: visual params — only when engine running (playing=true) ── */
+  var line2='';
+  if(playing){
+    var speed=typeof PROG.speed==='number'?PROG.speed.toFixed(2):'—';
+    var chaos=typeof PROG.chaos==='number'?PROG.chaos.toFixed(2):'—';
+    var zoom=typeof PROG.zoom==='number'?PROG.zoom.toFixed(2):'—';
+    var seg=typeof PROG.seg==='number'?Math.round(PROG.seg):'—';
+    var bloom=typeof PROG.bloom==='number'?PROG.bloom.toFixed(2):'—';
+    var smooth=typeof PROG.smooth==='number'?PROG.smooth.toFixed(2):'—';
+    line2='Spd '+speed+' · Chaos '+chaos+' · Zoom '+zoom
+      +' · Seg '+seg+' · Bloom '+bloom+' · Smooth '+smooth;
+  }
+
+  /* ── Line 3: audio params — only when drone is playing ── */
+  var audioActive=!!(a.isPlaying);
+  var line3='';
+  if(audioActive){
+    var droneId=a.droneId||'theta-intuition';
+    var spec=mSpecOf[droneId]||{name:droneId,carrier:136.1,beat:6,mode:'binaural'};
+    var carrier=typeof a.carrierHz==='number'?a.carrierHz:spec.carrier;
+    var beat=typeof a.beatHz==='number'?a.beatHz:spec.beat;
+    var bedId=a.ambientBed||'none';
+    var bedLabel=bedId==='none'?'—':(bedId.charAt(0).toUpperCase()+bedId.slice(1));
+    var tickle=typeof a.brainTickleAmount==='number'?a.brainTickleAmount.toFixed(2):'0.00';
+    var slow=typeof a.slowness==='number'?a.slowness.toFixed(2):'0.00';
+    line3=(spec.name||droneId)
+      +' · '+carrier.toFixed(1)+'/'+beat.toFixed(2)+' Hz'
+      +' · '+(function(m){var s=m||'—';return s.charAt(0).toUpperCase()+s.slice(1);})(a.mode||spec.mode)
+      +' · '+bedLabel
+      +' · t'+tickle+' m'+slow;
+  }
+
+  el.innerHTML='<div>'+line1+'</div>'
+    +(line2?'<div>'+line2+'</div>':'')
+    +(line3?'<div>'+line3+'</div>':'');
 }
 
 window.enterFullscreen=function(){
