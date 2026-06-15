@@ -278,7 +278,7 @@ const _creditDate=(function(){
    Layout: up to 3 lines, top-left, no box.
      Line 1: Ology v1.4 · [Theme Name]           — always shown
      Line 2: Visual params                        — always shown (output always rendering)
-     Line 3: Audio params                         — only when drone is playing OR mic signal detected
+     Line 3: Audio params                         — only when PROG.audio.isPlaying is true
    Colour: lightest palette stop → HSL 88% lightness.
    Quantum Fields override: navy blue (#1a3a6b) — palette is too dark for auto-compute.
    Carrier/beat fallback: spec defaults when PROG.audio values are null. */
@@ -335,9 +335,8 @@ function renderOverlay(){
   const line2='Spd '+speed+' · Chaos '+chaos+' · Zoom '+zoom
     +' · Seg '+seg+' · Bloom '+bloom+' · Smooth '+smooth;
 
-  /* ── Line 3: audio params — only when drone playing or mic/line signal detected ── */
-  const liveLevel=(_wsFrame&&typeof _wsFrame.level==='number')?_wsFrame.level:0;
-  const audioActive=!!(a.isPlaying)||(liveLevel>0.01);
+  /* ── Line 3: audio params — only when drone is playing ── */
+  const audioActive=!!(a.isPlaying);
   let line3='';
   if(audioActive){
     const droneId=a.droneId||'theta-intuition';

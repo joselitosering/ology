@@ -1234,23 +1234,18 @@ function renderFsOverlay(){
   /* ── Line 1: always — app name + theme ── */
   var line1='Ology v1.4 · '+theme.n;
 
-  /* ── Line 2: visual params — only when engine running (playing=true) ── */
-  var line2='';
-  if(playing){
-    var speed=typeof PROG.speed==='number'?PROG.speed.toFixed(2):'—';
-    var chaos=typeof PROG.chaos==='number'?PROG.chaos.toFixed(2):'—';
-    var zoom=typeof PROG.zoom==='number'?PROG.zoom.toFixed(2):'—';
-    var seg=typeof PROG.seg==='number'?Math.round(PROG.seg):'—';
-    var bloom=typeof PROG.bloom==='number'?PROG.bloom.toFixed(2):'—';
-    var smooth=typeof PROG.smooth==='number'?PROG.smooth.toFixed(2):'—';
-    line2='Spd '+speed+' · Chaos '+chaos+' · Zoom '+zoom
-      +' · Seg '+seg+' · Bloom '+bloom+' · Smooth '+smooth;
-  }
+  /* ── Line 2: visual params — always shown when overlay is on ── */
+  var speed=typeof PROG.speed==='number'?PROG.speed.toFixed(2):'—';
+  var chaos=typeof PROG.chaos==='number'?PROG.chaos.toFixed(2):'—';
+  var zoom=typeof PROG.zoom==='number'?PROG.zoom.toFixed(2):'—';
+  var seg=typeof PROG.seg==='number'?Math.round(PROG.seg):'—';
+  var bloom=typeof PROG.bloom==='number'?PROG.bloom.toFixed(2):'—';
+  var smooth=typeof PROG.smooth==='number'?PROG.smooth.toFixed(2):'—';
+  var line2='Spd '+speed+' · Chaos '+chaos+' · Zoom '+zoom
+    +' · Seg '+seg+' · Bloom '+bloom+' · Smooth '+smooth;
 
-  /* ── Line 3: audio params — only when drone playing or mic/line signal detected ── */
-  var liveFrame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():null;
-  var liveLevel=(liveFrame&&typeof liveFrame.level==='number')?liveFrame.level:0;
-  var audioActive=!!(a.isPlaying)||(liveLevel>0.01);
+  /* ── Line 3: audio params — only when drone is playing ── */
+  var audioActive=!!(a.isPlaying);
   var line3='';
   if(audioActive){
     var droneId=a.droneId||'theta-intuition';
