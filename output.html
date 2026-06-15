@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ology 1.5 — Output (OBS)</title>
+  <title>Ology — Output (OBS)</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; position:relative; cursor:auto; }
@@ -371,6 +371,10 @@ if(cfgHideReadout && readout) readout.style.display='none';
 
 /* Load initial state from localStorage (if index.html has written it) */
 loadProg();
+/* Always start with audio params hidden — localStorage may carry isPlaying:true
+   from a previous session. output.html receives live updates via poll; the
+   overlay will show audio params as soon as the next poll confirms active playback. */
+PROG.audio.isPlaying = false;
 
 /* Init M1 once. Guard so a missing/failed shader module doesn't throw at load. */
 let m1Init=false;
