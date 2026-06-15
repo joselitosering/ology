@@ -145,13 +145,28 @@ nav a.active .nav-icon{opacity:1}
 .go-explainer p{margin:0!important;font-size:13px;color:var(--dim);line-height:1.6;flex:1;min-width:180px}
 
 /* ── Entrainment mode cards ── */
-.mode-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.mode-cards{display:grid;grid-template-columns:1fr;gap:14px;margin:16px 0}
+.mode-card-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
 .mode-card{background:var(--panel);border:1px solid var(--stroke);border-radius:10px;padding:14px 16px}
 .mode-card-name{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
 .mode-card-tag{display:inline-block;font-size:9px;font-family:var(--font-mono);font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:4px;margin-bottom:8px}
 .tag-headphones{background:rgba(168,117,255,.15);color:var(--acc);border:1px solid rgba(168,117,255,.3)}
 .tag-speakers  {background:rgba(53,223,214,.12); color:var(--teal);border:1px solid rgba(53,223,214,.3)}
 .mode-card p{font-size:12px;color:var(--dim);line-height:1.55;margin:0!important}
+/* Advisory cards — inline beside mode cards */
+.advisory{border-radius:10px;padding:13px 14px;font-size:12px;line-height:1.6;display:flex;gap:10px;align-items:flex-start}
+.advisory-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.advisory-body strong{display:block;font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:4px}
+.advisory-body p{margin:0;font-size:12px;line-height:1.55}
+.advisory.yellow{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.3);color:#fcd34d}
+.advisory.yellow strong{color:#fbbf24}
+.advisory.yellow p{color:rgba(252,211,77,.8)}
+.advisory.red{background:rgba(255,78,106,.07);border:1px solid rgba(255,78,106,.28);color:#ffa0ae}
+.advisory.red strong{color:#ff4e6a}
+.advisory.red p{color:rgba(255,160,174,.85)}
+.advisory.green{background:rgba(62,204,133,.07);border:1px solid rgba(62,204,133,.28);color:#6ee7b7}
+.advisory.green strong{color:#3ecc85}
+.advisory.green p{color:rgba(110,231,183,.85)}
 
 /* ── Session cards ── */
 .session-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
@@ -195,12 +210,13 @@ nav a.active .nav-icon{opacity:1}
   .content-inner{
     padding-top:max(56px, calc(44px + env(safe-area-inset-top)));
     padding-bottom:max(80px, calc(60px + env(safe-area-inset-bottom)));
-    padding-left:max(16px, calc(12px + env(safe-area-inset-left)));
-    padding-right:max(16px, calc(12px + env(safe-area-inset-right)));
+    padding-left:max(24px, calc(20px + env(safe-area-inset-left)));
+    padding-right:max(24px, calc(20px + env(safe-area-inset-right)));
   }
   .page-hero h1{font-size:26px}
   .page-hero .lead{font-size:13.5px}
   .ctrl-grid{grid-template-columns:1fr}
+  .mode-card-row{grid-template-columns:1fr}
   .two-col{grid-template-columns:1fr;gap:20px}
   .mode-cards{grid-template-columns:1fr}
   .session-cards{grid-template-columns:1fr}
@@ -213,8 +229,8 @@ nav a.active .nav-icon{opacity:1}
   .content-inner{
     padding-top:max(64px, calc(52px + env(safe-area-inset-top)));
     padding-bottom:max(80px, calc(60px + env(safe-area-inset-bottom)));
-    padding-left:max(20px, calc(16px + env(safe-area-inset-left)));
-    padding-right:max(20px, calc(16px + env(safe-area-inset-right)));
+    padding-left:max(28px, calc(20px + env(safe-area-inset-left)));
+    padding-right:max(28px, calc(20px + env(safe-area-inset-right)));
   }
   .page-hero h1{font-size:22px}
   .doc-section h2{font-size:18px}
@@ -277,29 +293,34 @@ nav a.active .nav-icon{opacity:1}
       </svg>
       <span style="font-family:'Marcellus','Georgia',serif;font-size:20px;font-weight:400;letter-spacing:3px;color:#ffffff">OLOGY</span>
     </div>
-    <div class="sub">Help Guide · Beta v1.5</div>
   </div>
   <div class="nav-section-label">Getting Started</div>
   <nav>
     <a href="#overview" class="active"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Overview</a>
-    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Interface</a>
-    <a href="#preview-program"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Preview &amp; Program</a>
+    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Interface</a>
+    <a href="#mobile-view"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile App</a>
   </nav>
   <div class="nav-section-label">Controls</div>
   <nav>
-    <a href="#visuals-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>Visuals Tab</a>
-    <a href="#audio-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>Audio Tab</a>
-    <a href="#output-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>Output Tab</a>
-    <a href="#presets-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>Presets Tab</a>
+    <a href="#visuals-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>Visuals</a>
+    <a href="#audio-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>Audio</a>
+    <a href="#output-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>Output</a>
+    <a href="#presets-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>Presets</a>
   </nav>
   <div class="nav-section-label">Reference</div>
   <nav>
     <a href="#themes"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/></svg>Themes</a>
     <a href="#drone-library"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"/></svg>Drone Library</a>
-    <a href="#frequency-guide"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>Frequency Guide</a>
-    <a href="#sessions"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>Session Recipes</a>
+    <a href="#frequency-guide"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>Frequencies</a>
+  </nav>
+  <div class="nav-section-label">Sessions</div>
+  <nav>
+    <a href="#sessions"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>Recipes</a>
     <a href="#obs-setup"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>OBS Setup</a>
-    <a href="#safety"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety &amp; Accuracy</a>
+  </nav>
+  <div class="nav-section-label">Safety</div>
+  <nav>
+    <a href="#safety"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety</a>
   </nav>
   <div class="nav-footer">Ology Beta v1.5 · AIMA Productions</div>
 </aside>
@@ -349,127 +370,223 @@ nav a.active .nav-icon{opacity:1}
   <section class="doc-section" id="interface">
     <h2><span class="section-num">02</span> Interface</h2>
     <div class="section-rule"></div>
-    <p>Ology runs in two forms — a full desktop Stage and a mobile-optimised page — both sharing the same PREVIEW / PROGRAM model. Choose the form that fits your context; the controls work identically either way.</p>
+    <p>Ology has two form factors — the desktop Stage (<span class="key">web.html</span>) and the <strong style="color:var(--txt)">Mobile App</strong>. Both share the same PREVIEW / PROGRAM model and identical controls. This section covers the desktop Stage in detail; the Mobile App layout follows below.</p>
 
-    <h3>Desktop</h3>
-    <p>The Stage layout has four areas. Understanding how they relate is the fastest way to become fluent with Ology.</p>
+    <h3>Desktop Stage layout</h3>
+    <p>The Stage is divided into four permanent zones that are always visible. Nothing is hidden behind a fullscreen toggle or overlay — the operator sees everything at once.</p>
 
-    <!-- Desktop UI diagram — SVG -->
+    <!-- Updated desktop UI diagram -->
     <div class="ui-diagram">
-      <div class="ui-diagram-header">Stage · Desktop — annotated layout</div>
-      <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
-        <!-- bg -->
-        <rect width="640" height="220" fill="#06070d"/>
-        <!-- left sidebar -->
-        <rect x="0" y="0" width="56" height="220" fill="#0b0d15"/>
-        <rect x="56" y="0" width="1" height="220" fill="rgba(255,255,255,.08)"/>
-        <!-- sidebar icons -->
-        <rect x="8" y="12" width="40" height="40" rx="8" fill="rgba(168,117,255,.15)" stroke="rgba(168,117,255,.3)" stroke-width="1"/>
-        <text x="28" y="29" text-anchor="middle" font-size="14" fill="#fff">👁</text>
-        <text x="28" y="46" text-anchor="middle" font-size="6" fill="#a875ff" letter-spacing="0.8">VISUALS</text>
-        <rect x="8" y="60" width="40" height="40" rx="8" fill="none"/>
-        <text x="28" y="77" text-anchor="middle" font-size="14" fill="#8a90a8">🔊</text>
-        <text x="28" y="94" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing="0.8">AUDIO</text>
+      <div class="ui-diagram-header">web.html · Desktop Stage — four zones annotated</div>
+      <svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
+        <defs>
+          <radialGradient id="prevGrad2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(123,167,212,.22)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <radialGradient id="progGrad2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,78,106,.16)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <linearGradient id="slGrad3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a875ff"/><stop offset="100%" stop-color="#35dfd6"/></linearGradient>
+          <linearGradient id="goGrad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3ecc85"/><stop offset="100%" stop-color="#2aaa6a"/></linearGradient>
+          <!-- Kaleidoscope pattern for canvas preview -->
+          <radialGradient id="kalGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#7b3ff2"/><stop offset="40%" stop-color="#37e0d8"/><stop offset="100%" stop-color="#0a0c14"/></radialGradient>
+        </defs>
+        <!-- Overall bg -->
+        <rect width="700" height="260" fill="#06070d"/>
+
+        <!-- Zone A: TOPBAR -->
+        <rect x="0" y="0" width="700" height="36" fill="#0c0e1a"/>
+        <rect x="0" y="36" width="700" height="1" fill="rgba(255,255,255,.1)"/>
+        <!-- topbar label -->
+        <rect x="2" y="2" width="80" height="15" rx="3" fill="rgba(168,117,255,.12)" stroke="rgba(168,117,255,.3)" stroke-width=".6"/>
+        <text x="42" y="13" text-anchor="middle" font-size="7" font-weight="700" fill="#a875ff" letter-spacing=".8">A — TOPBAR</text>
+        <!-- logo mockup -->
+        <circle cx="120" cy="18" r="9" fill="rgba(123,167,212,.15)" stroke="rgba(123,167,212,.3)" stroke-width=".7"/>
+        <text x="120" y="22" text-anchor="middle" font-size="8" fill="#7BA7D4">◈</text>
+        <text x="136" y="22" font-size="10" font-weight="700" fill="#e8eaf2" letter-spacing="2">OLOGY</text>
+        <!-- engine button -->
+        <rect x="570" y="8" width="72" height="20" rx="5" fill="none" stroke="rgba(123,167,212,.3)" stroke-width=".8"/>
+        <text x="606" y="21" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
+
+        <!-- Zone B: LEFT SIDEBAR -->
+        <rect x="0" y="37" width="56" height="223" fill="#0b0d15"/>
+        <rect x="56" y="37" width="1" height="223" fill="rgba(255,255,255,.08)"/>
+        <!-- sidebar zone label -->
+        <rect x="2" y="42" width="52" height="15" rx="3" fill="rgba(168,117,255,.12)" stroke="rgba(168,117,255,.3)" stroke-width=".6"/>
+        <text x="28" y="53" text-anchor="middle" font-size="6" font-weight="700" fill="#a875ff" letter-spacing=".5">B — TABS</text>
+        <!-- tab icons -->
+        <rect x="8" y="62" width="40" height="40" rx="8" fill="rgba(168,117,255,.15)" stroke="rgba(168,117,255,.3)" stroke-width="1"/>
+        <text x="28" y="79" text-anchor="middle" font-size="13" fill="#fff">👁</text>
+        <text x="28" y="96" text-anchor="middle" font-size="5.5" fill="#a875ff" letter-spacing=".6">VISUALS</text>
         <rect x="8" y="108" width="40" height="40" rx="8" fill="none"/>
-        <text x="28" y="125" text-anchor="middle" font-size="14" fill="#8a90a8">📤</text>
-        <text x="28" y="142" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing="0.8">OUTPUT</text>
-        <rect x="8" y="156" width="40" height="40" rx="8" fill="none"/>
-        <text x="28" y="173" text-anchor="middle" font-size="14" fill="#8a90a8">💾</text>
-        <text x="28" y="190" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing="0.8">PRESETS</text>
+        <text x="28" y="125" text-anchor="middle" font-size="13" fill="#8a90a8">🔊</text>
+        <text x="28" y="142" text-anchor="middle" font-size="5.5" fill="#4a5068" letter-spacing=".6">AUDIO</text>
+        <rect x="8" y="154" width="40" height="40" rx="8" fill="none"/>
+        <text x="28" y="171" text-anchor="middle" font-size="13" fill="#8a90a8">📤</text>
+        <text x="28" y="188" text-anchor="middle" font-size="5.5" fill="#4a5068" letter-spacing=".6">OUTPUT</text>
+        <rect x="8" y="200" width="40" height="40" rx="8" fill="none"/>
+        <text x="28" y="217" text-anchor="middle" font-size="13" fill="#8a90a8">💾</text>
+        <text x="28" y="234" text-anchor="middle" font-size="5.5" fill="#4a5068" letter-spacing=".6">PRESETS</text>
 
-        <!-- center monitors area -->
-        <rect x="57" y="0" width="400" height="220" fill="#0a0c14"/>
-        <!-- preview monitor -->
-        <rect x="68" y="10" width="186" height="200" rx="10" fill="#000" stroke="rgba(42,85,204,.4)" stroke-width="1"/>
-        <rect x="68" y="10" width="186" height="22" rx="10" fill="#0b0d15"/>
-        <rect x="68" y="26" width="186" height="6" fill="#0b0d15"/>
-        <text x="78" y="25" font-size="7" font-weight="700" fill="#7aa2ff" letter-spacing="1.2">● PREVIEW</text>
-        <text x="210" y="25" font-size="7" fill="#4a5068">Intergalactic Beings</text>
-        <!-- preview canvas gradient -->
-        <defs>
-          <radialGradient id="prevGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="rgba(168,117,255,.18)"/>
-            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-          </radialGradient>
-          <radialGradient id="progGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="rgba(255,78,106,.14)"/>
-            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-          </radialGradient>
-        </defs>
-        <rect x="69" y="32" width="184" height="177" fill="url(#prevGrad)"/>
-        <text x="161" y="124" text-anchor="middle" font-size="8" fill="#4a5068" letter-spacing=".8">staging area</text>
+        <!-- Zone C: CENTER CANVAS MONITORS -->
+        <rect x="57" y="37" width="430" height="223" fill="#0a0c14"/>
+        <!-- zone label -->
+        <rect x="62" y="42" width="80" height="15" rx="3" fill="rgba(53,223,214,.1)" stroke="rgba(53,223,214,.3)" stroke-width=".6"/>
+        <text x="102" y="53" text-anchor="middle" font-size="7" font-weight="700" fill="#35dfd6" letter-spacing=".8">C — CANVAS</text>
 
-        <!-- program monitor -->
-        <rect x="262" y="10" width="186" height="200" rx="10" fill="#000" stroke="rgba(204,42,58,.35)" stroke-width="1"/>
-        <rect x="262" y="10" width="186" height="22" rx="10" fill="#0b0d15"/>
-        <rect x="262" y="26" width="186" height="6" fill="#0b0d15"/>
-        <text x="272" y="25" font-size="7" font-weight="700" fill="#ff7a8a" letter-spacing="1.2">● PROGRAM · LIVE</text>
-        <rect x="69" y="32" width="0" height="0"/>
-        <rect x="263" y="32" width="184" height="177" fill="url(#progGrad)"/>
-        <text x="355" y="124" text-anchor="middle" font-size="8" fill="#4a5068" letter-spacing=".8">what's live</text>
+        <!-- PREVIEW monitor -->
+        <rect x="68" y="60" width="196" height="192" rx="9" fill="#000" stroke="rgba(42,85,204,.45)" stroke-width="1.2"/>
+        <rect x="68" y="60" width="196" height="22" rx="9" fill="#0b0d15"/>
+        <rect x="68" y="75" width="196" height="7" fill="#0b0d15"/>
+        <text x="78" y="74" font-size="7" font-weight="700" fill="#7aa2ff" letter-spacing="1">● PREVIEW</text>
+        <text x="234" y="74" font-size="6.5" fill="#4a5068" text-anchor="end">Intergalactic Beings</text>
+        <!-- kaleidoscope preview fill -->
+        <rect x="69" y="82" width="194" height="169" fill="#04060e"/>
+        <circle cx="166" cy="166" r="90" fill="url(#prevGrad2)" opacity=".7"/>
+        <text x="166" y="170" text-anchor="middle" font-size="9" fill="#3a4060" letter-spacing=".6">STAGING</text>
 
-        <!-- right panel -->
-        <rect x="457" y="0" width="183" height="220" fill="#0e1022"/>
-        <rect x="457" y="0" width="1" height="220" fill="rgba(255,255,255,.08)"/>
-        <text x="469" y="18" font-size="7" fill="#4a5068" letter-spacing="1.8">VISUALS</text>
+        <!-- PROGRAM monitor -->
+        <rect x="274" y="60" width="196" height="192" rx="9" fill="#000" stroke="rgba(204,42,58,.4)" stroke-width="1.2"/>
+        <rect x="274" y="60" width="196" height="22" rx="9" fill="#0b0d15"/>
+        <rect x="274" y="75" width="196" height="7" fill="#0b0d15"/>
+        <text x="284" y="74" font-size="7" font-weight="700" fill="#ff7a8a" letter-spacing="1">● PROGRAM</text>
+        <text x="342" y="74" font-size="7" font-weight="700" fill="#ff4e6a" letter-spacing=".8"> · LIVE</text>
+        <!-- kaleidoscope program fill -->
+        <rect x="275" y="82" width="194" height="169" fill="#04060e"/>
+        <circle cx="372" cy="166" r="90" fill="url(#progGrad2)" opacity=".8"/>
+        <!-- simple kaleidoscope pattern suggestion -->
+        <line x1="372" y1="100" x2="372" y2="232" stroke="rgba(255,78,106,.12)" stroke-width=".8"/>
+        <line x1="308" y1="166" x2="436" y2="166" stroke="rgba(255,78,106,.12)" stroke-width=".8"/>
+        <line x1="326" y1="118" x2="418" y2="214" stroke="rgba(255,78,106,.12)" stroke-width=".8"/>
+        <line x1="418" y1="118" x2="326" y2="214" stroke="rgba(255,78,106,.12)" stroke-width=".8"/>
+        <circle cx="372" cy="166" r="42" fill="none" stroke="rgba(255,120,140,.15)" stroke-width=".8"/>
+        <circle cx="372" cy="166" r="22" fill="none" stroke="rgba(255,120,140,.2)" stroke-width=".8"/>
+        <circle cx="372" cy="166" r="6" fill="rgba(255,100,120,.3)"/>
+        <text x="372" y="230" text-anchor="middle" font-size="9" fill="#3a2030" letter-spacing=".6">LIVE</text>
+
+        <!-- Zone D: RIGHT PANEL -->
+        <rect x="487" y="37" width="213" height="223" fill="#0e1022"/>
+        <rect x="487" y="37" width="1" height="223" fill="rgba(255,255,255,.08)"/>
+        <!-- zone label -->
+        <rect x="492" y="42" width="90" height="15" rx="3" fill="rgba(245,158,11,.1)" stroke="rgba(245,158,11,.3)" stroke-width=".6"/>
+        <text x="537" y="53" text-anchor="middle" font-size="7" font-weight="700" fill="#fbbf24" letter-spacing=".8">D — CONTROLS</text>
+        <!-- panel header -->
+        <rect x="487" y="58" width="213" height="22" fill="#0b0d15"/>
+        <text x="499" y="72" font-size="7" fill="#4a5068" letter-spacing="1.6">VISUALS</text>
         <!-- sliders -->
-        <text x="469" y="38" font-size="9" fill="#8a90a8">Intensity</text>
-        <rect x="530" y="31" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="31" width="48" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="38" font-size="8" fill="#35dfd6" text-anchor="end">0.50</text>
-        <text x="469" y="58" font-size="9" fill="#8a90a8">Speed</text>
-        <rect x="530" y="51" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="51" width="76" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="58" font-size="8" fill="#35dfd6" text-anchor="end">0.8×</text>
-        <text x="469" y="78" font-size="9" fill="#8a90a8">Chaos</text>
-        <rect x="530" y="71" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="71" width="45" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="78" font-size="8" fill="#35dfd6" text-anchor="end">0.45</text>
-        <text x="469" y="98" font-size="9" fill="#8a90a8">Segments</text>
-        <rect x="530" y="91" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="91" width="24" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="98" font-size="8" fill="#35dfd6" text-anchor="end">8</text>
-        <text x="469" y="118" font-size="9" fill="#8a90a8">Bloom</text>
-        <rect x="530" y="111" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="111" width="90" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="118" font-size="8" fill="#35dfd6" text-anchor="end">1.00</text>
-        <text x="469" y="138" font-size="9" fill="#8a90a8">Smooth</text>
-        <rect x="530" y="131" width="96" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="530" y="131" width="79" height="3" rx="2" fill="url(#slGrad)"/>
-        <text x="632" y="138" font-size="8" fill="#35dfd6" text-anchor="end">0.82</text>
+        <text x="499" y="96" font-size="8.5" fill="#8a90a8">Intensity</text>
+        <rect x="552" y="90" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="90" width="65" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="96" font-size="7.5" fill="#35dfd6" text-anchor="end">0.50</text>
+        <text x="499" y="115" font-size="8.5" fill="#8a90a8">Speed</text>
+        <rect x="552" y="109" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="109" width="100" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="115" font-size="7.5" fill="#35dfd6" text-anchor="end">0.8×</text>
+        <text x="499" y="134" font-size="8.5" fill="#8a90a8">Chaos</text>
+        <rect x="552" y="128" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="128" width="58" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="134" font-size="7.5" fill="#35dfd6" text-anchor="end">0.45</text>
+        <text x="499" y="153" font-size="8.5" fill="#8a90a8">Segments</text>
+        <rect x="552" y="147" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="147" width="30" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="153" font-size="7.5" fill="#35dfd6" text-anchor="end">8</text>
+        <text x="499" y="172" font-size="8.5" fill="#8a90a8">Bloom</text>
+        <rect x="552" y="166" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="166" width="118" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="172" font-size="7.5" fill="#35dfd6" text-anchor="end">1.00</text>
+        <text x="499" y="191" font-size="8.5" fill="#8a90a8">Smooth</text>
+        <rect x="552" y="185" width="130" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="552" y="185" width="107" height="3" rx="2" fill="url(#slGrad3)"/>
+        <text x="688" y="191" font-size="7.5" fill="#35dfd6" text-anchor="end">0.82</text>
         <!-- GO button -->
-        <rect x="469" y="188" width="156" height="24" rx="7" fill="url(#goGrad)"/>
-        <text x="547" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#fff" letter-spacing="1">GO</text>
-        <defs>
-          <linearGradient id="slGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#a875ff"/>
-            <stop offset="100%" stop-color="#35dfd6"/>
-          </linearGradient>
-          <linearGradient id="goGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#3ecc85"/>
-            <stop offset="100%" stop-color="#2aaa6a"/>
-          </linearGradient>
-        </defs>
+        <rect x="499" y="224" width="191" height="26" rx="7" fill="url(#goGrad2)"/>
+        <text x="594" y="241" text-anchor="middle" font-size="12" font-weight="800" fill="#fff" letter-spacing="1.5">GO</text>
       </svg>
       <div class="annot-row">
-        <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> PREVIEW — staging area</div>
-        <div class="annot"><span class="annot-dot" style="background:#ff7a8a"></span> PROGRAM — live output</div>
-        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> Control panel — updates PREVIEW only</div>
-        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO — commits PREVIEW → PROGRAM</div>
+        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> A — Topbar: logo + engine button</div>
+        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> B — Tab sidebar: Visuals · Audio · Output · Presets</div>
+        <div class="annot"><span class="annot-dot" style="background:#35dfd6"></span> C — Canvas: PREVIEW (blue) + PROGRAM (red)</div>
+        <div class="annot"><span class="annot-dot" style="background:#fbbf24"></span> D — Control panel: active tab content + GO</div>
       </div>
     </div>
 
-    <h3>The four navigation tabs</h3>
+    <h3>Zone A — Topbar</h3>
+    <p>The topbar runs across the full width of the page and is always visible. It contains the Ology brand logo on the left and the <span class="ctrl">❚❚ Running</span> engine button on the right. The engine button pauses and resumes the visual render loop — it does not affect audio. The button shows <span class="key">Running</span> in teal when active and <span class="key">Paused</span> when stopped.</p>
+
+    <h3>Zone B — Tab sidebar</h3>
+    <p>The left sidebar holds the four navigation tabs. The active tab is highlighted in purple. Clicking a tab switches the control panel (Zone D) to that tab's content. The canvas (Zone C) is unaffected by tab switching — it keeps rendering regardless of which tab is open.</p>
     <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">👁 Visuals</div><p>Theme, speed, chaos, zoom, rotation, segments, bloom, smooth. All changes update PREVIEW only — press GO to make them live.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">🔊 Audio</div><p>Transport, drone preset, carrier/beat Hz, entrainment mode, ambient bed, reactivity routing, and master volume.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3), OBS param overlay toggle, and mobile phone pairing panel.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">💾 Presets</div><p>Save, load, favorite, delete, export, and import complete session snapshots as JSON.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">👁 Visuals</div><p>Theme selector and all visual parameter sliders. Changes go to PREVIEW only — press GO to commit to PROGRAM.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">🔊 Audio</div><p>Transport, drone preset, entrainment mode, ambient bed, blend, brain-tickle, slowness, reactivity routing, and master volume.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector, param overlay toggle, and the Open output window button for OBS.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">💾 Presets</div><p>Save, load, favorite, delete, export, and import complete session snapshots.</p></div>
     </div>
 
-    <h3 id="mobile-view" style="scroll-margin-top:32px">Mobile</h3>
+    <h3>Zone C — Canvas</h3>
+    <p>The canvas zone holds two monitors side by side — PREVIEW on the left and PROGRAM on the right. This is where you see the kaleidoscope running in real time.</p>
+
+    <!-- Canvas image placeholder — uses an SVG kaleidoscope illustration -->
+    <div class="ui-diagram" style="margin-bottom:20px">
+      <div class="ui-diagram-header">Canvas monitors — PREVIEW staging · PROGRAM live</div>
+      <svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="kal1a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#7b3ff2"/><stop offset="35%" stop-color="#1a0a3a"/><stop offset="100%" stop-color="#04060e"/></radialGradient>
+          <radialGradient id="kal2a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#37e0d8"/><stop offset="35%" stop-color="#0a2a2a"/><stop offset="100%" stop-color="#04060e"/></radialGradient>
+          <radialGradient id="kal1b" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd36e"/><stop offset="40%" stop-color="#1a100a"/><stop offset="100%" stop-color="#04060e"/></radialGradient>
+          <radialGradient id="kal2b" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff6e9a"/><stop offset="40%" stop-color="#1a050e"/><stop offset="100%" stop-color="#04060e"/></radialGradient>
+        </defs>
+        <rect width="640" height="200" fill="#06070d"/>
+        <!-- PREVIEW panel -->
+        <rect x="10" y="8" width="300" height="184" rx="10" fill="#000" stroke="rgba(42,85,204,.5)" stroke-width="1.5"/>
+        <rect x="10" y="8" width="300" height="24" rx="10" fill="#0b0d15"/>
+        <rect x="10" y="24" width="300" height="8" fill="#0b0d15"/>
+        <text x="22" y="23" font-size="8" font-weight="700" fill="#7aa2ff" font-family="monospace" letter-spacing="1">● PREVIEW — STAGING</text>
+        <rect x="11" y="32" width="298" height="159" fill="#04060e"/>
+        <!-- kaleidoscope art preview -->
+        <circle cx="160" cy="112" r="78" fill="url(#kal1a)" opacity=".9"/>
+        <circle cx="160" cy="112" r="55" fill="url(#kal2a)" opacity=".7"/>
+        <circle cx="160" cy="112" r="32" fill="url(#kal1a)" opacity=".8"/>
+        <line x1="160" y1="52" x2="160" y2="172" stroke="rgba(123,167,212,.12)" stroke-width="1"/>
+        <line x1="100" y1="112" x2="220" y2="112" stroke="rgba(123,167,212,.12)" stroke-width="1"/>
+        <line x1="117" y1="69" x2="203" y2="155" stroke="rgba(123,167,212,.1)" stroke-width="1"/>
+        <line x1="203" y1="69" x2="117" y2="155" stroke="rgba(123,167,212,.1)" stroke-width="1"/>
+        <circle cx="160" cy="112" r="8" fill="rgba(123,167,212,.4)"/>
+        <!-- PROGRAM panel -->
+        <rect x="330" y="8" width="300" height="184" rx="10" fill="#000" stroke="rgba(204,42,58,.45)" stroke-width="1.5"/>
+        <rect x="330" y="8" width="300" height="24" rx="10" fill="#0b0d15"/>
+        <rect x="330" y="24" width="300" height="8" fill="#0b0d15"/>
+        <text x="342" y="23" font-size="8" font-weight="700" fill="#ff7a8a" font-family="monospace" letter-spacing="1">● PROGRAM — LIVE</text>
+        <rect x="331" y="32" width="298" height="159" fill="#04060e"/>
+        <!-- kaleidoscope art program (slightly different phase) -->
+        <circle cx="480" cy="112" r="78" fill="url(#kal1b)" opacity=".85"/>
+        <circle cx="480" cy="112" r="55" fill="url(#kal2b)" opacity=".65"/>
+        <circle cx="480" cy="112" r="32" fill="url(#kal1b)" opacity=".75"/>
+        <line x1="480" y1="52" x2="480" y2="172" stroke="rgba(255,120,140,.12)" stroke-width="1"/>
+        <line x1="420" y1="112" x2="540" y2="112" stroke="rgba(255,120,140,.12)" stroke-width="1"/>
+        <line x1="437" y1="69" x2="523" y2="155" stroke="rgba(255,120,140,.1)" stroke-width="1"/>
+        <line x1="523" y1="69" x2="437" y2="155" stroke="rgba(255,120,140,.1)" stroke-width="1"/>
+        <circle cx="480" cy="112" r="8" fill="rgba(255,100,120,.4)"/>
+      </svg>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <p><strong style="color:#7aa2ff">PREVIEW</strong> (blue border) is your private staging area. All slider and theme changes go here first. Your audience never sees PREVIEW — only you do. Use it to audition a new look without disturbing a live session.</p>
+        <p>When you are happy with what you see in PREVIEW, press <span class="ctrl">GO</span> to push it to PROGRAM instantly.</p>
+      </div>
+      <div>
+        <p><strong style="color:#ff7a8a">PROGRAM</strong> (red border · LIVE) is what your audience sees — it is the canvas that syncs to the output window and OBS. It only changes when you press GO.</p>
+        <p>Audio parameter changes (drone, mode, bed, volume) bypass this model and take effect immediately in both monitors without pressing GO.</p>
+      </div>
+    </div>
+
+    <h3>Zone D — Control panel</h3>
+    <p>The right panel is the active tab's control surface. It changes completely depending on which tab is selected in Zone B. All visual controls in this panel write to PREVIEW only. The panel always ends with the <span class="ctrl">GO</span> button which commits the current PREVIEW state to PROGRAM.</p>
+
+    <div class="go-explainer">
+      <div class="go-btn-demo">GO</div>
+      <p>GO is the only action that changes what your audience sees. Every visual change you make — theme, speed, chaos, bloom, segments — stages silently in PREVIEW until you press GO. Audio changes (drone, mode, bed, volume) take effect immediately and do not require GO.</p>
+    </div>
+
+    <h3 id="mobile-view" style="scroll-margin-top:32px">Mobile App<span id="how-to-use" style="display:block;height:0;visibility:hidden"></span></h3>
     <div class="section-rule"></div>
-    <p>The mobile page (<span class="key">mobile.html</span>) is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
+    <p>The <strong style="color:var(--txt)">Ology Mobile App</strong> is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
 
     <!-- Desktop 3-col layout diagram -->
     <div class="ui-diagram">
@@ -654,17 +771,13 @@ nav a.active .nav-icon{opacity:1}
       </div>
     </div>
 
-    <h3>How to use mobile.html</h3>
-    <p>Open <span class="key">mobile.html</span> in a mobile browser. The page fits entirely within the viewport — nothing overflows the screen edge.</p>
+    <h3>How to use the Mobile App</h3>
+    <p>Open the Ology Mobile App in a mobile browser. The page fits entirely within the viewport — nothing overflows the screen edge.</p>
 
     <div class="ctrl-grid">
       <div class="ctrl-card">
         <div class="ctrl-card-name">Topbar</div>
         <p>The animated kaleidoscope logo confirms the engine is running. The <span class="key">❚❚ Running</span> button pauses and resumes rendering. Version and tier (Free / Premium) are shown in the sub-label.</p>
-      </div>
-      <div class="ctrl-card">
-        <div class="ctrl-card-name">Canvas monitors</div>
-        <p>PREVIEW (blue border) shows your staged changes. PROGRAM (red border, LIVE dot) shows the active output. On phones they sit side by side; on tablets in portrait they stack vertically.</p>
       </div>
       <div class="ctrl-card">
         <div class="ctrl-card-name">Navigation tabs</div>
@@ -724,8 +837,8 @@ nav a.active .nav-icon{opacity:1}
 
 
   <!-- ── 03 Preview & Program ────────────────────────────────────────────── -->
-  <section class="doc-section" id="preview-program">
-    <h2><span class="section-num">03</span> Preview &amp; Program</h2>
+  <section class="doc-section" id="preview-program" style="scroll-margin-top:32px"><span id="navigation" style="scroll-margin-top:32px"></span>
+    <h2><span class="section-num">03</span> Canvas</h2>
     <div class="section-rule"></div>
     <p>Ology uses a two-bus model borrowed from broadcast switching: every change is staged in PREVIEW before it goes live in PROGRAM. Nothing happens to the live output until you deliberately commit it.</p>
     <div class="go-explainer">
@@ -748,7 +861,7 @@ nav a.active .nav-icon{opacity:1}
           <li>The live output — what appears on the OBS canvas and any connected output.</li>
           <li>Committed by pressing GO.</li>
           <li>Audio parameters (drone, mode, bed, volume) take effect immediately and bypass the GO step.</li>
-          <li>The param overlay on output.html always reflects PROGRAM state.</li>
+          <li>The param overlay on the Output Window always reflects PROGRAM state.</li>
         </ul>
       </div>
     </div>
@@ -763,7 +876,7 @@ nav a.active .nav-icon{opacity:1}
 
 
   <!-- ── 04 Visuals Tab ──────────────────────────────────────────────────── -->
-  <section class="doc-section" id="visuals-tab">
+  <section class="doc-section" id="visuals-tab"><span id="controls" style="display:block;scroll-margin-top:32px"></span>
     <h2><span class="section-num">04</span> Visuals Tab</h2>
     <div class="section-rule"></div>
     <p>All visual parameters update PREVIEW only. Press <span class="ctrl">GO</span> to make any change live.</p>
@@ -811,34 +924,50 @@ nav a.active .nav-icon{opacity:1}
 
     <h3>Entrainment mode</h3>
     <div class="mode-cards">
-      <div class="mode-card">
-        <div class="mode-card-name">Binaural</div>
-        <div class="mode-card-tag tag-headphones">Headphones required</div>
-        <p>A different frequency reaches each ear. The brain perceives a third tone equal to the difference. Requires true stereo separation — headphones only. Most documented in EEG research.</p>
+      <!-- Binaural + headphone advisory -->
+      <div class="mode-card-row">
+        <div class="mode-card">
+          <div class="mode-card-name">Binaural</div>
+          <div class="mode-card-tag tag-headphones">Headphones required</div>
+          <p>A different frequency reaches each ear. The brain perceives a third tone equal to the difference. Requires true stereo separation. Most documented in EEG research.</p>
+        </div>
+        <div class="advisory yellow">
+          <span class="advisory-icon">🎧</span>
+          <div class="advisory-body">
+            <strong>Headphone advisory</strong>
+            <p>Binaural requires stereo headphones for the psychoacoustic effect. On speakers or in OBS the two tones blend and the effect is not delivered. Use Isochronic or Monaural for speaker or broadcast use.</p>
+          </div>
+        </div>
       </div>
-      <div class="mode-card">
-        <div class="mode-card-name">Isochronic</div>
-        <div class="mode-card-tag tag-speakers">Speakers OK</div>
-        <p>A single tone pulsed on and off at the entrainment rate. Sharp onset and offset. No headphones required. Preferred for stage speakers, OBS, and livestreams.</p>
+      <!-- Isochronic + flash warning -->
+      <div class="mode-card-row">
+        <div class="mode-card">
+          <div class="mode-card-name">Isochronic</div>
+          <div class="mode-card-tag tag-speakers">Speakers OK</div>
+          <p>A single tone pulsed on and off at the entrainment rate. Sharp onset and offset. No headphones required. Preferred for stage speakers, OBS, and livestreams.</p>
+        </div>
+        <div class="advisory red">
+          <span class="advisory-icon">⚡</span>
+          <div class="advisory-body">
+            <strong>Flashing light risk</strong>
+            <p>Isochronic pulses at 1–40 Hz. With audio reactivity active this can produce visual luminance pulses at the same rate. Users with photosensitive epilepsy should use Binaural or Monaural instead. Inform all participants.</p>
+          </div>
+        </div>
       </div>
-      <div class="mode-card">
-        <div class="mode-card-name">Monaural</div>
-        <div class="mode-card-tag tag-speakers">Speakers OK</div>
-        <p>Two tones mixed in a single channel, creating physical amplitude modulation. A real acoustic beat — no headphones required. Strong entrainment stimulus.</p>
-      </div>
-    </div>
-    <div class="callout warn">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Headphone advisory</strong>
-        Binaural mode requires stereo headphones for the intended psychoacoustic effect. On speakers or in OBS, the two tones blend and the binaural effect is not accurately delivered. Use <span class="ctrl">Isochronic</span> or <span class="ctrl">Monaural</span> for speaker or broadcast use.
-      </div>
-    </div>
-    <div class="callout warn">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Isochronic mode and photosensitive users</strong>
-        Isochronic entrainment pulses the audio on and off at the beat frequency — typically 1–40 times per second. When audio reactivity is active, these pulses can drive corresponding luminance changes in the visual output at the same rate. Users with photosensitive epilepsy or sensitivity to flashing lights should avoid Isochronic mode with audio reactivity enabled, or use Binaural or Monaural mode instead. Always inform participants before a session that the visual responds to audio pulses.
+      <!-- Monaural + speaker advisory -->
+      <div class="mode-card-row">
+        <div class="mode-card">
+          <div class="mode-card-name">Monaural</div>
+          <div class="mode-card-tag tag-speakers">Speakers OK</div>
+          <p>Two tones mixed in a single channel, creating physical amplitude modulation. A real acoustic beat — no headphones required. Strong entrainment stimulus.</p>
+        </div>
+        <div class="advisory green">
+          <span class="advisory-icon">🔊</span>
+          <div class="advisory-body">
+            <strong>Speaker friendly</strong>
+            <p>Monaural beats are created by mixing two tones before they reach the speakers, producing a physical beat in the air. Works with any playback system — speakers, OBS, broadcast, or headphones.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -890,27 +1019,125 @@ nav a.active .nav-icon{opacity:1}
   <section class="doc-section" id="output-tab">
     <h2><span class="section-num">06</span> Output Tab</h2>
     <div class="section-rule"></div>
-    <p>The Output tab controls the OBS output window, the param overlay, and wireless phone pairing.</p>
+    <p>The Output tab controls the Output Window, the param overlay, and wireless phone pairing.</p>
 
-    <h3>Why two separate pages?</h3>
-    <p>Ology uses two pages. <span class="key">web.html</span> is the control surface — it generates all audio and runs the operator's UI. <span class="key">output.html</span> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
+    <h3>Why two separate windows?</h3>
+    <p>Ology uses two separate windows. The <strong style="color:var(--txt)">Desktop App</strong> is the control surface — it generates all audio and runs the operator's UI. The <strong style="color:var(--txt)">Output Window</strong> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
     <div class="callout note">
       <span class="callout-icon">ℹ️</span>
       <div class="callout-body">
         <strong>Why audio and video are separate OBS sources</strong>
-        If output.html also generated audio, OBS would receive two identical drone signals causing phasing artifacts and destroying binaural left/right channel separation. Keeping audio exclusively in web.html preserves clean, phase-correct stereo on the OBS recording bus.
+        If the Output Window also generated audio, OBS would receive two identical drone signals causing phasing artifacts and destroying binaural left/right channel separation. Keeping audio exclusively in the Desktop App preserves clean, phase-correct stereo on the OBS recording bus.
       </div>
     </div>
 
     <h3>Aspect ratio</h3>
-    <p>Select the output aspect ratio before opening the output window. The default on load is <strong style="color:var(--txt)">16:9</strong>. The canvas viewer adapts to each selection:</p>
+    <p>Select the output aspect ratio before opening the Output Window. The default on load is <strong style="color:var(--txt)">16:9</strong>. The canvas viewer adapts to each selection:</p>
     <ul>
       <li><strong style="color:var(--txt)">16:9 · 1:1 · 4:3</strong> — canvas fits side to side within the monitor viewer.</li>
       <li><strong style="color:var(--txt)">9:16</strong> — canvas fits top to bottom, displaying the full portrait frame without cropping.</li>
     </ul>
 
     <h3>Param overlay</h3>
-    <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
+    <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of the Output Window. Displays theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible even when the Desktop App engine is paused — confirming the Output Window canvas is still live.</p>
+
+    <!-- Output window annotated SVG -->
+    <div class="ui-diagram">
+      <div class="ui-diagram-header">Output Window — full-bleed canvas with param overlay</div>
+      <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
+        <defs>
+          <radialGradient id="ow-kal1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7b3ff2"/>
+            <stop offset="30%" stop-color="#1a0840"/>
+            <stop offset="70%" stop-color="#0a1520"/>
+            <stop offset="100%" stop-color="#020408"/>
+          </radialGradient>
+          <radialGradient id="ow-kal2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#37e0d8"/>
+            <stop offset="40%" stop-color="#0a2a28"/>
+            <stop offset="100%" stop-color="#020408"/>
+          </radialGradient>
+          <radialGradient id="ow-kal3" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffd36e"/>
+            <stop offset="35%" stop-color="#1a1005"/>
+            <stop offset="100%" stop-color="#020408"/>
+          </radialGradient>
+          <radialGradient id="ow-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(123,63,242,.35)"/>
+            <stop offset="60%" stop-color="rgba(55,224,216,.08)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Full bleed background -->
+        <rect width="640" height="360" fill="#020408"/>
+
+        <!-- Kaleidoscope — layered radial fills -->
+        <circle cx="320" cy="180" r="200" fill="url(#ow-kal1)" opacity=".95"/>
+        <circle cx="320" cy="180" r="150" fill="url(#ow-kal2)" opacity=".7"/>
+        <circle cx="320" cy="180" r="90" fill="url(#ow-kal3)" opacity=".6"/>
+        <circle cx="320" cy="180" r="200" fill="url(#ow-glow)" opacity=".5"/>
+
+        <!-- Symmetry lines -->
+        <line x1="320" y1="0" x2="320" y2="360" stroke="rgba(123,167,212,.06)" stroke-width="1"/>
+        <line x1="0" y1="180" x2="640" y2="180" stroke="rgba(123,167,212,.06)" stroke-width="1"/>
+        <line x1="150" y1="10" x2="490" y2="350" stroke="rgba(123,167,212,.05)" stroke-width="1"/>
+        <line x1="490" y1="10" x2="150" y2="350" stroke="rgba(123,167,212,.05)" stroke-width="1"/>
+        <line x1="50" y1="90" x2="590" y2="270" stroke="rgba(255,211,110,.04)" stroke-width="1"/>
+        <line x1="590" y1="90" x2="50" y2="270" stroke="rgba(255,211,110,.04)" stroke-width="1"/>
+
+        <!-- Particle dots — static representation of audio-reactive particles -->
+        <!-- Inner ring -->
+        <circle cx="320" cy="100" r="3.5" fill="#7b3ff2" opacity=".9"/>
+        <circle cx="390" cy="128" r="2.8" fill="#37e0d8" opacity=".85"/>
+        <circle cx="412" cy="204" r="3.2" fill="#ffd36e" opacity=".8"/>
+        <circle cx="370" cy="268" r="2.5" fill="#7b3ff2" opacity=".75"/>
+        <circle cx="270" cy="268" r="3.0" fill="#37e0d8" opacity=".8"/>
+        <circle cx="228" cy="204" r="2.8" fill="#ffd36e" opacity=".85"/>
+        <circle cx="250" cy="128" r="3.2" fill="#7b3ff2" opacity=".9"/>
+        <circle cx="320" cy="100" r="3.5" fill="#c084b0" opacity=".6"/>
+        <!-- Outer ring -->
+        <circle cx="320" cy="42" r="2.5" fill="#37e0d8" opacity=".6"/>
+        <circle cx="432" cy="76" r="2.2" fill="#ffd36e" opacity=".55"/>
+        <circle cx="490" cy="180" r="2.8" fill="#7b3ff2" opacity=".6"/>
+        <circle cx="440" cy="292" r="2.2" fill="#37e0d8" opacity=".55"/>
+        <circle cx="320" cy="330" r="2.5" fill="#ffd36e" opacity=".6"/>
+        <circle cx="200" cy="292" r="2.2" fill="#7b3ff2" opacity=".55"/>
+        <circle cx="150" cy="180" r="2.8" fill="#37e0d8" opacity=".6"/>
+        <circle cx="208" cy="76" r="2.2" fill="#c084b0" opacity=".55"/>
+        <!-- Centre -->
+        <circle cx="320" cy="180" r="18" fill="none" stroke="rgba(123,167,212,.2)" stroke-width="1.5"/>
+        <circle cx="320" cy="180" r="8" fill="rgba(255,255,255,.12)"/>
+        <circle cx="320" cy="180" r="3" fill="rgba(255,255,255,.5)"/>
+
+        <!-- Param overlay — top left, theme-coloured -->
+        <rect x="0" y="0" width="230" height="72" fill="rgba(0,0,0,.45)"/>
+        <text x="12" y="18" font-size="10" font-weight="700" fill="#7b3ff2" letter-spacing=".5">Intergalactic Beings</text>
+        <text x="12" y="32" font-size="9" fill="rgba(123,63,242,.8)" letter-spacing=".3">Theta — Intuition · 136.1 Hz / 6 Hz</text>
+        <text x="12" y="44" font-size="9" fill="rgba(123,63,242,.7)" letter-spacing=".3">Binaural · Womb bed · Blend 0.35</text>
+        <text x="12" y="56" font-size="9" fill="rgba(123,63,242,.6)" letter-spacing=".3">Tickle 0.20 · Slow 0.60</text>
+        <text x="12" y="68" font-size="8" fill="rgba(123,63,242,.45)" letter-spacing=".3">Smooth 0.82 · Speed 0.80</text>
+
+        <!-- Annotation callouts -->
+        <!-- Overlay label -->
+        <line x1="230" y1="36" x2="290" y2="36" stroke="rgba(255,255,255,.35)" stroke-width=".8" stroke-dasharray="3,2"/>
+        <rect x="292" y="26" width="110" height="20" rx="4" fill="rgba(0,0,0,.6)" stroke="rgba(255,255,255,.2)" stroke-width=".7"/>
+        <text x="347" y="39" text-anchor="middle" font-size="9" fill="#e8eaf2" letter-spacing=".3">Param overlay</text>
+        <!-- Canvas label -->
+        <line x1="490" y1="310" x2="540" y2="338" stroke="rgba(255,255,255,.35)" stroke-width=".8" stroke-dasharray="3,2"/>
+        <rect x="490" y="338" width="140" height="18" rx="4" fill="rgba(0,0,0,.6)" stroke="rgba(255,255,255,.2)" stroke-width=".7"/>
+        <text x="560" y="350" text-anchor="middle" font-size="9" fill="#e8eaf2" letter-spacing=".3">Full-bleed canvas</text>
+        <!-- No chrome label -->
+        <line x1="580" y1="8" x2="580" y2="40" stroke="rgba(255,255,255,.2)" stroke-width=".8" stroke-dasharray="3,2"/>
+        <rect x="490" y="2" width="148" height="18" rx="4" fill="rgba(0,0,0,.6)" stroke="rgba(255,255,255,.2)" stroke-width=".7"/>
+        <text x="564" y="14" text-anchor="middle" font-size="9" fill="#e8eaf2" letter-spacing=".3">No UI chrome</text>
+      </svg>
+      <div class="annot-row">
+        <div class="annot"><span class="annot-dot" style="background:#7b3ff2"></span> Full-bleed kaleidoscope — no browser chrome, no controls</div>
+        <div class="annot"><span class="annot-dot" style="background:#35dfd6"></span> Param overlay — top-left, theme-coloured, toggleable</div>
+        <div class="annot"><span class="annot-dot" style="background:#ffd36e"></span> Audio-reactive particles — driven by live FFT analysis</div>
+      </div>
+    </div>
   </section>
 
 
@@ -1225,27 +1452,26 @@ nav a.active .nav-icon{opacity:1}
     <p>Toggle <span class="ctrl">On</span> in the Output tab to show a live parameter readout in the top-left corner of the output window. Displays theme name, drone, carrier/beat Hz, entrainment mode, ambient bed, and timing values. Font scales with the output window size. The overlay stays visible even when the Stage engine is paused — confirming the output canvas is still live.</p>
   </section>
 
-  
 
   <!-- ── 14 Safety ───────────────────────────────────────────────────────── -->
   <section class="doc-section" id="safety">
-    <h2><span class="section-num">13</span> Safety &amp; Accuracy</h2>
+    <h2><span class="section-num">14</span> Safety</h2>
     <div class="section-rule"></div>
- 
-    <div class="callout warn" style="margin-bottom:24px">
-      <span class="callout-icon">⚠️</span>
+
+    <div class="callout warn" style="margin-bottom:20px">
+      <span class="callout-icon">⚡</span>
       <div class="callout-body">
-        <strong>Not a medical device</strong>
-        Ology is not intended to diagnose, treat, cure, or prevent any condition. All frequency-to-state mappings are experiential meditation tools based on tradition and preliminary research, not clinical protocols. Consult a qualified professional for therapeutic treatment.
+        <strong>Isochronic mode — flashing light risk</strong>
+        Isochronic entrainment pulses audio on and off at the beat frequency (1–40 Hz). With audio reactivity active this can produce corresponding visual luminance pulses at the same rate. Users with photosensitive epilepsy or light sensitivity should use Binaural or Monaural mode instead. Inform all participants before sessions that involve Isochronic mode.
       </div>
     </div>
- 
+
     <div class="safety-grid">
       <div class="safety-item">
         <span class="safety-icon">🔆</span>
         <div>
           <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe limiter — on by default</strong>
-          The maximum flash rate is capped to protect against photosensitivity responses. Do not disable this in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
+          The maximum flash rate is limited by the Smooth parameter and the drone's audio reactivity envelope. Keep Smooth above 0.7 in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
         </div>
       </div>
       <div class="safety-item">
@@ -1270,14 +1496,12 @@ nav a.active .nav-icon{opacity:1}
         </div>
       </div>
     </div>
-  
-    <div class="safety-grid">
-      <div class="safety-item" style="border-color:var(--warn-border);background:var(--warn-bg)">
-        <span class="safety-icon">⚡</span>
-        <div>
-          <strong style="color:var(--red);display:block;margin-bottom:4px;font-size:13px">Isochronic mode — flashing light risk</strong>
-          Isochronic entrainment pulses audio on and off at the beat frequency (1–40 Hz). With audio reactivity active this can produce corresponding visual luminance pulses at the same rate. Users with photosensitive epilepsy or light sensitivity should use Binaural or Monaural mode instead. Inform all participants before sessions that involve Isochronic mode.
-        </div>
+
+    <div class="callout" style="margin-top:20px;margin-bottom:24px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.32);color:#fbbf24">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong style="color:#f59e0b">Not a medical device</strong>
+        Ology is not intended to diagnose, treat, cure, or prevent any condition. All frequency-to-state mappings are experiential meditation tools based on tradition and preliminary research, not clinical protocols. Consult a qualified professional for therapeutic treatment.
       </div>
     </div>
 
