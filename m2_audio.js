@@ -422,13 +422,12 @@
       if (!Ctx) return false;
       AC = new Ctx();
       buildBus();
-      rebuildVoices();
-      /* Do NOT suspend here. On desktop the context starts suspended by browser
-         autoplay policy so this was a no-op anyway. On mobile (iOS/Android) init()
-         is called inside a user gesture so the context is running — suspending it
-         immediately caused the async resume race that silenced audio. Leaving it
-         running means oscillators are live from creation and start() works on first
-         tap with no async gap. S.isPlaying stays false until user taps Play. */
+      /* Do NOT call rebuildVoices() here — oscillators must not start until
+         the user explicitly calls start(). AC may already be running when
+         navigated from index.html (gesture carried across location.replace),
+         so osc.start() on a running AC plays immediately. Voices are built
+         in start() instead. */
+      try { AC.suspend(); } catch (e) {}
       S.isPlaying = false;
       return true;
     } catch (e) {
@@ -438,19 +437,10 @@
 
   function start() {
     if (!AC) return;
+    try { AC.resume(); } catch (e) {}
     if (!mixBus) { buildBus(); }
+    rebuildVoices();
     S.isPlaying = true;
-    /* AC.resume() is async. Rebuild voices inside .then() so oscillators
-       are started only after the context is confirmed running — required on
-       iOS Safari and Android Chrome where osc.start() on a suspended context
-       is silently discarded. Falls back to sync rebuild if Promise unavailable. */
-    var resumed;
-    try { resumed = AC.resume(); } catch (e) {}
-    if (resumed && typeof resumed.then === 'function') {
-      resumed.then(function() { rebuildVoices(); });
-    } else {
-      rebuildVoices();
-    }
   }
 
   function stop() {
@@ -573,7 +563,6 @@
     setLoop: setLoop, setMaster: setMaster, setRoute: setRoute,
     updateAnalysis: updateAnalysis, getAnalysisFrame: getAnalysisFrame,
     isReady: isReady, dispose: dispose,
-    getContextState: function(){ return AC ? AC.state : 'closed'; },
     CONTRACTS_VERSION: CONTRACTS_VERSION
   };
 
