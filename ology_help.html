@@ -1225,24 +1225,29 @@ nav a.active .nav-icon{opacity:1}
     <p>Toggle <span class="ctrl">On</span> in the Output tab to show a live parameter readout in the top-left corner of the output window. Displays theme name, drone, carrier/beat Hz, entrainment mode, ambient bed, and timing values. Font scales with the output window size. The overlay stays visible even when the Stage engine is paused — confirming the output canvas is still live.</p>
   </section>
 
+  
 
- <!-- ── 14 Safety ───────────────────────────────────────────────────────── -->
+  <!-- ── 14 Safety ───────────────────────────────────────────────────────── -->
+
+    <!-- ── Section: Safety ───────────────────────────────────────────────── -->
   <section class="doc-section" id="safety">
-    <h2><span class="section-num">14</span> Safety &amp; Accuracy</h2>
+    <h2><span class="section-num">13</span> Safety &amp; Accuracy</h2>
     <div class="section-rule"></div>
+ 
     <div class="callout warn" style="margin-bottom:24px">
-        <span class="safety-icon">⚡</span>
-        <div>
-          <strong style="color:var(--red);display:block;margin-bottom:4px;font-size:13px">Isochronic mode — flashing light risk</strong>
-          Isochronic entrainment pulses audio on and off at the beat frequency (1–40 Hz). With audio reactivity active this can produce corresponding visual luminance pulses at the same rate. Users with photosensitive epilepsy or light sensitivity should use Binaural or Monaural mode instead. Inform all participants before sessions that involve Isochronic mode.
-        </div>
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Not a medical device</strong>
+        Ology is not intended to diagnose, treat, cure, or prevent any condition. All frequency-to-state mappings are experiential meditation tools based on tradition and preliminary research, not clinical protocols. Consult a qualified professional for therapeutic treatment.
+      </div>
     </div>
+ 
     <div class="safety-grid">
       <div class="safety-item">
         <span class="safety-icon">🔆</span>
         <div>
           <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe limiter — on by default</strong>
-          The maximum flash rate is limited by the Smooth parameter and the drone's audio reactivity envelope. Keep Smooth above 0.7 in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
+          The maximum flash rate is capped to protect against photosensitivity responses. Do not disable this in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
         </div>
       </div>
       <div class="safety-item">
@@ -1267,13 +1272,17 @@ nav a.active .nav-icon{opacity:1}
         </div>
       </div>
     </div>
-    <div class="callout warn" style="margin-bottom:24px">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Not a medical device</strong>
-        Ology is not intended to diagnose, treat, cure, or prevent any condition. All frequency-to-state mappings are experiential meditation tools based on tradition and preliminary research, not clinical protocols. Consult a qualified professional for therapeutic treatment.
+  
+    <div class="safety-grid">
+      <div class="safety-item" style="border-color:var(--warn-border);background:var(--warn-bg)">
+        <span class="safety-icon">⚡</span>
+        <div>
+          <strong style="color:var(--red);display:block;margin-bottom:4px;font-size:13px">Isochronic mode — flashing light risk</strong>
+          Isochronic entrainment pulses audio on and off at the beat frequency (1–40 Hz). With audio reactivity active this can produce corresponding visual luminance pulses at the same rate. Users with photosensitive epilepsy or light sensitivity should use Binaural or Monaural mode instead. Inform all participants before sessions that involve Isochronic mode.
+        </div>
       </div>
     </div>
+
     <h3>About the science</h3>
     <div class="two-col" style="margin-top:0">
       <div>
