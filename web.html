@@ -548,12 +548,6 @@ if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
   refreshInfo();
 })();
 
-/* ─── OUTPUT BROADCAST ────────────────────────────────────────────────── */
-/* Sends the already-rendered progCanvas frame to output.html popup via
-   BroadcastChannel — zero-copy GPU transfer, no second WebGL2 context needed.
-   output.html receives ImageBitmap and blits to a plain 2D canvas. */
-const _outChannel=(typeof BroadcastChannel!=='undefined')?new BroadcastChannel('ology-frame'):null;
-
 let lastT=performance.now();
 function loop(now){
   const dt=(now-lastT)/1000;lastT=now;
@@ -569,12 +563,6 @@ function loop(now){
     try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
     if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
-    /* Broadcast rendered program frame to output.html popup (BroadcastChannel).
-       transferToImageBitmap() snapshots the already-rendered frame — zero-copy,
-       no readback, no second WebGL2 context required in the popup window. */
-    if(gc&&_outChannel){
-      try{_outChannel.postMessage(gc.transferToImageBitmap());}catch(e){}
-    }
   }
   requestAnimationFrame(loop);
 }
