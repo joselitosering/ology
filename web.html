@@ -1,7 +1,7 @@
 <!DOCTYPE html><html><head><meta charset="utf-8">
 
   <!-- ── Primary identity ── -->
-  <title>Ology · Beta v1.5.1 — Free Version</title>
+  <title>Ology · Beta v1.5 — Free Version</title>
   <meta name="description" content="An infinite, audio-reactive kaleidoscope for meditation, performance, and worship. Binaural drones, isochronic entrainment, ambient texture beds — free in your browser. See your sound. Still your mind.">
   <meta name="author" content="Joselito Sering · AIMA Productions">
   <meta name="copyright" content="© 2026 Joselito Sering · AIMA Productions · aima.productions">
@@ -48,10 +48,6 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .modetog button.on{background:linear-gradient(135deg,var(--acc),#3A6FA8);color:#fff;box-shadow:0 3px 12px rgba(108,63,255,.45)}
 .play-btn{background:none;border:1px solid var(--s2);border-radius:8px;color:var(--txt);padding:6px 12px;cursor:pointer;font-size:12px}
 .play-btn.paused{color:var(--grn);border-color:rgba(62,204,133,.4)}
-.strobe-btn{background:none;border:1px solid #3ecc85;border-radius:8px;color:#3ecc85;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.3px;transition:background .15s,border-color .15s,color .15s;display:inline-flex;align-items:center;gap:5px}
-.strobe-btn .s-icon{opacity:1;transition:opacity .15s}
-.strobe-btn.unsafe{background:#3ecc85;border-color:#3ecc85;color:#fff}
-.strobe-btn.unsafe .s-icon{opacity:1}
 #goBtn{width:100%;padding:10px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:800;letter-spacing:2px;text-align:center;border:1px solid var(--iris);background:rgba(123,167,212,.08);color:var(--teal);transition:background .15s,border-color .15s,box-shadow .15s,transform .08s}
 #goBtn:hover{background:rgba(123,167,212,.18);border-color:var(--teal);box-shadow:0 0 14px rgba(168,216,234,.28);color:#fff}
 #goBtn:active{background:linear-gradient(135deg,rgba(91,143,191,.55),rgba(168,216,234,.35));border-color:var(--acc2);box-shadow:0 0 22px rgba(168,216,234,.45);transform:scale(.97);color:#fff}
@@ -310,9 +306,8 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 </style>
 <div class="topbar">
   <canvas id="logoKal" class="logo" width="28" height="28" style="border-radius:50%"></canvas>
-  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.5.1 · Free Version</div></div>
+  <div><div class="bn" style="font-family:'Marcellus',serif;font-size:17px;letter-spacing:.38em;text-indent:.38em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(123,167,212,.45))">OLOGY</div><div class="bs" style="font-family:'JetBrains Mono',monospace;letter-spacing:.18em;color:var(--teal)">Beta v1.5 · Free Version</div></div>
   <div class="grow"></div>
-  <button class="strobe-btn" id="strobeBtn" onclick="toggleStrobe()" title="Strobe gate — SAFE: audio reactivity decoupled, visual static. LIVE: full reactivity enabled."><span class="s-icon">⚡</span> SAFE</button>
   <button class="play-btn" id="playBtn" onclick="togglePlay()">❚❚ Running</button>
 </div>
 <div id="stageView">
@@ -328,11 +323,11 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <div class="center">
     <div class="monitors">
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Interdimensional Beings</span></div>
+        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Intergalactic Beings</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Interdimensional Beings</span></div>
+        <div class="mon-hdr"><span class="mon-badge prog">PROGRAM</span><span class="mon-live"><span class="dot"></span>LIVE</span><span class="mon-name" id="progName">Intergalactic Beings</span></div>
         <div class="mon-screen prog-scr"><canvas id="progCanvas"></canvas></div>
       </div>
     </div>
@@ -476,7 +471,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* ─── THEMES ─────────────────────────────────────────────────────────── */
 const THEMES=[
-  {id:'interdimensional-beings', n:'Interdimensional Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
+  {id:'intergalactic-beings', n:'Intergalactic Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
   {id:'supernovas',           n:'Supernovas',           c:['#fff1c9','#ff8a3d','#d61f4e']},
   {id:'aurora-borealis',      n:'Aurora Borealis',      c:['#1b2a8a','#27c2e0','#cfd6ff']},
   {id:'psilocybin-dreams',    n:'Psilocybin Dreams',    c:['#ff2fa8','#9cff4a','#ff8a00']},
@@ -495,7 +490,6 @@ const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.2
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
 let playing=true;
 let strobeGate=1;
-let strobeActive=false; /* false = gated (safe default) — NULL_ANALYSIS passed to draw; true = audio drives visuals (operator unlocked) */
 const dialRefs={};
 
 /* ─── ADAPTIVE FPS / DPR ──────────────────────────────────────────────── */
@@ -682,12 +676,10 @@ function loop(now){
   if(window.OlogyShaders&&window.OlogyShaders.isReady()){
     const progState=PROG;
     const frame=window.OlogyAudio?window.OlogyAudio.getAnalysisFrame():NULL_ANALYSIS;
-    const gatedFrame=strobeActive?frame:NULL_ANALYSIS;
     /* Save frame to localStorage for output.html cross-tab sync */
-    try { localStorage.setItem('ology_frame', JSON.stringify(frame));
-          localStorage.setItem('ology_strobe', strobeActive?'1':'0'); } catch(e) {}
+    try { localStorage.setItem('ology_frame', JSON.stringify(frame)); } catch(e) {}
     if(pc)window.OlogyShaders.draw(pc,toM1State(PREV),NULL_ANALYSIS,PREV.t,1);
-    if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),gatedFrame,progState.t,strobeGate);
+    if(gc)window.OlogyShaders.draw(gc,toM1State(progState,PROG.audio),frame,progState.t,strobeGate);
   }
   requestAnimationFrame(loop);
 }
@@ -866,15 +858,6 @@ window.selectTab=function(name,el){
   const e=document.getElementById('rpTitle');if(e)e.textContent=t[name]||name;
 };
 window.togglePlay=function(){playing=!playing;const b=document.getElementById('playBtn');if(b){b.textContent=playing?'❚❚ Running':'▶ Paused';b.classList.toggle('paused',!playing);}};
-window.toggleStrobe=function(){
-  strobeActive=!strobeActive;
-  const b=document.getElementById('strobeBtn');
-  if(b){
-    b.innerHTML=strobeActive?'<span class="s-icon">⚡</span> LIVE':'<span class="s-icon">⚡</span> SAFE';
-    b.classList.toggle('unsafe',strobeActive);
-  }
-  try{localStorage.setItem('ology_strobe',strobeActive?'1':'0');}catch(e){}
-};
 window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;document.getElementById('ph-prev-name').textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
 
 /* ─── OBS OUTPUT URL ──────────────────────────────────────────────────── */
@@ -968,7 +951,7 @@ refreshOut();
 
 /* ── M9: THEME PRESETS (mirrored from contracts.ts §6, no ES modules) ──── */
 const THEME_PRESETS=[
-  {themeId:'interdimensional-beings', defaultDroneId:'theta-intuition',      visualDefaults:{symmetry:8,  speed:0.6, chaos:0.3}},
+  {themeId:'intergalactic-beings', defaultDroneId:'theta-intuition',      visualDefaults:{symmetry:8,  speed:0.6, chaos:0.3}},
   {themeId:'supernovas',           defaultDroneId:'gamma-insight',        visualDefaults:{symmetry:12, speed:1.1, chaos:0.6}},
   {themeId:'aurora-borealis',      defaultDroneId:'schumann-earth-pulse', visualDefaults:{symmetry:6,  speed:0.9, zoom:0.8}},
   {themeId:'psilocybin-dreams',    defaultDroneId:'theta-vision-quest',   visualDefaults:{symmetry:10, speed:0.7, chaos:0.7}},
@@ -984,7 +967,7 @@ const THEME_PRESETS=[
    Round-trip note: fractalDepth = 1 + intensity*7 → intensity = (fd-1)/7 */
 function flatToVisualState(s){
   return {
-    themeId:    THEMES[s.th]?THEMES[s.th].id:'interdimensional-beings',
+    themeId:    THEMES[s.th]?THEMES[s.th].id:'intergalactic-beings',
     speed:      typeof s.speed==='number'?s.speed:0.5,
     chaos:      typeof s.chaos==='number'?s.chaos:0.55,
     fractalDepth: typeof s.intensity==='number'?1+s.intensity*7:4,

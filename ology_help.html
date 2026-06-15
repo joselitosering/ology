@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<title>Ology · Help Guide · Beta v1.5.1</title>
+<title>Ology · Help Guide · Beta v1.5</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -30,7 +30,7 @@ body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);font-size:
 #nav::-webkit-scrollbar{width:3px}
 #nav::-webkit-scrollbar-thumb{background:var(--s2);border-radius:99px}
 .nav-brand{padding:20px 18px 16px;border-bottom:1px solid var(--stroke);flex-shrink:0}
-.nav-brand .wordmark{font-size:17px;font-weight:800;letter-spacing:.3px;background:linear-gradient(120deg,var(--acc),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-logo{display:block;width:120px;height:48px;margin-bottom:6px}
 .nav-brand .sub{font-size:9.5px;color:var(--faint);letter-spacing:1.8px;text-transform:uppercase;margin-top:2px}
 .nav-section-label{font-size:8.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--faint);font-weight:700;padding:16px 18px 6px}
 nav a{display:flex;align-items:center;gap:9px;padding:7px 18px;text-decoration:none;color:var(--dim);font-size:12.5px;font-weight:500;border-left:2px solid transparent;transition:color .14s,border-color .14s,background .14s;line-height:1.3}
@@ -190,6 +190,7 @@ nav a.active .nav-icon{opacity:1}
   #nav.open{transform:translateX(0)}
   #mob-btn{display:flex;top:max(10px, env(safe-area-inset-top));left:max(12px, env(safe-area-inset-left))}
   #progress-bar{left:0}
+  #nav .nav-brand{padding-top:max(60px, calc(52px + env(safe-area-inset-top)))}
   #content{display:block;width:100%;overflow:visible;height:auto}
   .content-inner{
     padding-top:max(56px, calc(44px + env(safe-area-inset-top)));
@@ -209,7 +210,12 @@ nav a.active .nav-icon{opacity:1}
   .callout-icon{margin-top:0}
 }
 @media (max-width:480px){
-  .content-inner{padding:52px 12px 80px}
+  .content-inner{
+    padding-top:max(64px, calc(52px + env(safe-area-inset-top)));
+    padding-bottom:max(80px, calc(60px + env(safe-area-inset-bottom)));
+    padding-left:max(20px, calc(16px + env(safe-area-inset-left)));
+    padding-right:max(20px, calc(16px + env(safe-area-inset-right)));
+  }
   .page-hero h1{font-size:22px}
   .doc-section h2{font-size:18px}
   .session-row{flex-wrap:wrap}
@@ -227,12 +233,51 @@ nav a.active .nav-icon{opacity:1}
 
 <div id="progress-bar"></div>
 <button id="mob-btn" aria-label="Open navigation" onclick="toggleNav()">☰</button>
-<div id="mob-overlay"></div>
+<div id="mob-overlay" onclick="closeNav()"></div>
 
 <aside id="nav">
   <div class="nav-brand">
-    <div class="wordmark">Ology</div>
-    <div class="sub">Help Guide · Beta v1.5.1</div>
+    <div class="nav-logo" style="display:flex;align-items:center;gap:10px">
+      <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+        <defs>
+          <radialGradient id="nb" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a1f30"/>
+            <stop offset="100%" stop-color="#0b0f1a"/>
+          </radialGradient>
+          <radialGradient id="nb-bloom" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,.22)"/>
+            <stop offset="55%" stop-color="rgba(192,132,176,.07)"/>
+            <stop offset="100%" stop-color="rgba(11,15,26,0)"/>
+          </radialGradient>
+          <clipPath id="nb-clip"><circle cx="22" cy="22" r="21"/></clipPath>
+        </defs>
+        <circle cx="22" cy="22" r="21" fill="url(#nb)" stroke="rgba(168,117,255,.3)" stroke-width=".8"/>
+        <g clip-path="url(#nb-clip)">
+          <circle cx="31.2" cy="20.8" r="2.8" fill="#7BA7D4cc" stroke="#7BA7D4aa" stroke-width=".9"/>
+          <circle cx="26.4" cy="23.2" r="1.6" fill="#A8D8EA88" stroke="#A8D8EA" stroke-width=".5"/>
+          <circle cx="28.8" cy="18.4" r="1.5" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="22.4" cy="31.8" r="2.6" fill="#C084B0cc" stroke="#C084B0aa" stroke-width=".9"/>
+          <circle cx="19.2" cy="27.6" r="1.5" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="24.8" cy="29.6" r="1.4" fill="#ffffffcc" stroke="#ffffff88" stroke-width=".5"/>
+          <circle cx="12.8" cy="31.2" r="2.4" fill="#E8896Acc" stroke="#E8896Aaa" stroke-width=".9"/>
+          <circle cx="15.6" cy="27.2" r="1.4" fill="#C084B088" stroke="#C084B0" stroke-width=".5"/>
+          <circle cx="13.2" cy="28.8" r="1.3" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="12.8" cy="23.2" r="2.5" fill="#A8D8EAcc" stroke="#A8D8EAaa" stroke-width=".9"/>
+          <circle cx="17.6" cy="20.8" r="1.5" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="15.2" cy="25.6" r="1.4" fill="#C084B088" stroke="#C084B0" stroke-width=".5"/>
+          <circle cx="21.6" cy="12.2" r="2.6" fill="#7BA7D4cc" stroke="#7BA7D4aa" stroke-width=".9"/>
+          <circle cx="24.8" cy="16.4" r="1.5" fill="#ffffff88" stroke="#ffffff88" stroke-width=".5"/>
+          <circle cx="19.2" cy="14.4" r="1.4" fill="#A8D8EA88" stroke="#A8D8EA" stroke-width=".5"/>
+          <circle cx="31.2" cy="13.2" r="2.4" fill="#C084B0cc" stroke="#C084B0aa" stroke-width=".9"/>
+          <circle cx="28.4" cy="16.8" r="1.4" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="29.6" cy="12.8" r="1.3" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="22" cy="22" r="18" fill="url(#nb-bloom)"/>
+          <circle cx="22" cy="22" r="2.5" fill="#ffffff" opacity=".7"/>
+        </g>
+      </svg>
+      <span style="font-family:'Marcellus','Georgia',serif;font-size:20px;font-weight:400;letter-spacing:3px;color:#ffffff">OLOGY</span>
+    </div>
+    <div class="sub">Help Guide · Beta v1.5</div>
   </div>
   <div class="nav-section-label">Getting Started</div>
   <nav>
@@ -256,7 +301,7 @@ nav a.active .nav-icon{opacity:1}
     <a href="#obs-setup"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>OBS Setup</a>
     <a href="#safety"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety &amp; Accuracy</a>
   </nav>
-  <div class="nav-footer">Ology Beta v1.5.1 · AIMA Productions</div>
+  <div class="nav-footer">Ology Beta v1.5 · AIMA Productions</div>
 </aside>
 
 <!-- ── Main Content ─────────────────────────────────────────────────────── -->
@@ -264,7 +309,7 @@ nav a.active .nav-icon{opacity:1}
 <div class="content-inner">
 
   <header class="page-hero">
-    <div class="eyebrow">Ology · Help Guide · Beta v1.5.1</div>
+    <div class="eyebrow">Ology · Help Guide · Beta v1.5</div>
     <h1>Everything you need<br>to run a session.</h1>
     <p class="lead">Ology is a browser-based audio-reactive kaleidoscope for meditation, neuroplasticity, and live performance. This guide covers every control, the full drone library, OBS setup, and ready-to-use session recipes.</p>
   </header>
@@ -339,7 +384,7 @@ nav a.active .nav-icon{opacity:1}
         <rect x="68" y="10" width="186" height="22" rx="10" fill="#0b0d15"/>
         <rect x="68" y="26" width="186" height="6" fill="#0b0d15"/>
         <text x="78" y="25" font-size="7" font-weight="700" fill="#7aa2ff" letter-spacing="1.2">● PREVIEW</text>
-        <text x="210" y="25" font-size="7" fill="#4a5068">Interdimensional Beings</text>
+        <text x="210" y="25" font-size="7" fill="#4a5068">Intergalactic Beings</text>
         <!-- preview canvas gradient -->
         <defs>
           <radialGradient id="prevGrad" cx="50%" cy="50%" r="50%">
@@ -418,7 +463,7 @@ nav a.active .nav-icon{opacity:1}
     <div class="ctrl-grid">
       <div class="ctrl-card"><div class="ctrl-card-name">👁 Visuals</div><p>Theme, speed, chaos, zoom, rotation, segments, bloom, smooth. All changes update PREVIEW only — press GO to make them live.</p></div>
       <div class="ctrl-card"><div class="ctrl-card-name">🔊 Audio</div><p>Transport, drone preset, carrier/beat Hz, entrainment mode, ambient bed, reactivity routing, and master volume.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3), OBS param overlay toggle, and mobile phone pairing panel. The <span class="ctrl">⚡ SAFE</span> / <span class="ctrl" style="background:linear-gradient(135deg,#3ecc85,#2aaa6a)">⚡ LIVE</span> strobe gate button is in the topbar.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">📤 Output</div><p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3), OBS param overlay toggle, and mobile phone pairing panel.</p></div>
       <div class="ctrl-card"><div class="ctrl-card-name">💾 Presets</div><p>Save, load, favorite, delete, export, and import complete session snapshots as JSON.</p></div>
     </div>
 
@@ -440,7 +485,7 @@ nav a.active .nav-icon{opacity:1}
         <!-- Brand -->
         <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="none" stroke="url(#brandGrad)" stroke-width="0.3">OLOGY</text>
         <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="url(#brandGrad)">OLOGY</text>
-        <text x="48" y="33" font-size="7" fill="#A8D8EA" letter-spacing="2" font-family="monospace">v1.5.1 · Free Version</text>
+        <text x="48" y="33" font-size="7" fill="#A8D8EA" letter-spacing="2" font-family="monospace">v1.5 · Free Version</text>
         <!-- Play btn -->
         <rect x="604" y="10" width="84" height="24" rx="6" fill="none" stroke="rgba(123,167,212,.28)" stroke-width="1"/>
         <text x="646" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
@@ -532,7 +577,7 @@ nav a.active .nav-icon{opacity:1}
         <circle cx="24" cy="22" r="10" fill="rgba(123,167,212,.15)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
         <text x="24" y="26" text-anchor="middle" font-size="9" fill="#7BA7D4">◈</text>
         <text x="42" y="18" font-size="12" font-weight="700" fill="url(#brandGrad)">OLOGY</text>
-        <text x="42" y="31" font-size="6" fill="#A8D8EA" letter-spacing="1.5">v1.5.1 · FREE</text>
+        <text x="42" y="31" font-size="6" fill="#A8D8EA" letter-spacing="1.5">v1.5 · FREE</text>
         <rect x="238" y="10" width="70" height="24" rx="6" fill="none" stroke="rgba(106,191,160,.4)" stroke-width="1"/>
         <text x="273" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
         <!-- Zone 1: Canvas monitors (order:1, height ~38vh) -->
@@ -724,7 +769,7 @@ nav a.active .nav-icon{opacity:1}
     <p>All visual parameters update PREVIEW only. Press <span class="ctrl">GO</span> to make any change live.</p>
 
     <h3>Theme selector</h3>
-    <p>The <span class="ctrl">Preview Theme</span> dropdown selects which of the seven visual themes to load into PREVIEW. The default theme on load is <strong style="color:var(--txt)">Interdimensional Beings</strong> for both PREVIEW and PROGRAM. Each theme has a distinct shader, colour palette, and geometry character. See <a href="#themes" style="color:var(--teal)">Themes</a> for the full list.</p>
+    <p>The <span class="ctrl">Preview Theme</span> dropdown selects which of the seven visual themes to load into PREVIEW. The default theme on load is <strong style="color:var(--txt)">Intergalactic Beings</strong> for both PREVIEW and PROGRAM. Each theme has a distinct shader, colour palette, and geometry character. See <a href="#themes" style="color:var(--teal)">Themes</a> for the full list.</p>
 
     <h3>Motion controls</h3>
     <div class="ctrl-grid">
@@ -787,6 +832,13 @@ nav a.active .nav-icon{opacity:1}
       <div class="callout-body">
         <strong>Headphone advisory</strong>
         Binaural mode requires stereo headphones for the intended psychoacoustic effect. On speakers or in OBS, the two tones blend and the binaural effect is not accurately delivered. Use <span class="ctrl">Isochronic</span> or <span class="ctrl">Monaural</span> for speaker or broadcast use.
+      </div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Isochronic mode and photosensitive users</strong>
+        Isochronic entrainment pulses the audio on and off at the beat frequency — typically 1–40 times per second. When audio reactivity is active, these pulses can drive corresponding luminance changes in the visual output at the same rate. Users with photosensitive epilepsy or sensitivity to flashing lights should avoid Isochronic mode with audio reactivity enabled, or use Binaural or Monaural mode instead. Always inform participants before a session that the visual responds to audio pulses.
       </div>
     </div>
 
@@ -859,26 +911,6 @@ nav a.active .nav-icon{opacity:1}
 
     <h3>Param overlay</h3>
     <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
-
-    <h3>Strobe gate</h3>
-    <p>The strobe gate button sits in the topbar, left of the Running indicator, on both <span class="key">web.html</span> and <span class="key">mobile.html</span>. It controls whether live audio analysis is passed to the visual engine. On mobile the icon stacks above the label to match the Running button size.</p>
-    <div class="ctrl-grid">
-      <div class="ctrl-card">
-        <div class="ctrl-card-name" style="color:#3ecc85">⚡ SAFE <span class="ctrl-card-range" style="background:rgba(62,204,133,.12);color:#3ecc85;border-color:rgba(62,204,133,.3)">default · green outline</span></div>
-        <p>Gate is <strong style="color:#3ecc85">active</strong>. Audio analysis is replaced with a zero-energy frame — no reactivity-driven luminance oscillation. The visual renders at its current static parameter values. Audio keeps playing. This is the safe default for all therapeutic and public sessions.</p>
-      </div>
-      <div class="ctrl-card">
-        <div class="ctrl-card-name"><span style="background:#3ecc85;color:#fff;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700">⚡ LIVE</span></div>
-        <p style="margin-top:8px">Gate is <strong style="color:var(--red)">off</strong>. Live audio analysis flows into the visual — sub drives bloom, low drives zoom, mid drives chaos, high drives colour shift. Full reactivity active. Use for performance and DJ contexts only.</p>
-      </div>
-    </div>
-    <div class="callout warn">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Default is SAFE on every page load</strong>
-        The gate is always active when the page loads — button shows <strong style="color:#3ecc85">⚡ SAFE</strong> with a bright green outline. The operator must deliberately tap to switch to <strong style="background:#3ecc85;color:#fff;padding:0 4px;border-radius:3px">⚡ LIVE</strong> to enable audio reactivity. Keep SAFE for all therapeutic sessions and any context with photosensitive participants. Users with a history of photosensitive epilepsy should consult a physician before use.
-      </div>
-    </div>
   </section>
 
 
@@ -914,7 +946,7 @@ nav a.active .nav-icon{opacity:1}
   <section class="doc-section" id="themes">
     <h2><span class="section-num">09</span> Themes</h2>
     <div class="section-rule"></div>
-    <p>Seven default visual themes, each pairing a distinct GLSL shader character with a default drone matched to the theme's intended state. <strong style="color:var(--txt)">Interdimensional Beings</strong> is the default theme for both PREVIEW and PROGRAM on load.</p>
+    <p>Seven default visual themes, each pairing a distinct GLSL shader character with a default drone matched to the theme's intended state. <strong style="color:var(--txt)">Intergalactic Beings</strong> is the default theme for both PREVIEW and PROGRAM on load.</p>
 
     <div class="table-wrap">
       <table class="data-table">
@@ -923,7 +955,7 @@ nav a.active .nav-icon{opacity:1}
         </thead>
         <tbody>
           <tr>
-            <td>Interdimensional Beings ★</td>
+            <td>Intergalactic Beings ★</td>
             <td>Violet / teal / gold</td>
             <td><span class="band-pill band-theta">Theta</span> Intuition · 6 Hz</td>
           </tr>
@@ -992,7 +1024,7 @@ nav a.active .nav-icon{opacity:1}
           <tr><td>Theta — Vision Quest</td><td>~120 Hz</td><td>4.5 Hz</td><td><span class="band-pill band-theta">Theta</span></td></tr>
           <tr class="tr-desc"><td colspan="4">Shamanic / visualization states.</td></tr>
           <tr><td>Theta — Intuition</td><td>~136.1 Hz</td><td>6 Hz</td><td><span class="band-pill band-theta">Theta</span></td></tr>
-          <tr class="tr-desc"><td colspan="4">Intuition, inner journeying. Default drone for Interdimensional Beings.</td></tr>
+          <tr class="tr-desc"><td colspan="4">Intuition, inner journeying. Default drone for Intergalactic Beings.</td></tr>
           <tr><td>Schumann — Earth Pulse</td><td>~136.1 Hz</td><td>7.83 Hz</td><td><span class="band-pill band-schumann">Theta/Alpha</span></td></tr>
           <tr class="tr-desc"><td colspan="4">Grounding, calm, sense of oneness.</td></tr>
           <tr><td>Alpha — Calm Mind</td><td>~210 Hz</td><td>8.4 Hz</td><td><span class="band-pill band-alpha">Alpha</span></td></tr>
@@ -1115,7 +1147,7 @@ nav a.active .nav-icon{opacity:1}
       </div>
       <div class="session-card">
         <div class="session-card-title"><span class="emoji">💜</span> Grief Processing</div>
-        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Interdimensional Beings</span></div>
+        <div class="session-row"><span class="s-key">Theme</span><span class="s-val">Intergalactic Beings</span></div>
         <div class="session-row"><span class="s-key">Drone</span><span class="s-val">Theta — Intuition (6 Hz)</span></div>
         <div class="session-row"><span class="s-key">Mode</span><span class="s-val">Binaural (headphones)</span></div>
         <div class="session-row"><span class="s-key">Bed</span><span class="s-val">Waterfall · Blend 0.30</span></div>
@@ -1206,11 +1238,18 @@ nav a.active .nav-icon{opacity:1}
       </div>
     </div>
     <div class="safety-grid">
+      <div class="safety-item" style="border-color:var(--warn-border);background:var(--warn-bg)">
+        <span class="safety-icon">⚡</span>
+        <div>
+          <strong style="color:var(--red);display:block;margin-bottom:4px;font-size:13px">Isochronic mode — flashing light risk</strong>
+          Isochronic entrainment pulses audio on and off at the beat frequency (1–40 Hz). With audio reactivity active this can produce corresponding visual luminance pulses at the same rate. Users with photosensitive epilepsy or light sensitivity should use Binaural or Monaural mode instead. Inform all participants before sessions that involve Isochronic mode.
+        </div>
+      </div>
       <div class="safety-item">
         <span class="safety-icon">🔆</span>
         <div>
-          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe gate — SAFE by default</strong>
-          The topbar button loads as <strong style="color:#3ecc85">⚡ SAFE</strong> (bright green outline) on every page load — audio analysis is gated and the visual runs static. The operator must deliberately tap to switch to <strong style="background:#3ecc85;color:#fff;padding:0 4px;border-radius:3px">⚡ LIVE</strong> (green fill), which enables full audio reactivity. Keep SAFE for all therapeutic sessions and any context with photosensitive participants. Users with a history of photosensitive epilepsy should consult a physician before use.
+          <strong style="color:var(--txt);display:block;margin-bottom:4px;font-size:13px">Strobe limiter — on by default</strong>
+          The maximum flash rate is limited by the Smooth parameter and the drone's audio reactivity envelope. Keep Smooth above 0.7 in therapeutic contexts. Users with a history of photosensitive epilepsy should consult a physician before use.
         </div>
       </div>
       <div class="safety-item">
@@ -1253,8 +1292,53 @@ nav a.active .nav-icon{opacity:1}
   <!-- Footer -->
   <div class="divider"></div>
   <div style="text-align:center;padding:20px 0 40px;color:var(--faint);font-size:12px;line-height:1.8">
-    <div style="font-size:18px;font-weight:800;background:linear-gradient(120deg,var(--acc),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px">Ology</div>
-    Beta v1.5.1 · AIMA Productions · aima.productions<br>
+    <div style="display:flex;justify-content:center;margin-bottom:10px">
+      <svg viewBox="0 0 180 56" xmlns="http://www.w3.org/2000/svg" width="180" height="56">
+        <defs>
+          <radialGradient id="fb" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a1f30"/>
+            <stop offset="100%" stop-color="#0b0f1a"/>
+          </radialGradient>
+          <radialGradient id="fb-bloom" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,.22)"/>
+            <stop offset="55%" stop-color="rgba(192,132,176,.07)"/>
+            <stop offset="100%" stop-color="rgba(11,15,26,0)"/>
+          </radialGradient>
+          <linearGradient id="fb-wm" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#A8D8EA"/>
+            <stop offset="40%" stop-color="#E8C4D8"/>
+            <stop offset="75%" stop-color="#E8896A"/>
+            <stop offset="100%" stop-color="#C084B0"/>
+          </linearGradient>
+          <clipPath id="fb-clip"><circle cx="27" cy="28" r="25"/></clipPath>
+        </defs>
+        <circle cx="27" cy="28" r="25" fill="url(#fb)" stroke="rgba(168,117,255,.3)" stroke-width=".8"/>
+        <g clip-path="url(#fb-clip)">
+          <circle cx="37.5" cy="25.5" r="3.4" fill="#7BA7D4cc" stroke="#7BA7D4aa" stroke-width=".9"/>
+          <circle cx="32.2" cy="29.0" r="1.9" fill="#A8D8EA88" stroke="#A8D8EA" stroke-width=".5"/>
+          <circle cx="35.5" cy="22.5" r="1.8" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="27.5" cy="39.2" r="3.2" fill="#C084B0cc" stroke="#C084B0aa" stroke-width=".9"/>
+          <circle cx="23.5" cy="33.8" r="1.8" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="30.2" cy="36.5" r="1.7" fill="#ffffffcc" stroke="#ffffff88" stroke-width=".5"/>
+          <circle cx="16.5" cy="38.5" r="2.9" fill="#E8896Acc" stroke="#E8896Aaa" stroke-width=".9"/>
+          <circle cx="19.5" cy="33.5" r="1.7" fill="#C084B088" stroke="#C084B0" stroke-width=".5"/>
+          <circle cx="16.8" cy="35.5" r="1.6" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="16.5" cy="28.5" r="3.0" fill="#A8D8EAcc" stroke="#A8D8EAaa" stroke-width=".9"/>
+          <circle cx="21.5" cy="25.5" r="1.8" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="18.8" cy="31.5" r="1.7" fill="#C084B088" stroke="#C084B0" stroke-width=".5"/>
+          <circle cx="26.5" cy="16.8" r="3.2" fill="#7BA7D4cc" stroke="#7BA7D4aa" stroke-width=".9"/>
+          <circle cx="30.2" cy="21.5" r="1.8" fill="#ffffff88" stroke="#ffffff88" stroke-width=".5"/>
+          <circle cx="23.5" cy="19.2" r="1.7" fill="#A8D8EA88" stroke="#A8D8EA" stroke-width=".5"/>
+          <circle cx="37.5" cy="17.2" r="2.9" fill="#C084B0cc" stroke="#C084B0aa" stroke-width=".9"/>
+          <circle cx="34.5" cy="21.5" r="1.7" fill="#7BA7D488" stroke="#7BA7D4" stroke-width=".5"/>
+          <circle cx="36.2" cy="16.5" r="1.6" fill="#E8896A88" stroke="#E8896A" stroke-width=".5"/>
+          <circle cx="27" cy="28" r="22" fill="url(#fb-bloom)"/>
+          <circle cx="27" cy="28" r="3" fill="#ffffff" opacity=".7"/>
+        </g>
+        <text x="60" y="35" font-family="'Marcellus','Georgia',serif" font-size="26" letter-spacing="4" fill="url(#fb-wm)">OLOGY</text>
+      </svg>
+    </div>
+    Beta v1.5 · AIMA Productions · aima.productions<br>
     Created by Joselito Sering · © 2026
   </div>
 
