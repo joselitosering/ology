@@ -468,13 +468,13 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
 
 /* ─── THEMES ─────────────────────────────────────────────────────────── */
 const THEMES=[
-  {id:'intergalactic-beings', n:'Intergalactic Beings', c:['#0a0fff','#ffffff','#050510']},
+  {id:'intergalactic-beings', n:'Intergalactic Beings', c:['#7b3ff2','#37e0d8','#ffd36e']},
   {id:'supernovas',           n:'Supernovas',           c:['#fff1c9','#ff8a3d','#d61f4e']},
   {id:'aurora-borealis',      n:'Aurora Borealis',      c:['#1b2a8a','#27c2e0','#cfd6ff']},
-  {id:'psilocybin-dreams',    n:'Psilocybin Dreams',    c:['#5a00cc','#39ff6a','#c200ff']},
+  {id:'psilocybin-dreams',    n:'Psilocybin Dreams',    c:['#ff2fa8','#9cff4a','#ff8a00']},
   {id:'microcosmos',          n:'Microcosmos',          c:['#16d39a','#2a6cff','#eafff6']},
-  {id:'quantum-fields',       n:'Quantum Fields',       c:['#0a0014','#ff00cc','#3d006b']},
-  {id:'torus-universes',      n:'Torus Universes',      c:['#08010f','#1a0a6b','#3b1205']}
+  {id:'quantum-fields',       n:'Quantum Fields',       c:['#2e6bff','#ff5bd0','#0a0f2a']},
+  {id:'torus-universes',      n:'Torus Universes',      c:['#c8772f','#8b4dff','#ffe7b0']}
 ];
 
 /* ─── STATE ────────────────────────────────────────────────────────────── */
@@ -578,6 +578,25 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
+/* ─── AUTOSTART (from index.html gate) ────────────────────────────────────
+   index.html sets ology_autostart in sessionStorage inside the user-gesture
+   handler before navigating. We consume it once here so refresh never
+   re-triggers autostart. Mobile handles its own autostart separately. */
+(function(){
+  try{
+    if(sessionStorage.getItem('ology_autostart')==='1'){
+      sessionStorage.removeItem('ology_autostart');
+      if(window.OlogyAudio){
+        window.OlogyAudio.start();
+        /* Sync transport UI to reflect playing state */
+        var _playing=!!PROG.audio.isPlaying;
+        document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.toggle('on',_playing);});
+        document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.toggle('on',!_playing);});
+        saveProg();
+      }
+    }
+  }catch(e){}
+})();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
   var DRONES=[

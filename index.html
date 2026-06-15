@@ -284,6 +284,10 @@ body.exiting #gateKal{
 function enter(){
   var isMobile=window.matchMedia('(pointer:coarse)').matches
     &&window.matchMedia('(max-width:1024px)').matches;
+  /* Signal the destination page to auto-start audio on load.
+     sessionStorage is same-tab only and survives location.replace()
+     but not a fresh page load, so refresh never re-triggers autostart. */
+  try{sessionStorage.setItem('ology_autostart','1');}catch(e){}
   document.body.classList.add('exiting');
   setTimeout(function(){
     window.location.replace(isMobile?'mobile.html':'web.html');
