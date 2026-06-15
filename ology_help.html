@@ -583,13 +583,19 @@ nav a.active .nav-icon{opacity:1}
       <div class="go-btn-demo">GO</div>
       <p>GO is the only action that changes what your audience sees. Every visual change you make — theme, speed, chaos, bloom, segments — stages silently in PREVIEW until you press GO. Audio changes (drone, mode, bed, volume) take effect immediately and do not require GO.</p>
     </div>
-
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Audio vs Visual — two different commit rules</strong>
+        Visual parameters stage into PREVIEW and require GO. Audio parameters (drone selection, entrainment mode, carrier Hz, beat Hz, ambient bed, blend, volume) take effect immediately when you change them — there is no PREVIEW step for audio.
+      </div>
+    </div>
   </section>
 
 
-  <!-- ── 02b Mobile ──────────────────────────────────────────────────────── -->
+  <!-- ── 03 Mobile ──────────────────────────────────────────────────────── -->
   <section class="doc-section" id="mobile">
-    <h2><span class="section-num">02b</span> Mobile App<span id="mobile-view" style="display:block;height:0;visibility:hidden"></span><span id="how-to-use" style="display:block;height:0;visibility:hidden"></span></h2>
+    <h2><span class="section-num">03</span> Mobile App<span id="mobile-view" style="display:block;height:0;visibility:hidden"></span><span id="how-to-use" style="display:block;height:0;visibility:hidden"></span></h2>
     <div class="section-rule"></div>
     <p>The <strong style="color:var(--txt)">Ology Mobile App</strong> is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
 
@@ -836,47 +842,6 @@ nav a.active .nav-icon{opacity:1}
 
     <h3>Landscape phone</h3>
     <p>On phones rotated to landscape (narrow height), the layout switches to a side-by-side arrangement: the sidebar returns as a compact vertical column on the left (52 px), the monitors stack vertically in the centre, and the control panel sits on the right (220 px). All three columns scroll independently.</p>
-  </section>
-
-
-
-
-  <!-- ── 03 Preview & Program ────────────────────────────────────────────── -->
-  <section class="doc-section" id="preview-program" style="scroll-margin-top:32px"><span id="navigation" style="scroll-margin-top:32px"></span>
-    <h2><span class="section-num">03</span> Canvas</h2>
-    <div class="section-rule"></div>
-    <p>Ology uses a two-bus model borrowed from broadcast switching: every change is staged in PREVIEW before it goes live in PROGRAM. Nothing happens to the live output until you deliberately commit it.</p>
-    <div class="go-explainer">
-      <div class="go-btn-demo">GO</div>
-      <p>Pressing GO copies all current PREVIEW settings — theme, speed, chaos, zoom, segments, bloom, smooth — into PROGRAM and makes them live instantly. Audio changes are live immediately without GO.</p>
-    </div>
-    <div class="two-col">
-      <div>
-        <h3>PREVIEW (blue)</h3>
-        <ul>
-          <li>Safe staging area — nothing visible to your audience or OBS yet.</li>
-          <li>All slider and theme changes go here first.</li>
-          <li>Loading a preset always loads into PREVIEW, never directly into PROGRAM.</li>
-          <li>You can audition a visual change without interrupting a live session.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>PROGRAM (red · LIVE)</h3>
-        <ul>
-          <li>The live output — what appears on the OBS canvas and any connected output.</li>
-          <li>Committed by pressing GO.</li>
-          <li>Audio parameters (drone, mode, bed, volume) take effect immediately and bypass the GO step.</li>
-          <li>The param overlay on the Output Window always reflects PROGRAM state.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout note">
-      <span class="callout-icon">ℹ️</span>
-      <div class="callout-body">
-        <strong>Audio vs Visual — two different commit rules</strong>
-        Visual parameters stage into PREVIEW and require GO. Audio parameters (drone selection, entrainment mode, carrier Hz, beat Hz, ambient bed, blend, volume) take effect immediately when you change them — there is no PREVIEW step for audio.
-      </div>
-    </div>
   </section>
 
 
