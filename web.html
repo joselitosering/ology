@@ -414,7 +414,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
       <div data-pane="output" hidden>
         <div class="section">
           <h4>OBS Output View — Program Only</h4>
-          <div class="seg"><button data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button class="on" data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
+          <div class="seg"><button class="on" data-ar="16:9" onclick="setOut('ar','16:9',this)">16:9</button><button data-ar="9:16" onclick="setOut('ar','9:16',this)">9:16</button><button data-ar="1:1" onclick="setOut('ar','1:1',this)">1:1</button><button data-ar="4:3" onclick="setOut('ar','4:3',this)">4:3</button></div>
           <button class="btn-g" onclick="openOutView()">↗ Open in new tab</button>
           <button class="btn-g" onclick="openOutPopup()" style="background:linear-gradient(135deg,var(--acc),var(--acc-dark));color:#fff;font-weight:700">⛶ Open output window</button>
         </div>
@@ -859,7 +859,7 @@ window.togglePlay=function(){playing=!playing;const b=document.getElementById('p
 window.cyclePrev=function(d){PREV.th=(PREV.th+d+THEMES.length)%THEMES.length;const n=THEMES[PREV.th].n;document.getElementById('prevName').textContent=n;document.getElementById('ph-prev-name').textContent=n;[...(chipWrap?.children||[])].forEach((c,k)=>c.classList.toggle('on',k===PREV.th));/* M9: apply theme visualDefaults to PREV */if(window.applyThemeDefaults)window.applyThemeDefaults(PREV.th);};
 
 /* ─── OBS OUTPUT URL ──────────────────────────────────────────────────── */
-const OUT={ar:'9:16',res:'1080',fps:'30'};
+const OUT={ar:'16:9',res:'1080',fps:'30'};
 const AR_MAP={'16:9':[16,9],'9:16':[9,16],'1:1':[1,1],'4:3':[4,3]};
 function outDimensions(){const res=+OUT.res,[aw,ah]=AR_MAP[OUT.ar];let h,w;if(aw>=ah){h=res;w=Math.round(res*aw/ah);}else{w=res;h=Math.round(res*ah/aw);}w-=w%2;h-=h%2;return[w,h];}
 function refreshOut(){
