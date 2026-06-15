@@ -320,7 +320,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 8px rgba(123,167,212,.9),
   <div class="center">
     <div class="monitors">
       <div class="monitor">
-        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Psilocybin Dreams</span></div>
+        <div class="mon-hdr"><span class="mon-badge prev">PREVIEW</span><span class="mon-name" id="prevName">Intergalactic Beings</span></div>
         <div class="mon-screen prev-scr"><canvas id="prevCanvas"></canvas></div>
       </div>
       <div class="monitor">
@@ -481,7 +481,7 @@ const THEMES=[
 /* Flat state shape retained from Document 3 baseline.
    sym: 0=Radial, 1=Mirror, 2=Kaleidoscope
    M1 symmetry mapping: Radial→1 seg (no fold), Mirror→2 segs, Kaleidoscope→state.seg */
-const PREV={th:3,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
+const PREV={th:0,speed:.5,chaos:.55,zoom:.30,seg:8,int:.7,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 const PROG={th:0,speed:.4,chaos:.35,zoom:.30,seg:8,int:.65,intensity:.5,bloom:.25,smooth:.82,t:0,rot:.5,sym:2};
 /* M2 — contract-shaped AudioState (M0 v0.2.1 defaultAudioState); M2 mutates this by reference. */
 PROG.audio={droneId:'theta-intuition',carrierHz:null,beatHz:null,mode:'binaural',brainTickleAmount:0.2,slowness:0.6,key:'C',scale:'minor',ambientBed:'womb',ambientBlend:0.3,loop:'evolving',routes:[{band:'sub',param:'bloom',amount:0.5},{band:'low',param:'zoom',amount:0.3},{band:'mid',param:'chaos',amount:0.4},{band:'high',param:'colorShift',amount:0.5}],masterLevel:0.8,isPlaying:false};
@@ -578,25 +578,6 @@ function blendS(a,b,f){
 if(window.OlogyShaders){window.OlogyShaders.init();}
 /* M2 Audio Engine init — receives PROG.audio by reference, mutates in place. */
 if(window.OlogyAudio){window.OlogyAudio.init(PROG.audio);}
-/* ─── AUTOSTART (from index.html gate) ────────────────────────────────────
-   index.html sets ology_autostart in sessionStorage inside the user-gesture
-   handler before navigating. We consume it once here so refresh never
-   re-triggers autostart. Mobile handles its own autostart separately. */
-(function(){
-  try{
-    if(sessionStorage.getItem('ology_autostart')==='1'){
-      sessionStorage.removeItem('ology_autostart');
-      if(window.OlogyAudio){
-        window.OlogyAudio.start();
-        /* Sync transport UI to reflect playing state */
-        var _playing=!!PROG.audio.isPlaying;
-        document.querySelectorAll('#tp-play,[data-tp=play]').forEach(function(b){b.classList.toggle('on',_playing);});
-        document.querySelectorAll('#tp-stop,[data-tp=stop]').forEach(function(b){b.classList.toggle('on',!_playing);});
-        saveProg();
-      }
-    }
-  }catch(e){}
-})();
 /* ─── M2 AUDIO-TAB UI GLUE ────────────────────────────────────────────── */
 (function(){
   var DRONES=[
