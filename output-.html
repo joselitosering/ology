@@ -32,6 +32,8 @@
   <!-- M6 param overlay — toggled via ology_overlay localStorage key from index.html -->
   <div id="paramOverlay"></div>
  
+  <script src="m1_shaders.js"></script>
+  <script src="m2_audio.js"></script>
   <script>
 (function(){
 'use strict';
@@ -335,42 +337,75 @@ applyOverlayVisibility();
  
 /* ─── INIT & RENDER LOOP ──────────────────────────────────────────────– */
 const canvas=document.getElementById('outCanvas');
-const ctx2d=canvas.getContext('2d');
-
-/* Load initial state from localStorage for overlay data */
+ 
+/* Load initial state from localStorage (if index.html has written it) */
 loadProg();
-
-/* fit() sizes canvas CSS to fill the popup window at correct AR.
-   Pixel buffer is set to match the incoming ImageBitmap dimensions on first
-   frame — no fixed resolution needed since we receive whatever web.html drew. */
-fit(canvas);
-window.addEventListener('resize',()=>fit(canvas));
-
-/* ─── BROADCAST CHANNEL RECEIVER ─────────────────────────────────────── */
-/* web.html broadcasts the already-rendered progCanvas as an ImageBitmap
-   after every draw() call. We receive it here and blit to a plain 2D canvas —
-   no WebGL2, no shader, no state computation. output.html is a pure display
-   surface. Falls back gracefully if BroadcastChannel is unavailable. */
-if(typeof BroadcastChannel!=='undefined'){
-  const _ch=new BroadcastChannel('ology-frame');
-  _ch.onmessage=function(e){
-    const bmp=e.data;
-    if(!bmp||!ctx2d)return;
-    /* Match canvas pixel buffer to incoming frame size */
-    if(canvas.width!==bmp.width||canvas.height!==bmp.height){
-      canvas.width=bmp.width;
-      canvas.height=bmp.height;
-    }
-    ctx2d.drawImage(bmp,0,0);
-    bmp.close();
-    /* Update overlay text each time a frame arrives */
-    if(overlayOn)renderOverlay();
-  };
+ 
+/* Init M1 once. Guard so a missing/failed shader module doesn't throw at load. */
+let m1Init=false;
+if(window.OlogyShaders){
+  try { m1Init=window.OlogyShaders.init(); }
+  catch(e){ console.error('[output.html] OlogyShaders.init failed:',e); }
 }
-
-/* Keepalive loop — handles resize only.
-   No draw() call here — frames arrive via BroadcastChannel above. */
-function loop(){
+ 
+/* ─── RENDER PAUSE DURING WINDOW MIGRATION ────────────────────────────── */
+/* Root cause of cursor flicker: dragging the popup to a second monitor
+   triggers a GPU compositing layer migration. The browser must re-allocate
+   the 1920×1080 backing store on the new display's GPU memory. While that
+   is in flight, every draw() call fights the migration for the GPU, starving
+   OS cursor compositing entirely.
+   Fix: set _resizing=true on first resize event, skip draw() until the
+   window has settled (200ms after last resize), then resume. Visuals freeze
+   briefly during drag — acceptable. PROG.t keeps incrementing so the
+   animation resumes at the correct position. */
+let _resizing=false;
+let _resizeTimer=null;
+function _onResize(){
+  _resizing=true;
+  clearTimeout(_resizeTimer);
+  _resizeTimer=setTimeout(()=>{
+    fit(canvas);
+    _resizing=false;
+  },200);
+}
+window.addEventListener('resize',_onResize);
+setTimeout(()=>fit(canvas),100);
+ 
+/* 60fps cap — leaves GPU scheduler headroom for OS cursor compositing. */
+const FPS_CAP=1000/60;
+let lastT=performance.now();
+let lastFrame=0;
+function loop(now){
+  if(now-lastFrame < FPS_CAP){ requestAnimationFrame(loop); return; }
+  lastFrame=now;
+  const dt=(now-lastT)/1000; lastT=now;
+  if(playing){PROG.t+=dt;}
+ 
+  /* Skip draw() while window is migrating to a new display. GPU layer
+     re-allocation must complete before we resume blitting. */
+  if(!_resizing && window.OlogyShaders&&window.OlogyShaders.isReady()){
+    /* Live audio reactivity REQUIRES index.html open and playing: it writes
+       'ology_frame' (AudioAnalysisFrame) every render tick (l.643). This page
+       reads it as the live frame; if index.html is closed/backgrounded the
+       key goes stale and we fall back to NULL_ANALYSIS (visuals still render,
+       reactivity flatlines). This page never owns an AudioContext. */
+    /* v1.1: prefer live frame from WebSocket (_wsFrame); fall back to
+       localStorage for same-browser tab use; fall back to NULL_ANALYSIS. */
+    let frame = _wsFrame || NULL_ANALYSIS;
+    if(!_wsFrame){
+      try {
+        const saved=localStorage.getItem('ology_frame');
+        if(saved) frame=JSON.parse(saved);
+      } catch(e) {}
+    }
+    try {
+      if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
+    } catch(e){ console.error('[output.html] draw error:',e); }
+  }
+ 
+  /* M6 — update overlay text every frame (cheap; text-only, no layout thrash when hidden) */
+  if(overlayOn) renderOverlay();
+ 
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
