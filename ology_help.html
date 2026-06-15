@@ -19,11 +19,11 @@
   --font-mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
   --nav-w:220px;--content-max:860px;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;height:100%}
 *{scrollbar-width:thin;scrollbar-color:rgba(168,117,255,.35) transparent}
 *::-webkit-scrollbar{width:4px;height:4px}
 *::-webkit-scrollbar-thumb{background:rgba(168,117,255,.3);border-radius:99px}
-body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);font-size:14px;line-height:1.65;display:flex;min-height:100vh;width:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--txt);font-family:var(--font-ui);font-size:14px;line-height:1.65;display:flex;height:100%;width:100%;overflow:hidden}
 
 /* ── Nav ── */
 #nav{width:var(--nav-w);flex-shrink:0;background:var(--surface);border-right:1px solid var(--stroke);position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:var(--s2) transparent}
@@ -41,7 +41,7 @@ nav a.active .nav-icon{opacity:1}
 .nav-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--stroke);font-size:10px;color:var(--faint)}
 
 /* ── Content ── */
-#content{flex:1;overflow-y:auto;min-width:0;overflow-x:hidden}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;min-width:0;height:100%}
 .content-inner{max-width:var(--content-max);margin:0 auto;padding:48px 48px 96px}
 
 /* ── Page hero ── */
@@ -179,12 +179,12 @@ nav a.active .nav-icon{opacity:1}
 /* ── Responsive ── */
 @media (max-width:800px){
   :root{--nav-w:0px}
-  body{display:block;overflow-x:hidden}
+  body{display:block;overflow-y:auto;overflow-x:hidden;height:auto;min-height:100vh}
   #nav{position:fixed;top:0;left:0;width:240px;height:100vh;z-index:250;transform:translateX(-100%);transition:transform .22s ease;border-right:1px solid var(--s2)}
   #nav.open{transform:translateX(0)}
   #mob-btn{display:flex}
   #progress-bar{left:0}
-  #content{display:block;width:100%;overflow-x:hidden}
+  #content{display:block;width:100%;overflow:visible;height:auto}
   .content-inner{padding:56px 16px 80px}
   .page-hero h1{font-size:26px}
   .page-hero .lead{font-size:13.5px}
@@ -216,7 +216,7 @@ nav a.active .nav-icon{opacity:1}
 
 <div id="progress-bar"></div>
 <button id="mob-btn" aria-label="Open navigation" onclick="toggleNav()">☰</button>
-<div id="mob-overlay" onclick="closeNav()"></div>
+<div id="mob-overlay"></div>
 
 <aside id="nav">
   <div class="nav-brand">
@@ -225,26 +225,26 @@ nav a.active .nav-icon{opacity:1}
   </div>
   <div class="nav-section-label">Getting Started</div>
   <nav>
-    <a href="#overview" class="active" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Overview</a>
-    <a href="#interface" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Interface</a>
-    <a href="#preview-program" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Preview &amp; Program</a>
+    <a href="#overview" class="active"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Overview</a>
+    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Interface</a>
+    <a href="#preview-program"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Preview &amp; Program</a>
   </nav>
   <div class="nav-section-label">Controls</div>
   <nav>
-    <a href="#visuals-tab" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>Visuals Tab</a>
-    <a href="#audio-tab" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>Audio Tab</a>
-    <a href="#output-tab" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>Output Tab</a>
-    <a href="#presets-tab" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>Presets Tab</a>
-    <a href="#mobile-view" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile View</a>
+    <a href="#visuals-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>Visuals Tab</a>
+    <a href="#audio-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>Audio Tab</a>
+    <a href="#output-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>Output Tab</a>
+    <a href="#presets-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>Presets Tab</a>
+    <a href="#mobile-view"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile View</a>
   </nav>
   <div class="nav-section-label">Reference</div>
   <nav>
-    <a href="#themes" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/></svg>Themes</a>
-    <a href="#drone-library" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"/></svg>Drone Library</a>
-    <a href="#frequency-guide" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>Frequency Guide</a>
-    <a href="#sessions" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>Session Recipes</a>
-    <a href="#obs-setup" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>OBS Setup</a>
-    <a href="#safety" onclick="closeNav()"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety &amp; Accuracy</a>
+    <a href="#themes"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/></svg>Themes</a>
+    <a href="#drone-library"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"/></svg>Drone Library</a>
+    <a href="#frequency-guide"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>Frequency Guide</a>
+    <a href="#sessions"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>Session Recipes</a>
+    <a href="#obs-setup"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 5a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm14 1a1 1 0 11-2 0 1 1 0 012 0zM2 13a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zm14 1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/></svg>OBS Setup</a>
+    <a href="#safety"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>Safety &amp; Accuracy</a>
   </nav>
   <div class="nav-footer">Ology Beta v1.5 · AIMA Productions</div>
 </aside>
@@ -622,124 +622,255 @@ nav a.active .nav-icon{opacity:1}
   <section class="doc-section" id="mobile-view">
     <h2><span class="section-num">08</span> Mobile View</h2>
     <div class="section-rule"></div>
-    <p>On phones (≤430 px wide) the layout switches from a side-by-side desktop arrangement to a full vertical stack, fitting entirely within the browser window with no horizontal spillover.</p>
+    <p>The mobile page (<span class="key">mobile.html</span>) is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
 
-    <!-- Mobile UI diagram — SVG -->
+    <!-- Desktop 3-col layout diagram -->
     <div class="ui-diagram">
-      <div class="ui-diagram-header">Stage · Mobile — annotated layout (portrait phone)</div>
-      <svg viewBox="0 0 320 480" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
-        <rect width="320" height="480" fill="#06070d"/>
-
+      <div class="ui-diagram-header">Mobile app · Desktop / Tablet landscape — three-column layout</div>
+      <svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
+        <rect width="700" height="230" fill="#0B0F1A"/>
         <!-- Topbar -->
-        <rect x="0" y="0" width="320" height="44" fill="#111827"/>
-        <rect x="0" y="44" width="320" height="1" fill="rgba(123,167,212,.18)"/>
-        <rect x="14" y="8" width="28" height="28" rx="6" fill="rgba(168,117,255,.2)"/>
-        <text x="28" y="27" text-anchor="middle" font-size="13" fill="#a875ff">◈</text>
-        <text x="52" y="20" font-size="12" font-weight="700" fill="#e8eaf2">Ology</text>
-        <text x="52" y="33" font-size="7" fill="#4a5068" letter-spacing="2">V1.5</text>
-        <!-- mode toggle -->
-        <rect x="160" y="10" width="100" height="24" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(123,167,212,.18)" stroke-width="1"/>
-        <rect x="162" y="12" width="46" height="20" rx="10" fill="linear-gradient(135deg,#7BA7D4,#3A6FA8)"/>
-        <rect x="162" y="12" width="46" height="20" rx="10" fill="#5B8FBF"/>
-        <text x="185" y="25" text-anchor="middle" font-size="8" font-weight="600" fill="#fff">Viewer</text>
-        <text x="233" y="25" text-anchor="middle" font-size="8" fill="#8FA8C0">Control</text>
-        <!-- play btn -->
-        <rect x="270" y="10" width="42" height="24" rx="6" fill="none" stroke="rgba(123,167,212,.28)" stroke-width="1"/>
-        <text x="291" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">▶ Play</text>
-
-        <!-- Canvas monitors zone -->
-        <rect x="0" y="45" width="320" height="156" fill="#0a0c14"/>
-        <!-- preview canvas -->
-        <rect x="8" y="52" width="148" height="142" rx="8" fill="#000" stroke="rgba(42,85,204,.4)" stroke-width="1"/>
-        <text x="14" y="64" font-size="6" font-weight="700" fill="#7aa2ff" letter-spacing="1">● PREV</text>
+        <rect x="0" y="0" width="700" height="44" fill="#111827"/>
+        <rect x="0" y="44" width="700" height="1" fill="rgba(123,167,212,.18)"/>
+        <!-- Logo -->
+        <circle cx="28" cy="22" r="12" fill="rgba(123,167,212,.15)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
+        <text x="28" y="27" text-anchor="middle" font-size="11" fill="#7BA7D4">◈</text>
+        <!-- Brand -->
+        <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="none" stroke="url(#brandGrad)" stroke-width="0.3">OLOGY</text>
+        <text x="48" y="19" font-size="13" font-weight="700" font-family="serif" fill="url(#brandGrad)">OLOGY</text>
+        <text x="48" y="33" font-size="7" fill="#A8D8EA" letter-spacing="2" font-family="monospace">v1.5 · Free Version</text>
+        <!-- Play btn -->
+        <rect x="604" y="10" width="84" height="24" rx="6" fill="none" stroke="rgba(123,167,212,.28)" stroke-width="1"/>
+        <text x="646" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
         <defs>
-          <radialGradient id="mprev" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(168,117,255,.15)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
-          <radialGradient id="mprog" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,78,106,.12)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#5B8FBF"/>
+            <stop offset="33%" stop-color="#A8D8EA"/>
+            <stop offset="66%" stop-color="#E8896A"/>
+            <stop offset="100%" stop-color="#C084B0"/>
+          </linearGradient>
+          <radialGradient id="dPrev" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(123,167,212,.2)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <radialGradient id="dProg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(232,137,106,.15)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <linearGradient id="slGrad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a875ff"/><stop offset="100%" stop-color="#35dfd6"/></linearGradient>
         </defs>
-        <rect x="9" y="68" width="146" height="125" fill="url(#mprev)"/>
-        <text x="82" y="134" text-anchor="middle" font-size="7" fill="#4a5068">staging</text>
-        <!-- program canvas -->
-        <rect x="164" y="52" width="148" height="142" rx="8" fill="#000" stroke="rgba(204,42,58,.35)" stroke-width="1"/>
-        <text x="170" y="64" font-size="6" font-weight="700" fill="#ff7a8a" letter-spacing="1">● PROG · LIVE</text>
-        <rect x="165" y="68" width="146" height="125" fill="url(#mprog)"/>
-        <text x="238" y="134" text-anchor="middle" font-size="7" fill="#4a5068">live out</text>
-
-        <!-- Nav tab strip -->
-        <rect x="0" y="201" width="320" height="44" fill="#111827"/>
-        <rect x="0" y="201" width="320" height="1" fill="rgba(123,167,212,.18)"/>
-        <rect x="0" y="244" width="320" height="1" fill="rgba(123,167,212,.18)"/>
-        <!-- tab items -->
-        <rect x="4" y="204" width="58" height="38" rx="8" fill="rgba(168,117,255,.15)" stroke="rgba(168,117,255,.3)" stroke-width="1"/>
-        <text x="33" y="219" text-anchor="middle" font-size="10" fill="#a875ff">👁</text>
-        <text x="33" y="234" text-anchor="middle" font-size="6" fill="#a875ff" letter-spacing=".6">VISUALS</text>
-        <text x="97" y="219" text-anchor="middle" font-size="10" fill="#8a90a8">🔊</text>
-        <text x="97" y="234" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".6">AUDIO</text>
-        <text x="161" y="219" text-anchor="middle" font-size="10" fill="#8a90a8">📤</text>
-        <text x="161" y="234" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".6">OUTPUT</text>
-        <text x="225" y="219" text-anchor="middle" font-size="10" fill="#8a90a8">💾</text>
-        <text x="225" y="234" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".6">PRESETS</text>
-        <text x="289" y="219" text-anchor="middle" font-size="10" fill="#8a90a8">📱</text>
-        <text x="289" y="234" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".6">MOBILE</text>
-
-        <!-- Right panel / controls zone -->
-        <rect x="0" y="245" width="320" height="235" fill="#0e1022"/>
+        <!-- COLUMN 1: Sidebar -->
+        <rect x="0" y="45" width="86" height="185" fill="#111827"/>
+        <rect x="86" y="45" width="1" height="185" fill="rgba(123,167,212,.18)"/>
+        <!-- nav items -->
+        <rect x="6" y="52" width="74" height="30" rx="8" fill="rgba(168,117,255,.15)" stroke="rgba(168,117,255,.3)" stroke-width="1"/>
+        <text x="43" y="64" text-anchor="middle" font-size="10" fill="#a875ff">👁</text>
+        <text x="43" y="77" text-anchor="middle" font-size="7" fill="#a875ff" letter-spacing=".6">VISUALS</text>
+        <text x="43" y="104" text-anchor="middle" font-size="10" fill="#8a90a8">🔊</text>
+        <text x="43" y="117" text-anchor="middle" font-size="7" fill="#4a5068" letter-spacing=".6">AUDIO</text>
+        <text x="43" y="144" text-anchor="middle" font-size="10" fill="#8a90a8">📤</text>
+        <text x="43" y="157" text-anchor="middle" font-size="7" fill="#4a5068" letter-spacing=".6">OUTPUT</text>
+        <text x="43" y="184" text-anchor="middle" font-size="10" fill="#8a90a8">💾</text>
+        <text x="43" y="197" text-anchor="middle" font-size="7" fill="#4a5068" letter-spacing=".6">PRESETS</text>
+        <text x="43" y="218" text-anchor="middle" font-size="7" fill="#4a5068" letter-spacing=".6">HELP ···</text>
+        <!-- COLUMN 2: Monitors (center) -->
+        <rect x="87" y="45" width="374" height="185" fill="#0a0c14"/>
+        <!-- PREVIEW monitor -->
+        <rect x="96" y="52" width="175" height="171" rx="8" fill="#000" stroke="rgba(42,85,204,.4)" stroke-width="1"/>
+        <rect x="96" y="52" width="175" height="20" rx="8" fill="#0b0d15"/>
+        <rect x="96" y="66" width="175" height="6" fill="#0b0d15"/>
+        <text x="104" y="66" font-size="7" font-weight="700" fill="#7aa2ff" letter-spacing="1">● PREVIEW</text>
+        <rect x="97" y="72" width="173" height="150" fill="url(#dPrev)"/>
+        <text x="183" y="150" text-anchor="middle" font-size="8" fill="#4a5068">staging area</text>
+        <!-- PROGRAM monitor -->
+        <rect x="279" y="52" width="175" height="171" rx="8" fill="#000" stroke="rgba(204,42,58,.35)" stroke-width="1"/>
+        <rect x="279" y="52" width="175" height="20" rx="8" fill="#0b0d15"/>
+        <rect x="279" y="66" width="175" height="6" fill="#0b0d15"/>
+        <text x="287" y="66" font-size="7" font-weight="700" fill="#ff7a8a" letter-spacing="1">● PROGRAM · LIVE</text>
+        <rect x="280" y="72" width="173" height="150" fill="url(#dProg)"/>
+        <text x="366" y="150" text-anchor="middle" font-size="8" fill="#4a5068">live output</text>
+        <!-- COLUMN 3: Right panel -->
+        <rect x="461" y="45" width="239" height="185" fill="#0e1022"/>
+        <rect x="461" y="45" width="1" height="185" fill="rgba(255,255,255,.08)"/>
         <!-- panel header -->
-        <rect x="0" y="245" width="320" height="30" fill="#0b0d15"/>
-        <text x="14" y="264" font-size="8" fill="#4a5068" letter-spacing="1.8">VISUALS</text>
+        <rect x="461" y="45" width="239" height="30" fill="#0b0d15"/>
+        <text x="473" y="64" font-size="8" fill="#4a5068" letter-spacing="1.8">VISUALS</text>
         <!-- sliders -->
-        <text x="14" y="294" font-size="9" fill="#8a90a8">Intensity</text>
-        <rect x="90" y="287" width="180" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="90" y="287" width="90" height="3" rx="2" fill="#a875ff"/>
-        <text x="280" y="294" font-size="8" fill="#35dfd6" text-anchor="end">0.50</text>
-        <text x="14" y="314" font-size="9" fill="#8a90a8">Speed</text>
-        <rect x="90" y="307" width="180" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="90" y="307" width="140" height="3" rx="2" fill="#a875ff"/>
-        <text x="280" y="314" font-size="8" fill="#35dfd6" text-anchor="end">0.80×</text>
-        <text x="14" y="334" font-size="9" fill="#8a90a8">Chaos</text>
-        <rect x="90" y="327" width="180" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="90" y="327" width="80" height="3" rx="2" fill="#a875ff"/>
-        <text x="280" y="334" font-size="8" fill="#35dfd6" text-anchor="end">0.45</text>
-        <text x="14" y="354" font-size="9" fill="#8a90a8">Segments</text>
-        <rect x="90" y="347" width="180" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
-        <rect x="90" y="347" width="40" height="3" rx="2" fill="#a875ff"/>
-        <text x="280" y="354" font-size="8" fill="#35dfd6" text-anchor="end">8</text>
-        <!-- scroll hint -->
-        <text x="160" y="390" text-anchor="middle" font-size="8" fill="#4a5068">↕  scroll for more controls</text>
-        <!-- GO bar -->
-        <rect x="0" y="410" width="320" height="44" rx="0" fill="#0b0d15"/>
-        <rect x="0" y="410" width="320" height="1" fill="rgba(255,255,255,.08)"/>
-        <rect x="12" y="418" width="296" height="30" rx="9" fill="rgba(62,204,133,.1)" stroke="rgba(62,204,133,.3)" stroke-width="1"/>
-        <text x="160" y="437" text-anchor="middle" font-size="12" font-weight="800" fill="#3ecc85" letter-spacing="2">GO</text>
-        <!-- home bar -->
-        <rect x="110" y="466" width="100" height="4" rx="2" fill="rgba(255,255,255,.15)"/>
+        <text x="473" y="90" font-size="9" fill="#8a90a8">Intensity</text>
+        <rect x="540" y="83" width="140" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="540" y="83" width="70" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="688" y="90" font-size="8" fill="#35dfd6" text-anchor="end">0.50</text>
+        <text x="473" y="110" font-size="9" fill="#8a90a8">Speed</text>
+        <rect x="540" y="103" width="140" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="540" y="103" width="100" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="688" y="110" font-size="8" fill="#35dfd6" text-anchor="end">1.0×</text>
+        <text x="473" y="130" font-size="9" fill="#8a90a8">Chaos</text>
+        <rect x="540" y="123" width="140" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="540" y="123" width="77" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="688" y="130" font-size="8" fill="#35dfd6" text-anchor="end">0.55</text>
+        <text x="473" y="150" font-size="9" fill="#8a90a8">Segments</text>
+        <rect x="540" y="143" width="140" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="540" y="143" width="46" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="688" y="150" font-size="8" fill="#35dfd6" text-anchor="end">8</text>
+        <!-- GO button -->
+        <rect x="473" y="196" width="215" height="26" rx="7" fill="rgba(123,167,212,.1)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
+        <text x="580" y="213" text-anchor="middle" font-size="11" font-weight="800" fill="#A8D8EA" letter-spacing="2">GO</text>
       </svg>
       <div class="annot-row">
-        <div class="annot"><span class="annot-dot" style="background:#111827"></span> Topbar — mode toggle + transport</div>
-        <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> Canvas monitors — side by side, fixed height</div>
-        <div class="annot"><span class="annot-dot" style="background:#a875ff"></span> Nav tab strip — horizontal scroll</div>
-        <div class="annot"><span class="annot-dot" style="background:#0e1022"></span> Control panel — scrollable, fills remaining height</div>
-        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO bar — sticky at bottom</div>
+        <div class="annot"><span class="annot-dot" style="background:#111827"></span> Topbar — logo, version, Running indicator</div>
+        <div class="annot"><span class="annot-dot" style="background:#111827;border:1px solid rgba(168,117,255,.4)"></span> Sidebar — 5 nav tabs + Help + About</div>
+        <div class="annot"><span class="annot-dot" style="background:#7aa2ff"></span> PREVIEW — staging canvas</div>
+        <div class="annot"><span class="annot-dot" style="background:#ff7a8a"></span> PROGRAM — live canvas</div>
+        <div class="annot"><span class="annot-dot" style="background:#0e1022"></span> Control panel — scrollable sliders &amp; GO</div>
       </div>
     </div>
 
-    <h3>Mobile layout zones</h3>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Topbar</div><p>Fixed 44 px. Contains the Ology logo, Viewer/Control mode toggle, and Play/Stop transport button.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Canvas monitors</div><p>Fixed height (38 vh, min 160 px, max 240 px). PREVIEW and PROGRAM sit side by side. Canvas AR is unset in mobile — monitors fill the zone rather than enforcing a specific ratio.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Nav tab strip</div><p>Horizontal icon strip below the canvases. Scrollable if more tabs than width. Tap to switch the control panel content.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Control panel</div><p>Fills the remaining viewport. Scrollable vertically. Contains all sliders, dropdowns, and settings for the active tab. Overscroll-contain prevents bounce propagation.</p></div>
+    <!-- Phone portrait layout diagram -->
+    <div class="ui-diagram" style="margin-top:28px">
+      <div class="ui-diagram-header">Mobile app · Phone portrait (≤430 px) — stacked layout</div>
+      <svg viewBox="0 0 320 520" xmlns="http://www.w3.org/2000/svg" font-family="'SF Mono',monospace">
+        <rect width="320" height="520" fill="#0B0F1A"/>
+        <!-- Topbar -->
+        <rect x="0" y="0" width="320" height="44" fill="#111827"/>
+        <rect x="0" y="44" width="320" height="1" fill="rgba(123,167,212,.18)"/>
+        <circle cx="24" cy="22" r="10" fill="rgba(123,167,212,.15)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
+        <text x="24" y="26" text-anchor="middle" font-size="9" fill="#7BA7D4">◈</text>
+        <text x="42" y="18" font-size="12" font-weight="700" fill="url(#brandGrad)">OLOGY</text>
+        <text x="42" y="31" font-size="6" fill="#A8D8EA" letter-spacing="1.5">v1.5 · FREE</text>
+        <rect x="238" y="10" width="70" height="24" rx="6" fill="none" stroke="rgba(106,191,160,.4)" stroke-width="1"/>
+        <text x="273" y="25" text-anchor="middle" font-size="8" fill="#6abfa0">❚❚ Running</text>
+        <!-- Zone 1: Canvas monitors (order:1, height ~38vh) -->
+        <rect x="0" y="45" width="320" height="150" fill="#0a0c14"/>
+        <rect x="0" y="195" width="320" height="1" fill="rgba(123,167,212,.18)"/>
+        <!-- preview -->
+        <rect x="6" y="51" width="152" height="138" rx="7" fill="#000" stroke="rgba(42,85,204,.4)" stroke-width="1"/>
+        <text x="12" y="63" font-size="6" font-weight="700" fill="#7aa2ff" letter-spacing="1">● PREV</text>
+        <defs>
+          <radialGradient id="mPrev2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(123,167,212,.2)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+          <radialGradient id="mProg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(232,137,106,.15)"/><stop offset="100%" stop-color="rgba(0,0,0,0)"/></radialGradient>
+        </defs>
+        <rect x="7" y="66" width="150" height="122" fill="url(#mPrev2)"/>
+        <text x="82" y="132" text-anchor="middle" font-size="7" fill="#4a5068">staging</text>
+        <!-- program -->
+        <rect x="162" y="51" width="152" height="138" rx="7" fill="#000" stroke="rgba(204,42,58,.35)" stroke-width="1"/>
+        <text x="168" y="63" font-size="6" font-weight="700" fill="#ff7a8a" letter-spacing="1">● PROG·LIVE</text>
+        <rect x="163" y="66" width="150" height="122" fill="url(#mProg2)"/>
+        <text x="238" y="132" text-anchor="middle" font-size="7" fill="#4a5068">live out</text>
+        <!-- Zone 2: Horizontal nav tab strip (order:2) -->
+        <rect x="0" y="196" width="320" height="44" fill="#111827"/>
+        <rect x="0" y="239" width="320" height="1" fill="rgba(123,167,212,.18)"/>
+        <!-- active tab -->
+        <rect x="2" y="199" width="58" height="38" rx="7" fill="rgba(168,117,255,.15)" stroke="rgba(168,117,255,.3)" stroke-width="1"/>
+        <text x="31" y="214" text-anchor="middle" font-size="10" fill="#a875ff">👁</text>
+        <text x="31" y="229" text-anchor="middle" font-size="6" fill="#a875ff" letter-spacing=".5">VISUALS</text>
+        <!-- other tabs -->
+        <text x="95" y="214" text-anchor="middle" font-size="10" fill="#8a90a8">🔊</text>
+        <text x="95" y="229" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".5">AUDIO</text>
+        <text x="159" y="214" text-anchor="middle" font-size="10" fill="#8a90a8">📤</text>
+        <text x="159" y="229" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".5">OUTPUT</text>
+        <text x="223" y="214" text-anchor="middle" font-size="10" fill="#8a90a8">💾</text>
+        <text x="223" y="229" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".5">PRESETS</text>
+        <text x="287" y="214" text-anchor="middle" font-size="10" fill="#8a90a8">❓</text>
+        <text x="287" y="229" text-anchor="middle" font-size="6" fill="#4a5068" letter-spacing=".5">HELP</text>
+        <!-- Zone 3: Control panel (order:3, fills remaining) -->
+        <rect x="0" y="240" width="320" height="230" fill="#0e1022"/>
+        <!-- panel header -->
+        <rect x="0" y="240" width="320" height="28" fill="#0b0d15"/>
+        <text x="12" y="258" font-size="8" fill="#4a5068" letter-spacing="1.8">VISUALS</text>
+        <!-- sliders -->
+        <text x="12" y="284" font-size="9" fill="#8a90a8">Intensity</text>
+        <rect x="90" y="277" width="188" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="90" y="277" width="94" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="287" y="284" font-size="8" fill="#35dfd6" text-anchor="end">0.50</text>
+        <text x="12" y="304" font-size="9" fill="#8a90a8">Speed</text>
+        <rect x="90" y="297" width="188" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="90" y="297" width="140" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="287" y="304" font-size="8" fill="#35dfd6" text-anchor="end">1.0×</text>
+        <text x="12" y="324" font-size="9" fill="#8a90a8">Chaos</text>
+        <rect x="90" y="317" width="188" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="90" y="317" width="103" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="287" y="324" font-size="8" fill="#35dfd6" text-anchor="end">0.55</text>
+        <text x="12" y="344" font-size="9" fill="#8a90a8">Segments</text>
+        <rect x="90" y="337" width="188" height="3" rx="2" fill="rgba(255,255,255,.1)"/>
+        <rect x="90" y="337" width="56" height="3" rx="2" fill="url(#slGrad2)"/>
+        <text x="287" y="344" font-size="8" fill="#35dfd6" text-anchor="end">8</text>
+        <!-- scroll hint -->
+        <text x="160" y="390" text-anchor="middle" font-size="8" fill="#4a5068">↕  scroll for more controls</text>
+        <!-- GO sticky bar -->
+        <rect x="0" y="430" width="320" height="50" fill="#0b0d15"/>
+        <rect x="0" y="430" width="320" height="1" fill="rgba(255,255,255,.08)"/>
+        <rect x="10" y="437" width="300" height="34" rx="9" fill="rgba(123,167,212,.08)" stroke="rgba(123,167,212,.3)" stroke-width="1"/>
+        <text x="160" y="459" text-anchor="middle" font-size="13" font-weight="800" fill="#A8D8EA" letter-spacing="2">GO</text>
+        <!-- home indicator -->
+        <rect x="110" y="508" width="100" height="4" rx="2" fill="rgba(255,255,255,.15)"/>
+      </svg>
+      <div class="annot-row">
+        <div class="annot"><span class="annot-dot" style="background:#111827"></span> Topbar — fixed 44 px, logo + Running status</div>
+        <div class="annot"><span class="annot-dot" style="background:#0a0c14"></span> Canvas zone — PREVIEW &amp; PROGRAM side by side, fixed ~38 vh</div>
+        <div class="annot"><span class="annot-dot" style="background:#111827;border:1px solid rgba(168,117,255,.4)"></span> Tab strip — horizontal, 5 tabs, scrollable</div>
+        <div class="annot"><span class="annot-dot" style="background:#0e1022"></span> Control panel — fills remaining height, scrolls vertically</div>
+        <div class="annot"><span class="annot-dot" style="background:#3ecc85"></span> GO bar — sticky at bottom, always visible</div>
+      </div>
     </div>
+
+    <h3>How to use mobile.html</h3>
+    <p>Open <span class="key">mobile.html</span> in a mobile browser. The page fits entirely within the viewport — nothing overflows the screen edge.</p>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Topbar</div>
+        <p>The animated kaleidoscope logo confirms the engine is running. The <span class="key">❚❚ Running</span> button pauses and resumes rendering. Version and tier (Free / Premium) are shown in the sub-label.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Canvas monitors</div>
+        <p>PREVIEW (blue border) shows your staged changes. PROGRAM (red border, LIVE dot) shows the active output. On phones they sit side by side; on tablets in portrait they stack vertically.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">Navigation tabs</div>
+        <p>On desktop/tablet: a vertical sidebar on the left. On phones: a horizontal tab strip below the monitors. Tap any tab to switch the control panel content. The active tab glows purple.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">GO button</div>
+        <p>On desktop: at the bottom of the Visuals control panel. On phones: a sticky full-width bar fixed at the bottom of the screen — always reachable without scrolling.</p>
+      </div>
+    </div>
+
+    <h3>Tab-by-tab guide</h3>
+
+    <div class="ctrl-grid">
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">👁 Visuals</div>
+        <p>Theme selector dropdown, then 8 sliders (Intensity, Speed, Chaos, Rotation, Zoom, Segments, Bloom, Smooth), then Symmetry type buttons (Radial / Mirror / Kaleidoscope). All changes update PREVIEW only. Tap GO to commit.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">🔊 Audio</div>
+        <p>Transport (Stop / Play), Drone preset dropdown with live carrier·beat·band readout, Carrier Hz and Beat Hz sliders, Entrainment Mode buttons, Brain-tickle and Slowness sliders, Ambient Bed dropdown with Drone↔Bed blend, Loop mode, and Master volume.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">📤 Output</div>
+        <p>Aspect ratio selector (16:9 · 9:16 · 1:1 · 4:3) and a <span class="key">⛶ Fullscreen</span> button. Tap Fullscreen to enter a full-bleed canvas view that hides all UI — tap the canvas to exit. Param overlay toggle shows live metadata over the fullscreen canvas.</p>
+      </div>
+      <div class="ctrl-card">
+        <div class="ctrl-card-name">💾 Presets</div>
+        <p>List of saved sessions with Load and Delete per entry. <span class="key">Save current session</span> saves PROGRAM state with a name. <span class="key">Export JSON</span> and <span class="key">Import JSON</span> for backup and sharing.</p>
+      </div>
+    </div>
+
+    <h3>Fullscreen mode</h3>
+    <p>Tap <span class="ctrl">⛶ Fullscreen</span> in the Output tab to enter a full-bleed canvas that covers the entire phone screen — no topbar, no controls, no chrome. The kaleidoscope fills the display. Tap anywhere on the canvas to exit fullscreen and return to the control UI. The param overlay (if On) shows live session metadata in the top-left corner.</p>
 
     <div class="callout tip">
       <span class="callout-icon">💡</span>
       <div class="callout-body">
-        <strong>No data outside the browser window</strong>
-        The mobile layout is contained entirely within the viewport. All panels scroll internally — nothing extends beyond the screen edge.
+        <strong>iOS speaker unlock</strong>
+        On iOS, a silent looping audio element is played on first tap to upgrade the Web Audio session from "ambient" (headphone-only) to "playback" (speakers + headphones). This happens automatically the first time you interact with the page.
       </div>
     </div>
 
-    <h3>GO button</h3>
-    <p>On mobile, the <span class="ctrl">GO</span> button is a sticky full-width bar fixed at the bottom of the control panel, always accessible without scrolling.</p>
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Audio changes are immediate — no GO required</strong>
+        Drone, mode, bed, blend, and master volume take effect immediately on mobile, the same as on desktop. Only visual parameter changes require GO to commit to PROGRAM.
+      </div>
+    </div>
+
+    <h3>Landscape phone</h3>
+    <p>On phones rotated to landscape (narrow height), the layout switches to a side-by-side arrangement: the sidebar returns as a compact vertical column on the left (52 px), the monitors stack vertically in the centre, and the control panel sits on the right (220 px). All three columns scroll independently.</p>
   </section>
 
 
@@ -1098,7 +1229,11 @@ nav a.active .nav-icon{opacity:1}
 </main>
 
 <script>
-// ── Mobile nav toggle ──────────────────────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────────────────
+function isMobile(){ return window.innerWidth <= 800; }
+function getScroller(){ return isMobile() ? null : document.getElementById('content'); }
+
+// ── Mobile nav ─────────────────────────────────────────────────────────────
 function toggleNav(){
   document.getElementById('nav').classList.toggle('open');
   document.getElementById('mob-overlay').classList.toggle('open');
@@ -1108,48 +1243,70 @@ function closeNav(){
   document.getElementById('mob-overlay').classList.remove('open');
 }
 
-// ── Scroll progress bar ────────────────────────────────────────────────────
+// ── Progress bar ───────────────────────────────────────────────────────────
 const bar = document.getElementById('progress-bar');
-const contentEl = document.getElementById('content') || document.documentElement;
-
 function updateProgress(){
-  const el = window.innerWidth > 800 ? document.getElementById('content') : document.documentElement;
-  if(!el) return;
-  const scrolled = el.scrollTop || document.documentElement.scrollTop;
-  const total = (el.scrollHeight || document.documentElement.scrollHeight) - window.innerHeight;
-  bar.style.transform = `scaleX(${Math.min(scrolled/total,1)})`;
+  const el = getScroller();
+  const scrolled = el ? el.scrollTop : window.scrollY;
+  const total = el
+    ? el.scrollHeight - el.clientHeight
+    : document.documentElement.scrollHeight - window.innerHeight;
+  if(total <= 0) return;
+  bar.style.transform = `scaleX(${Math.min(scrolled / total, 1)})`;
 }
+const contentEl = document.getElementById('content');
+if(contentEl) contentEl.addEventListener('scroll', updateProgress, {passive:true});
+window.addEventListener('scroll', updateProgress, {passive:true});
 
-const scrollTarget = document.getElementById('content');
-if(scrollTarget) scrollTarget.addEventListener('scroll', updateProgress);
-window.addEventListener('scroll', updateProgress);
-
-// ── Active nav link on scroll ──────────────────────────────────────────────
+// ── Active nav link ────────────────────────────────────────────────────────
 const sections = document.querySelectorAll('.doc-section');
 const navLinks = document.querySelectorAll('#nav a');
 
 function updateActive(){
-  const el = document.getElementById('content');
+  const el = getScroller();
   const scrollTop = el ? el.scrollTop : window.scrollY;
   let current = '';
-  sections.forEach(s => { if(scrollTop >= s.offsetTop - 80) current = s.id; });
+  sections.forEach(s => {
+    // offsetTop is relative to offsetParent; for sections inside .content-inner
+    // inside #content, we need position relative to the scroll container
+    const rect = s.getBoundingClientRect();
+    const containerTop = el ? el.getBoundingClientRect().top : 0;
+    const pos = rect.top - containerTop;
+    if(pos <= 80) current = s.id;
+  });
   navLinks.forEach(a => {
     a.classList.remove('active');
-    if(a.getAttribute('href') === '#'+current) a.classList.add('active');
+    if(a.getAttribute('href') === '#' + current) a.classList.add('active');
   });
 }
-if(scrollTarget) scrollTarget.addEventListener('scroll', updateActive);
-window.addEventListener('scroll', updateActive);
+if(contentEl) contentEl.addEventListener('scroll', updateActive, {passive:true});
+window.addEventListener('scroll', updateActive, {passive:true});
 
 // ── Smooth scroll nav clicks ───────────────────────────────────────────────
 navLinks.forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    const target = document.querySelector(href);
     if(!target) return;
-    const el = document.getElementById('content');
-    if(el){ el.scrollTo({top: target.offsetTop - 32, behavior:'smooth'}); }
-    else { target.scrollIntoView({behavior:'smooth'}); }
+
+    const el = getScroller();
+    if(el){
+      // Desktop: scroll inside #content
+      // target.offsetTop is relative to .content-inner; walk up to find offset from #content
+      let offset = 0;
+      let node = target;
+      while(node && node !== el){
+        offset += node.offsetTop;
+        node = node.offsetParent;
+      }
+      el.scrollTo({ top: Math.max(0, offset - 32), behavior: 'smooth' });
+    } else {
+      // Mobile: body/window scrolls
+      const rect = target.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + rect.top - 56, behavior: 'smooth' });
+      closeNav();
+    }
   });
 });
 </script>
