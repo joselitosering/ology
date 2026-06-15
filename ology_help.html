@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Ology · Help Guide · Beta v1.5</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -40,9 +40,20 @@ nav a .nav-icon{width:14px;height:14px;flex-shrink:0;opacity:.6}
 nav a.active .nav-icon{opacity:1}
 .nav-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--stroke);font-size:10px;color:var(--faint)}
 
+/* Sub-link — indented, lighter, no left-border accent */
+.nav-sub{padding-left:36px!important;font-size:11.5px!important;color:var(--faint)!important}
+.nav-sub:hover{color:var(--dim)!important}
+.nav-sub.active{color:var(--acc)!important;border-left-color:var(--acc)!important;background:rgba(168,117,255,.06)!important}
+
 /* ── Content ── */
 #content{flex:1;overflow-y:auto;overflow-x:hidden;min-width:0;height:100%}
-.content-inner{max-width:var(--content-max);margin:0 auto;padding:48px 48px 96px}
+.content-inner{
+  max-width:var(--content-max);margin:0 auto;
+  padding:48px 48px 96px;
+  /* Safari safe-area: adds notch/home-bar clearance on iOS */
+  padding-left:max(48px, calc(24px + env(safe-area-inset-left)));
+  padding-right:max(48px, calc(24px + env(safe-area-inset-right)));
+}
 
 /* ── Page hero ── */
 .page-hero{margin-bottom:52px;padding-bottom:32px;border-bottom:1px solid var(--stroke)}
@@ -182,10 +193,15 @@ nav a.active .nav-icon{opacity:1}
   body{display:block;overflow-y:auto;overflow-x:hidden;height:auto;min-height:100vh}
   #nav{position:fixed;top:0;left:0;width:240px;height:100vh;z-index:250;transform:translateX(-100%);transition:transform .22s ease;border-right:1px solid var(--s2)}
   #nav.open{transform:translateX(0)}
-  #mob-btn{display:flex}
+  #mob-btn{display:flex;top:max(10px, env(safe-area-inset-top));left:max(12px, env(safe-area-inset-left))}
   #progress-bar{left:0}
   #content{display:block;width:100%;overflow:visible;height:auto}
-  .content-inner{padding:56px 16px 80px}
+  .content-inner{
+    padding-top:max(56px, calc(44px + env(safe-area-inset-top)));
+    padding-bottom:max(80px, calc(60px + env(safe-area-inset-bottom)));
+    padding-left:max(16px, calc(12px + env(safe-area-inset-left)));
+    padding-right:max(16px, calc(12px + env(safe-area-inset-right)));
+  }
   .page-hero h1{font-size:26px}
   .page-hero .lead{font-size:13.5px}
   .ctrl-grid{grid-template-columns:1fr}
@@ -226,7 +242,8 @@ nav a.active .nav-icon{opacity:1}
   <div class="nav-section-label">Getting Started</div>
   <nav>
     <a href="#overview" class="active"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Overview</a>
-    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Interface</a>
+    <a href="#interface"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h6a1 1 0 010 2H4a1 1 0 01-1-1z"/></svg>Desktop Interface</a>
+    <a href="#mobile-view" class="nav-sub"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile Interface</a>
     <a href="#preview-program"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>Preview &amp; Program</a>
   </nav>
   <div class="nav-section-label">Controls</div>
@@ -235,7 +252,6 @@ nav a.active .nav-icon{opacity:1}
     <a href="#audio-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>Audio Tab</a>
     <a href="#output-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553 1.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>Output Tab</a>
     <a href="#presets-tab"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>Presets Tab</a>
-    <a href="#mobile-view"><svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>Mobile View</a>
   </nav>
   <div class="nav-section-label">Reference</div>
   <nav>
@@ -290,9 +306,9 @@ nav a.active .nav-icon{opacity:1}
   </section>
 
 
-  <!-- ── 02 Interface ─────────────────────────────────────────────────────── -->
+  <!-- ── 02 Desktop Interface ────────────────────────────────────────────── -->
   <section class="doc-section" id="interface">
-    <h2><span class="section-num">02</span> The Interface</h2>
+    <h2><span class="section-num">02</span> Desktop Interface</h2>
     <div class="section-rule"></div>
     <p>The Stage layout has four areas that work together. Understanding how they relate is the fastest way to become fluent with Ology.</p>
 
@@ -411,216 +427,9 @@ nav a.active .nav-icon{opacity:1}
   </section>
 
 
-  <!-- ── 03 Preview & Program ────────────────────────────────────────────── -->
-  <section class="doc-section" id="preview-program">
-    <h2><span class="section-num">03</span> Preview &amp; Program</h2>
-    <div class="section-rule"></div>
-    <p>Ology uses a two-bus model borrowed from broadcast switching: every change is staged in PREVIEW before it goes live in PROGRAM. Nothing happens to the live output until you deliberately commit it.</p>
-    <div class="go-explainer">
-      <div class="go-btn-demo">GO</div>
-      <p>Pressing GO copies all current PREVIEW settings — theme, speed, chaos, zoom, segments, bloom, smooth — into PROGRAM and makes them live instantly. Audio changes are live immediately without GO.</p>
-    </div>
-    <div class="two-col">
-      <div>
-        <h3>PREVIEW (blue)</h3>
-        <ul>
-          <li>Safe staging area — nothing visible to your audience or OBS yet.</li>
-          <li>All slider and theme changes go here first.</li>
-          <li>Loading a preset always loads into PREVIEW, never directly into PROGRAM.</li>
-          <li>You can audition a visual change without interrupting a live session.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>PROGRAM (red · LIVE)</h3>
-        <ul>
-          <li>The live output — what appears on the OBS canvas and any connected output.</li>
-          <li>Committed by pressing GO.</li>
-          <li>Audio parameters (drone, mode, bed, volume) take effect immediately and bypass the GO step.</li>
-          <li>The param overlay on output.html always reflects PROGRAM state.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="callout note">
-      <span class="callout-icon">ℹ️</span>
-      <div class="callout-body">
-        <strong>Audio vs Visual — two different commit rules</strong>
-        Visual parameters stage into PREVIEW and require GO. Audio parameters (drone selection, entrainment mode, carrier Hz, beat Hz, ambient bed, blend, volume) take effect immediately when you change them — there is no PREVIEW step for audio.
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ── 04 Visuals Tab ──────────────────────────────────────────────────── -->
-  <section class="doc-section" id="visuals-tab">
-    <h2><span class="section-num">04</span> Visuals Tab</h2>
-    <div class="section-rule"></div>
-    <p>All visual parameters update PREVIEW only. Press <span class="ctrl">GO</span> to make any change live.</p>
-
-    <h3>Theme selector</h3>
-    <p>The <span class="ctrl">Preview Theme</span> dropdown selects which of the seven visual themes to load into PREVIEW. The default theme on load is <strong style="color:var(--txt)">Interdimensional Beings</strong> for both PREVIEW and PROGRAM. Each theme has a distinct shader, colour palette, and geometry character. See <a href="#themes" style="color:var(--teal)">Themes</a> for the full list.</p>
-
-    <h3>Motion controls</h3>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Intensity <span class="ctrl-card-range">0 – 1</span></div><p>Fractal depth. Higher values produce more detailed, recursive geometry. Lower values produce softer, more dissolving forms. Default 0.50.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Speed <span class="ctrl-card-range">0.1× – 3×</span></div><p>Animation rate. Therapeutic presets default to 0.6×–0.8×. Performance presets may run at 1.5× or higher. Default 0.80.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Chaos <span class="ctrl-card-range">0 – 1</span></div><p>Noise modulation amplitude. High chaos = organic, lava-lamp fluidity. Low chaos = crystalline, geometric precision. Default 0.50.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Rotation <span class="ctrl-card-range">0 – 1</span></div><p>Slow rotational drift of the entire canvas. At 0, the image holds still. Default 0.50.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Zoom <span class="ctrl-card-range">near – far</span></div><p>Camera distance. <span class="key">far</span> opens a wide-field view of the fractal surface. Closer values push into the interior geometry.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Segments <span class="ctrl-card-range">2 – 24</span></div><p>Kaleidoscope symmetry count. 2 = mirror. 4 = four-fold. 8 = octagonal. Even numbers produce radial symmetry; odd numbers produce spiral offset.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Bloom <span class="ctrl-card-range">0 – 1</span></div><p>Luminance blooming around bright areas. Increases the ethereal quality of the visual. Default 1.00.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Smooth <span class="ctrl-card-range">0 – 1</span></div><p>Edge sharpness. At 1.0, edges are soft and diffuse. At 0, edges are crisp and defined. Default 0.82.</p></div>
-    </div>
-
-    <h3>Symmetry type</h3>
-    <p>The three <span class="tab-chip">Symmetry</span> buttons select the fold type applied before the segment count:</p>
-    <ul>
-      <li><strong style="color:var(--txt)">Radial</strong> — rotational symmetry around the centre. Clean and mandala-like.</li>
-      <li><strong style="color:var(--txt)">Mirror</strong> — bilateral reflection. Creates left/right symmetry.</li>
-      <li><strong style="color:var(--txt)">Kaleidoscope</strong> — the full domain-folding kaleidoscope. The most visually complex mode. Default.</li>
-    </ul>
-  </section>
-
-
-  <!-- ── 05 Audio Tab ────────────────────────────────────────────────────── -->
-  <section class="doc-section" id="audio-tab">
-    <h2><span class="section-num">05</span> Audio Tab</h2>
-    <div class="section-rule"></div>
-    <p>All audio in Ology is generated algorithmically — no sample files, no recordings. The audio engine synthesizes carrier tones, entrainment beats, and six ambient texture beds entirely in the browser.</p>
-
-    <h3>Transport</h3>
-    <p><span class="ctrl">Stop</span> clears and rebuilds the audio engine, resetting all oscillators cleanly. <span class="ctrl">Play</span> starts the drone and ambient bed. Audio never auto-starts on page load.</p>
-
-    <h3>Drone generator</h3>
-    <p>The <span class="ctrl">Drone preset</span> dropdown selects one of 13 presets. The display shows the name, carrier frequency, beat frequency, and band — for example: <span class="key">Theta · Intuition · 136.1 Hz / 6 Hz</span>. See the <a href="#drone-library" style="color:var(--teal)">Drone Library</a> for all 13 presets.</p>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Carrier Hz</div><p>The audible base tone — what you actually hear. Adjusting the carrier changes the pitch of the drone without changing the entrainment target.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Beat Hz</div><p>The entrainment target frequency — the difference between L/R channels (binaural), the pulse rate (isochronic), or the modulation rate (monaural). The band label updates live as you move this slider.</p></div>
-    </div>
-
-    <h3>Entrainment mode</h3>
-    <div class="mode-cards">
-      <div class="mode-card">
-        <div class="mode-card-name">Binaural</div>
-        <div class="mode-card-tag tag-headphones">Headphones required</div>
-        <p>A different frequency reaches each ear. The brain perceives a third tone equal to the difference. Requires true stereo separation — headphones only. Most documented in EEG research.</p>
-      </div>
-      <div class="mode-card">
-        <div class="mode-card-name">Isochronic</div>
-        <div class="mode-card-tag tag-speakers">Speakers OK</div>
-        <p>A single tone pulsed on and off at the entrainment rate. Sharp onset and offset. No headphones required. Preferred for stage speakers, OBS, and livestreams.</p>
-      </div>
-      <div class="mode-card">
-        <div class="mode-card-name">Monaural</div>
-        <div class="mode-card-tag tag-speakers">Speakers OK</div>
-        <p>Two tones mixed in a single channel, creating physical amplitude modulation. A real acoustic beat — no headphones required. Strong entrainment stimulus.</p>
-      </div>
-    </div>
-    <div class="callout warn">
-      <span class="callout-icon">⚠️</span>
-      <div class="callout-body">
-        <strong>Headphone advisory</strong>
-        Binaural mode requires stereo headphones for the intended psychoacoustic effect. On speakers or in OBS, the two tones blend and the binaural effect is not accurately delivered. Use <span class="ctrl">Isochronic</span> or <span class="ctrl">Monaural</span> for speaker or broadcast use.
-      </div>
-    </div>
-
-    <h3>Texture</h3>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Brain-tickle <span class="ctrl-card-range">0 – 1</span></div><p>Subtle harmonic overtone pulses layered over the drone. Adds texture and aliveness to the carrier tone. Default 0.20.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Slowness <span class="ctrl-card-range">0 – 1</span></div><p>An LFO that introduces a very slow undulation to the drone's timbre — a breathing quality. Higher values = slower, deeper breath cycle. Default 0.60.</p></div>
-    </div>
-
-    <h3>Ambient bed</h3>
-    <p>Six generative ambient textures synthesized entirely from oscillators and filters — no recordings used. Select one from the <span class="ctrl">Ambient Bed</span> dropdown.</p>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Womb</div><p>Low, warm, resonant rumble. Enveloping and primal.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Waterfall</div><p>Broadband white noise shaped into flowing water.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Jungle</div><p>Dense mid-frequency texture with subtle organic modulation.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Forest</div><p>Open, airy. Sparse texture with high-frequency shimmer.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Whales</div><p>Deep low-frequency long-cycle tones. Slow and vast.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Ocean</div><p>Wave-like low-frequency swells with broadband surface texture.</p></div>
-    </div>
-    <p>The <span class="ctrl">Drone ↔ Bed</span> blend dial controls the equal-power crossfade. All the way left = pure drone. Centre = equal mix. All the way right = pure ambient bed.</p>
-
-    <h3>Loop &amp; Master</h3>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Crossfade</div><p>Seamless looping. The drone cycles without audible restart.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Evolving</div><p>Slowly mutates the drone's timbre over time. No two moments identical.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">One-shot</div><p>Plays the drone through once and stops.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Master</div><p>Post-crossfade output volume. Default 0.80.</p></div>
-    </div>
-
-    <h3>Reactivity — Band → Visual</h3>
-    <p>This matrix routes live audio frequency analysis into the visual engine in real time. The drone audio is analysed into four bands every frame; this panel maps each band's energy to a visual parameter.</p>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Sub → Bloom</div><p>Sub-bass energy (below ~80 Hz) drives bloom intensity. Heavy bass = more glow.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Low → Zoom</div><p>Low-mid energy (~80–400 Hz) drives camera distance. Bass pulses pull and push the view.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Mid → Chaos</div><p>Mid-frequency energy (~400 Hz–2 kHz) drives the chaos noise modulation.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">High → Color</div><p>High-frequency energy (2 kHz+) drives colour palette shift.</p></div>
-    </div>
-    <div class="callout tip">
-      <span class="callout-icon">💡</span>
-      <div class="callout-body">
-        <strong>Reactivity only works while audio is playing</strong>
-        All four routes are gated on audio playback. If the transport is stopped, the visual falls back to its static parameter values and audio reactivity is suspended.
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ── 06 Output Tab ───────────────────────────────────────────────────── -->
-  <section class="doc-section" id="output-tab">
-    <h2><span class="section-num">06</span> Output Tab</h2>
-    <div class="section-rule"></div>
-    <p>The Output tab controls the OBS output window, the param overlay, and wireless phone pairing.</p>
-
-    <h3>Why two separate pages?</h3>
-    <p>Ology uses two pages. <span class="key">web.html</span> is the control surface — it generates all audio and runs the operator's UI. <span class="key">output.html</span> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
-    <div class="callout note">
-      <span class="callout-icon">ℹ️</span>
-      <div class="callout-body">
-        <strong>Why audio and video are separate OBS sources</strong>
-        If output.html also generated audio, OBS would receive two identical drone signals causing phasing artifacts and destroying binaural left/right channel separation. Keeping audio exclusively in web.html preserves clean, phase-correct stereo on the OBS recording bus.
-      </div>
-    </div>
-
-    <h3>Aspect ratio</h3>
-    <p>Select the output aspect ratio before opening the output window. The default on load is <strong style="color:var(--txt)">16:9</strong>. The canvas viewer adapts to each selection:</p>
-    <ul>
-      <li><strong style="color:var(--txt)">16:9 · 1:1 · 4:3</strong> — canvas fits side to side within the monitor viewer.</li>
-      <li><strong style="color:var(--txt)">9:16</strong> — canvas fits top to bottom, displaying the full portrait frame without cropping.</li>
-    </ul>
-
-    <h3>Param overlay</h3>
-    <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
-  </section>
-
-
-  <!-- ── 07 Presets Tab ──────────────────────────────────────────────────── -->
-  <section class="doc-section" id="presets-tab">
-    <h2><span class="section-num">07</span> Presets Tab</h2>
-    <div class="section-rule"></div>
-    <p>A preset captures a complete session snapshot: all visual parameters, all audio parameters, theme, drone, mode, bed blend, reactivity routing, and loop mode together in one named file.</p>
-    <div class="ctrl-grid">
-      <div class="ctrl-card"><div class="ctrl-card-name">Save</div><p>Saves the current PROGRAM state as a named preset to local storage.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Load</div><p>Loads a preset into PREVIEW — not directly into PROGRAM. Press GO to commit it live.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Favorite ★</div><p>Pins the preset to the top of the list for quick access.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Delete</div><p>Removes the preset from local storage permanently.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Export JSON</div><p>Downloads the entire preset library as a .json file for backup or sharing.</p></div>
-      <div class="ctrl-card"><div class="ctrl-card-name">Import JSON</div><p>Loads a .json preset file into the local library without overwriting existing presets.</p></div>
-    </div>
-    <div class="callout tip">
-      <span class="callout-icon">💡</span>
-      <div class="callout-body">
-        <strong>Always loads into PREVIEW</strong>
-        Loading a preset never disrupts the live PROGRAM output. Audition the loaded preset on the PREVIEW monitor first, then press GO when you're ready.
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ── 08 Mobile View ──────────────────────────────────────────────────── -->
+  <!-- ── 02b Mobile Interface ──────────────────────────────────────────────────── -->
   <section class="doc-section" id="mobile-view">
-    <h2><span class="section-num">08</span> Mobile View</h2>
+    <h2><span class="section-num">02b</span> Mobile Interface</h2>
     <div class="section-rule"></div>
     <p>The mobile page (<span class="key">mobile.html</span>) is a full Ology experience optimised for phones and tablets. It renders the kaleidoscope, generates audio, and provides complete visual and audio control — all in a single browser tab, no installation required.</p>
 
@@ -872,6 +681,217 @@ nav a.active .nav-icon{opacity:1}
     <h3>Landscape phone</h3>
     <p>On phones rotated to landscape (narrow height), the layout switches to a side-by-side arrangement: the sidebar returns as a compact vertical column on the left (52 px), the monitors stack vertically in the centre, and the control panel sits on the right (220 px). All three columns scroll independently.</p>
   </section>
+
+
+
+
+  <!-- ── 03 Preview & Program ────────────────────────────────────────────── -->
+  <section class="doc-section" id="preview-program">
+    <h2><span class="section-num">03</span> Preview &amp; Program</h2>
+    <div class="section-rule"></div>
+    <p>Ology uses a two-bus model borrowed from broadcast switching: every change is staged in PREVIEW before it goes live in PROGRAM. Nothing happens to the live output until you deliberately commit it.</p>
+    <div class="go-explainer">
+      <div class="go-btn-demo">GO</div>
+      <p>Pressing GO copies all current PREVIEW settings — theme, speed, chaos, zoom, segments, bloom, smooth — into PROGRAM and makes them live instantly. Audio changes are live immediately without GO.</p>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>PREVIEW (blue)</h3>
+        <ul>
+          <li>Safe staging area — nothing visible to your audience or OBS yet.</li>
+          <li>All slider and theme changes go here first.</li>
+          <li>Loading a preset always loads into PREVIEW, never directly into PROGRAM.</li>
+          <li>You can audition a visual change without interrupting a live session.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>PROGRAM (red · LIVE)</h3>
+        <ul>
+          <li>The live output — what appears on the OBS canvas and any connected output.</li>
+          <li>Committed by pressing GO.</li>
+          <li>Audio parameters (drone, mode, bed, volume) take effect immediately and bypass the GO step.</li>
+          <li>The param overlay on output.html always reflects PROGRAM state.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Audio vs Visual — two different commit rules</strong>
+        Visual parameters stage into PREVIEW and require GO. Audio parameters (drone selection, entrainment mode, carrier Hz, beat Hz, ambient bed, blend, volume) take effect immediately when you change them — there is no PREVIEW step for audio.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 04 Visuals Tab ──────────────────────────────────────────────────── -->
+  <section class="doc-section" id="visuals-tab">
+    <h2><span class="section-num">04</span> Visuals Tab</h2>
+    <div class="section-rule"></div>
+    <p>All visual parameters update PREVIEW only. Press <span class="ctrl">GO</span> to make any change live.</p>
+
+    <h3>Theme selector</h3>
+    <p>The <span class="ctrl">Preview Theme</span> dropdown selects which of the seven visual themes to load into PREVIEW. The default theme on load is <strong style="color:var(--txt)">Interdimensional Beings</strong> for both PREVIEW and PROGRAM. Each theme has a distinct shader, colour palette, and geometry character. See <a href="#themes" style="color:var(--teal)">Themes</a> for the full list.</p>
+
+    <h3>Motion controls</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Intensity <span class="ctrl-card-range">0 – 1</span></div><p>Fractal depth. Higher values produce more detailed, recursive geometry. Lower values produce softer, more dissolving forms. Default 0.50.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Speed <span class="ctrl-card-range">0.1× – 3×</span></div><p>Animation rate. Therapeutic presets default to 0.6×–0.8×. Performance presets may run at 1.5× or higher. Default 0.80.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Chaos <span class="ctrl-card-range">0 – 1</span></div><p>Noise modulation amplitude. High chaos = organic, lava-lamp fluidity. Low chaos = crystalline, geometric precision. Default 0.50.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Rotation <span class="ctrl-card-range">0 – 1</span></div><p>Slow rotational drift of the entire canvas. At 0, the image holds still. Default 0.50.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Zoom <span class="ctrl-card-range">near – far</span></div><p>Camera distance. <span class="key">far</span> opens a wide-field view of the fractal surface. Closer values push into the interior geometry.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Segments <span class="ctrl-card-range">2 – 24</span></div><p>Kaleidoscope symmetry count. 2 = mirror. 4 = four-fold. 8 = octagonal. Even numbers produce radial symmetry; odd numbers produce spiral offset.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Bloom <span class="ctrl-card-range">0 – 1</span></div><p>Luminance blooming around bright areas. Increases the ethereal quality of the visual. Default 1.00.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Smooth <span class="ctrl-card-range">0 – 1</span></div><p>Edge sharpness. At 1.0, edges are soft and diffuse. At 0, edges are crisp and defined. Default 0.82.</p></div>
+    </div>
+
+    <h3>Symmetry type</h3>
+    <p>The three <span class="tab-chip">Symmetry</span> buttons select the fold type applied before the segment count:</p>
+    <ul>
+      <li><strong style="color:var(--txt)">Radial</strong> — rotational symmetry around the centre. Clean and mandala-like.</li>
+      <li><strong style="color:var(--txt)">Mirror</strong> — bilateral reflection. Creates left/right symmetry.</li>
+      <li><strong style="color:var(--txt)">Kaleidoscope</strong> — the full domain-folding kaleidoscope. The most visually complex mode. Default.</li>
+    </ul>
+  </section>
+
+
+  <!-- ── 05 Audio Tab ────────────────────────────────────────────────────── -->
+  <section class="doc-section" id="audio-tab">
+    <h2><span class="section-num">05</span> Audio Tab</h2>
+    <div class="section-rule"></div>
+    <p>All audio in Ology is generated algorithmically — no sample files, no recordings. The audio engine synthesizes carrier tones, entrainment beats, and six ambient texture beds entirely in the browser.</p>
+
+    <h3>Transport</h3>
+    <p><span class="ctrl">Stop</span> clears and rebuilds the audio engine, resetting all oscillators cleanly. <span class="ctrl">Play</span> starts the drone and ambient bed. Audio never auto-starts on page load.</p>
+
+    <h3>Drone generator</h3>
+    <p>The <span class="ctrl">Drone preset</span> dropdown selects one of 13 presets. The display shows the name, carrier frequency, beat frequency, and band — for example: <span class="key">Theta · Intuition · 136.1 Hz / 6 Hz</span>. See the <a href="#drone-library" style="color:var(--teal)">Drone Library</a> for all 13 presets.</p>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Carrier Hz</div><p>The audible base tone — what you actually hear. Adjusting the carrier changes the pitch of the drone without changing the entrainment target.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Beat Hz</div><p>The entrainment target frequency — the difference between L/R channels (binaural), the pulse rate (isochronic), or the modulation rate (monaural). The band label updates live as you move this slider.</p></div>
+    </div>
+
+    <h3>Entrainment mode</h3>
+    <div class="mode-cards">
+      <div class="mode-card">
+        <div class="mode-card-name">Binaural</div>
+        <div class="mode-card-tag tag-headphones">Headphones required</div>
+        <p>A different frequency reaches each ear. The brain perceives a third tone equal to the difference. Requires true stereo separation — headphones only. Most documented in EEG research.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-card-name">Isochronic</div>
+        <div class="mode-card-tag tag-speakers">Speakers OK</div>
+        <p>A single tone pulsed on and off at the entrainment rate. Sharp onset and offset. No headphones required. Preferred for stage speakers, OBS, and livestreams.</p>
+      </div>
+      <div class="mode-card">
+        <div class="mode-card-name">Monaural</div>
+        <div class="mode-card-tag tag-speakers">Speakers OK</div>
+        <p>Two tones mixed in a single channel, creating physical amplitude modulation. A real acoustic beat — no headphones required. Strong entrainment stimulus.</p>
+      </div>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Headphone advisory</strong>
+        Binaural mode requires stereo headphones for the intended psychoacoustic effect. On speakers or in OBS, the two tones blend and the binaural effect is not accurately delivered. Use <span class="ctrl">Isochronic</span> or <span class="ctrl">Monaural</span> for speaker or broadcast use.
+      </div>
+    </div>
+
+    <h3>Texture</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Brain-tickle <span class="ctrl-card-range">0 – 1</span></div><p>Subtle harmonic overtone pulses layered over the drone. Adds texture and aliveness to the carrier tone. Default 0.20.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Slowness <span class="ctrl-card-range">0 – 1</span></div><p>An LFO that introduces a very slow undulation to the drone's timbre — a breathing quality. Higher values = slower, deeper breath cycle. Default 0.60.</p></div>
+    </div>
+
+    <h3>Ambient bed</h3>
+    <p>Six generative ambient textures synthesized entirely from oscillators and filters — no recordings used. Select one from the <span class="ctrl">Ambient Bed</span> dropdown.</p>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Womb</div><p>Low, warm, resonant rumble. Enveloping and primal.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Waterfall</div><p>Broadband white noise shaped into flowing water.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Jungle</div><p>Dense mid-frequency texture with subtle organic modulation.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Forest</div><p>Open, airy. Sparse texture with high-frequency shimmer.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Whales</div><p>Deep low-frequency long-cycle tones. Slow and vast.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Ocean</div><p>Wave-like low-frequency swells with broadband surface texture.</p></div>
+    </div>
+    <p>The <span class="ctrl">Drone ↔ Bed</span> blend dial controls the equal-power crossfade. All the way left = pure drone. Centre = equal mix. All the way right = pure ambient bed.</p>
+
+    <h3>Loop &amp; Master</h3>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Crossfade</div><p>Seamless looping. The drone cycles without audible restart.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Evolving</div><p>Slowly mutates the drone's timbre over time. No two moments identical.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">One-shot</div><p>Plays the drone through once and stops.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Master</div><p>Post-crossfade output volume. Default 0.80.</p></div>
+    </div>
+
+    <h3>Reactivity — Band → Visual</h3>
+    <p>This matrix routes live audio frequency analysis into the visual engine in real time. The drone audio is analysed into four bands every frame; this panel maps each band's energy to a visual parameter.</p>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Sub → Bloom</div><p>Sub-bass energy (below ~80 Hz) drives bloom intensity. Heavy bass = more glow.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Low → Zoom</div><p>Low-mid energy (~80–400 Hz) drives camera distance. Bass pulses pull and push the view.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Mid → Chaos</div><p>Mid-frequency energy (~400 Hz–2 kHz) drives the chaos noise modulation.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">High → Color</div><p>High-frequency energy (2 kHz+) drives colour palette shift.</p></div>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Reactivity only works while audio is playing</strong>
+        All four routes are gated on audio playback. If the transport is stopped, the visual falls back to its static parameter values and audio reactivity is suspended.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 06 Output Tab ───────────────────────────────────────────────────── -->
+  <section class="doc-section" id="output-tab">
+    <h2><span class="section-num">06</span> Output Tab</h2>
+    <div class="section-rule"></div>
+    <p>The Output tab controls the OBS output window, the param overlay, and wireless phone pairing.</p>
+
+    <h3>Why two separate pages?</h3>
+    <p>Ology uses two pages. <span class="key">web.html</span> is the control surface — it generates all audio and runs the operator's UI. <span class="key">output.html</span> is a pure video canvas — no audio, no UI chrome, just the full-screen kaleidoscope.</p>
+    <div class="callout note">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Why audio and video are separate OBS sources</strong>
+        If output.html also generated audio, OBS would receive two identical drone signals causing phasing artifacts and destroying binaural left/right channel separation. Keeping audio exclusively in web.html preserves clean, phase-correct stereo on the OBS recording bus.
+      </div>
+    </div>
+
+    <h3>Aspect ratio</h3>
+    <p>Select the output aspect ratio before opening the output window. The default on load is <strong style="color:var(--txt)">16:9</strong>. The canvas viewer adapts to each selection:</p>
+    <ul>
+      <li><strong style="color:var(--txt)">16:9 · 1:1 · 4:3</strong> — canvas fits side to side within the monitor viewer.</li>
+      <li><strong style="color:var(--txt)">9:16</strong> — canvas fits top to bottom, displaying the full portrait frame without cropping.</li>
+    </ul>
+
+    <h3>Param overlay</h3>
+    <p>Toggle <span class="ctrl">On</span> / <span class="ctrl">Off</span> to show or hide a live parameter readout in the top-left corner of output.html. Displays: theme name, drone, carrier/beat Hz, mode, bed, brain-tickle and slowness values. Colour is theme-derived and updates each frame. The overlay remains visible on output.html even when the Stage engine is paused — this is intentional, confirming the output canvas is still live.</p>
+  </section>
+
+
+  <!-- ── 07 Presets Tab ──────────────────────────────────────────────────── -->
+  <section class="doc-section" id="presets-tab">
+    <h2><span class="section-num">07</span> Presets Tab</h2>
+    <div class="section-rule"></div>
+    <p>A preset captures a complete session snapshot: all visual parameters, all audio parameters, theme, drone, mode, bed blend, reactivity routing, and loop mode together in one named file.</p>
+    <div class="ctrl-grid">
+      <div class="ctrl-card"><div class="ctrl-card-name">Save</div><p>Saves the current PROGRAM state as a named preset to local storage.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Load</div><p>Loads a preset into PREVIEW — not directly into PROGRAM. Press GO to commit it live.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Favorite ★</div><p>Pins the preset to the top of the list for quick access.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Delete</div><p>Removes the preset from local storage permanently.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Export JSON</div><p>Downloads the entire preset library as a .json file for backup or sharing.</p></div>
+      <div class="ctrl-card"><div class="ctrl-card-name">Import JSON</div><p>Loads a .json preset file into the local library without overwriting existing presets.</p></div>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Always loads into PREVIEW</strong>
+        Loading a preset never disrupts the live PROGRAM output. Audition the loaded preset on the PREVIEW monitor first, then press GO when you're ready.
+      </div>
+    </div>
+  </section>
+
+
 
 
   <div class="divider"></div>
