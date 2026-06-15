@@ -367,7 +367,6 @@ function renderOverlay(){
 applyOverlayVisibility();
 
 /* ─── INIT & RENDER LOOP ──────────────────────────────────────────────– */
-const canvas=document.getElementById('outCanvas');
 const readout=document.getElementById('readout');
 /* obs=1 → fully hide the dimension overlay so OBS never captures the box. */
 if(cfgHideReadout && readout) readout.style.display='none';
@@ -382,6 +381,15 @@ if(window.OlogyShaders){
   catch(e){ console.error('[output.html] OlogyShaders.init failed:',e); }
 }
 
+/* Set canvas pixel dimensions immediately — before the first rAF frame fires.
+   A fresh <canvas> has width=0,height=0; draw() silently returns when tw/th=0.
+   Without this, the canvas is blank until fit() runs at its 100ms timeout,
+   by which point _resizing may already be true (fullscreen resize fired first),
+   blocking all draw() calls until the settle timer clears. Running fit() here
+   guarantees pixel dimensions are correct on frame 1. */
+const canvas=document.getElementById('outCanvas');
+fit(canvas);
+
 /* ─── RENDER PAUSE DURING WINDOW MIGRATION ────────────────────────────── */
 /* Root cause of cursor flicker: dragging the popup to a second monitor
    triggers a GPU compositing layer migration. The browser must re-allocate
@@ -389,22 +397,19 @@ if(window.OlogyShaders){
    is in flight, every draw() call fights the migration for the GPU, starving
    OS cursor compositing entirely.
    Fix: set _resizing=true on first resize event, skip draw() until the
-   window has settled (200ms after last resize), then resume. Visuals freeze
-   briefly during drag — acceptable. PROG.t keeps incrementing so the
-   animation resumes at the correct position.
-   Hard-cap fix (v1.4): when the popup opens and immediately requests fullscreen,
-   the browser fires a burst of resize events (popup seed → screen size → chrome
-   removal → GPU layer). Each resets the 200ms settle timer, which on some
-   platforms produces a resize storm lasting >200ms and leaves _resizing
-   permanently true — the canvas never draws. The hard cap forces _resizing=false
-   and calls fit() after 800ms from the FIRST resize event in a burst, regardless
-   of whether events are still trickling in. This guarantees the canvas always
-   appears within ~1s of the popup opening. The 200ms per-event debounce is kept
-   for the common drag-to-monitor case where the burst is short. */
+   window has settled (200ms after last resize), then resume.
+   Hard-cap (v1.4): popup open → fullscreen fires a burst of resize events
+   that can exceed 200ms, leaving _resizing permanently true. An 800ms hard
+   cap from the first event in any burst forces _resizing=false regardless.
+   First-draw guard: _resizing is only honoured after the first successful
+   draw() — this ensures the canvas is never blank on initial load even if
+   a resize event fires before the settle timer. */
 let _resizing=false;
 let _resizeTimer=null;
 let _resizeHardTimer=null;
+let _firstDrawDone=false;
 function _onResize(){
+  if(!_firstDrawDone) return; /* don't block before first frame is painted */
   _resizing=true;
   clearTimeout(_resizeTimer);
   _resizeTimer=setTimeout(()=>{
@@ -413,7 +418,6 @@ function _onResize(){
     clearTimeout(_resizeHardTimer);
     _resizeHardTimer=null;
   },200);
-  /* Hard cap: if first event in burst, arm an 800ms backstop */
   if(!_resizeHardTimer){
     _resizeHardTimer=setTimeout(()=>{
       _resizeHardTimer=null;
@@ -425,7 +429,6 @@ function _onResize(){
   }
 }
 window.addEventListener('resize',_onResize);
-setTimeout(()=>fit(canvas),100);
 
 /* 60fps cap — leaves GPU scheduler headroom for OS cursor compositing. */
 const FPS_CAP=1000/60;
@@ -465,6 +468,7 @@ function loop(now){
     }
     try {
       if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
+      _firstDrawDone=true;
     } catch(e){ console.error('[output.html] draw error:',e); }
     /* Debug overlay — press D to toggle */
     var _dbgEl=document.getElementById('dbgFrame');
