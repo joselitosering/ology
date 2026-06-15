@@ -9,17 +9,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { margin:0; padding:0; width:100%; height:100%; background:#000; overflow:hidden; position:relative; cursor:auto; }
     canvas { display:block; }
-    #readout {
-      position: absolute;
-      bottom: 12px; right: 12px;
-      font-family: 'Courier New', monospace;
-      font-size: 12px;
-      color: #0f0;
-      background: rgba(0,0,0,0.7);
-      padding: 6px 10px;
-      border: 1px solid #0f0;
-      border-radius: 3px;
-    }
     /* M6 — param overlay. Discreet strip, top-left, no box/border.
        Line 1: credit · Line 2: audio params
        Colour set per-frame by renderOverlay() from the active theme palette.
@@ -40,7 +29,6 @@
 </head>
 <body>
   <canvas id="outCanvas"></canvas>
-  <div id="readout"></div>
   <!-- M6 param overlay — toggled via ology_overlay localStorage key from index.html -->
   <div id="paramOverlay"></div>
 
@@ -55,7 +43,6 @@ const params=new URLSearchParams(location.search);
 const cfgAspect=params.get('ar')||'16:9';
 const cfgResolution=params.get('res')||'1080';
 const cfgFps=parseInt(params.get('fps'))||30;
-const cfgHideReadout=params.has('obs');
 const cfgFullscreen=params.has('fs'); /* &fs=1 → auto-request fullscreen on load */
 
 /* aspect ratio → viewport constraint */
@@ -367,10 +354,6 @@ applyOverlayVisibility();
 
 /* ─── INIT & RENDER LOOP ──────────────────────────────────────────────– */
 const canvas=document.getElementById('outCanvas');
-const readout=document.getElementById('readout');
-/* obs=1 → fully hide the dimension overlay so OBS never captures the box. */
-if(cfgHideReadout && readout) readout.style.display='none';
-
 /* Load initial state from localStorage (if index.html has written it) */
 loadProg();
 /* Always start with audio params hidden — localStorage may carry isPlaying:true
@@ -438,11 +421,6 @@ function loop(now){
     try {
       if(canvas)window.OlogyShaders.draw(canvas,toM1State(PROG,PROG.audio),frame,PROG.t,strobeGate);
     } catch(e){ console.error('[output.html] draw error:',e); }
-  }
-
-  /* dimension readout (unless &obs=1) */
-  if(!cfgHideReadout && readout){
-    readout.textContent=canvas.width+'×'+canvas.height+' · '+cfgAspect+' · '+cfgResolution+'p'+cfgFps;
   }
 
   /* M6 — update overlay text every frame (cheap; text-only, no layout thrash when hidden) */
