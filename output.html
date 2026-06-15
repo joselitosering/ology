@@ -391,16 +391,38 @@ if(window.OlogyShaders){
    Fix: set _resizing=true on first resize event, skip draw() until the
    window has settled (200ms after last resize), then resume. Visuals freeze
    briefly during drag — acceptable. PROG.t keeps incrementing so the
-   animation resumes at the correct position. */
+   animation resumes at the correct position.
+   Hard-cap fix (v1.4): when the popup opens and immediately requests fullscreen,
+   the browser fires a burst of resize events (popup seed → screen size → chrome
+   removal → GPU layer). Each resets the 200ms settle timer, which on some
+   platforms produces a resize storm lasting >200ms and leaves _resizing
+   permanently true — the canvas never draws. The hard cap forces _resizing=false
+   and calls fit() after 800ms from the FIRST resize event in a burst, regardless
+   of whether events are still trickling in. This guarantees the canvas always
+   appears within ~1s of the popup opening. The 200ms per-event debounce is kept
+   for the common drag-to-monitor case where the burst is short. */
 let _resizing=false;
 let _resizeTimer=null;
+let _resizeHardTimer=null;
 function _onResize(){
   _resizing=true;
   clearTimeout(_resizeTimer);
   _resizeTimer=setTimeout(()=>{
     fit(canvas);
     _resizing=false;
+    clearTimeout(_resizeHardTimer);
+    _resizeHardTimer=null;
   },200);
+  /* Hard cap: if first event in burst, arm an 800ms backstop */
+  if(!_resizeHardTimer){
+    _resizeHardTimer=setTimeout(()=>{
+      _resizeHardTimer=null;
+      clearTimeout(_resizeTimer);
+      _resizeTimer=null;
+      fit(canvas);
+      _resizing=false;
+    },800);
+  }
 }
 window.addEventListener('resize',_onResize);
 setTimeout(()=>fit(canvas),100);
