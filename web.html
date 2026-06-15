@@ -61,7 +61,7 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .nav-item .soon{font-size:7px;color:var(--acc);margin-top:-2px}
 .center{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
 .monitors{display:flex;gap:10px;padding:10px;flex:1;min-height:0;align-items:center}
-.monitor{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0;align-items:center}
+.monitor{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
 .mon-hdr{display:flex;align-items:center;gap:7px;padding:0 2px}
 .mon-badge{font-size:9px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase;padding:3px 8px;border-radius:5px}
 .mon-badge.prev{background:rgba(42,85,204,.25);color:#7aa2ff;border:1px solid rgba(42,85,204,.45)}
@@ -70,7 +70,8 @@ html,body{background:var(--bg);color:var(--txt);height:100%;overflow:hidden}
 .mon-live .dot{width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 7px var(--red);animation:blink 1.2s infinite}
 @keyframes blink{50%{opacity:.2}}
 .mon-name{font-size:10px;color:var(--dim);flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mon-screen{flex:1;border-radius:12px;overflow:hidden;position:relative;min-height:0;border:1px solid var(--stroke);background:#000;aspect-ratio:var(--mon-ar,16/9);max-height:100%;width:auto;max-width:100%}
+.mon-screen{flex:1;border-radius:12px;overflow:hidden;position:relative;min-height:0;border:1px solid var(--stroke);background:#000;aspect-ratio:var(--mon-ar,16/9);max-height:100%}
+.monitors[data-portrait='1'] .mon-screen{flex:none;height:100%;width:auto}
 .mon-screen canvas{width:100%;height:100%;display:block}
 .mon-screen.prev-scr{border-color:rgba(42,85,204,.4)}
 .mon-screen.prog-scr{border-color:rgba(204,42,58,.35)}
@@ -871,7 +872,12 @@ function refreshOut(){
   /* sync monitor canvas aspect ratio to output AR */
   const[aw,ah]=AR_MAP[OUT.ar];
   const monEl=document.querySelector('.monitors');
-  if(monEl)monEl.style.setProperty('--mon-ar',aw+'/'+ah);
+  if(monEl){
+    monEl.style.setProperty('--mon-ar',aw+'/'+ah);
+    /* portrait flag lets CSS constrain mon-screen by height instead of width */
+    if(ah>aw) monEl.setAttribute('data-portrait','1');
+    else       monEl.removeAttribute('data-portrait');
+  }
 }
 window.setOut=function(kind,val,el){OUT[kind]=val;el.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));el.classList.add('on');refreshOut();};
 window.copyOutUrl=function(btn){const url=document.getElementById('outUrl').textContent;navigator.clipboard?.writeText(url).then(()=>{const o=btn.textContent;btn.textContent='✓ Copied';setTimeout(()=>btn.textContent=o,1400);}).catch(()=>{});};
