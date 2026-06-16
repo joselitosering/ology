@@ -21,6 +21,12 @@ body{
   font-family:'Outfit',system-ui,-apple-system,sans-serif;
   font-weight:300; overflow:hidden; line-height:1.55;
 }
+/* ── Brand scrollbars ── */
+.slide{scrollbar-width:thin;scrollbar-color:#3a5a78 rgba(6,7,13,.9)}
+.slide::-webkit-scrollbar{width:4px;height:4px}
+.slide::-webkit-scrollbar-track{background:rgba(6,7,13,.9)}
+.slide::-webkit-scrollbar-thumb{background:#3a5a78;border-radius:99px}
+.slide::-webkit-scrollbar-thumb:hover{background:#7BA7D4}
 h1,h2,h3,.display{font-family:'Marcellus','Times New Roman',serif;font-weight:400;letter-spacing:.02em}
 .mono{font-family:'JetBrains Mono',monospace}
 #deck{position:relative;height:100vh;width:100vw}
